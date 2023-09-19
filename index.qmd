@@ -1,6 +1,6 @@
 ---
 title: "Report Sample"
-author: "Student name"
+author: "Josh Hollandsworth"
 date: '`r Sys.Date()`'
 format:
   html:
@@ -19,7 +19,28 @@ editor:
 
 ## Introduction
 
+This is a place holder for information about support vector machines and how to use them to predict ICU patient survivability. 
 
+
+## Journal entries
+
+### Journal Entry 1
+{{< include "Journal/Journal Entry 1.md" >}}
+
+### Journal Entry 2
+{{< include "Journal/Journal Entry 2.md" >}}
+
+### Journal Entry 3
+{{< include "Journal/Journal Entry 3.md" >}}
+
+### Journal Entry 4
+{{< include "Journal/Journal Entry 4.md" >}}
+
+### Journal Entry 5
+{{< include "Journal/Journal Entry 5.md" >}}
+
+### Journal Entry 6
+{{< include "Journal/Journal Entry 6.md" >}}
 ## Methods
 
 ## Analysis and Results
@@ -31,3 +52,4 @@ editor:
 ### Conlusion
 
 ## References
+
