@@ -1,0 +1,5 @@
+This review of the text book contains more general information about support vector machines and various applications. It defines that the maximal marginal hyperplane is the single line that can be drawn between two "clusters" of data.This MMH (maximal marginal hyperplane) is defined as a line that can be drawn where the distances between two clusters of data is the largest. It also explains that while we can think of it as a line, the MMH is an actual plane that can support more than 2 dimensions. Additionally the vectors where the hyperplane touch are called the support vectors as the effectively define the sides of the hyper plane.
+
+In general the book explains that Support vector machines work very well with linear data sets, their use of kernel functions allow them to operate on non linear data. Kernel functions according to the book can be thought of as mathematic tricks that transform/map data from one dimension to a higher dimensions that is linearly separable. 
+
+Han, J., Kamber, M., & Pei, J. (2012). Support Vector Machines. In _Data Mining: Concepts and Techniques_ (pp. 617–627). essay, Morgan Kaufmann.
