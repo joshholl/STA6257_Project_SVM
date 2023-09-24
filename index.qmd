@@ -1,7 +1,10 @@
 ---
-title: "Report Sample"
-author: "Josh Hollandsworth"
-date: '`r Sys.Date()`'
+title: Support Vector Machines in Medicine
+authors: 
+  - name: Josh Hollandsworth
+  - name: Brad Lipson
+  - name: Eric Miller
+date: last-modified
 format:
   html:
     code-fold: true
@@ -24,23 +27,81 @@ This is a place holder for information about support vector machines and how to 
 
 ## Journal entries
 
-### Journal Entry 1
-{{< include "Journal/Journal Entry 1.md" >}}
+### 
+The above article from the Journal of statistical Software outlines what Support Vector Machines are and what their use cases can be. The article continues by leveraging the mathematical equations for classification and regression as well as deployment strategies for data sets in R. The article concludes with examples of code and outputs showcasing the results on the iris data set. [@karatzoglou2006]
 
-### Journal Entry 2
-{{< include "Journal/Journal Entry 2.md" >}}
+###
+The above speaks to controlling the sensitivity of Support Vector Machines to reduce the number of False Positives/Negatives in the output. Veropoulos, Campbell, and Cristianini go on to detail the difference between Sensitivity and Specificity through various mathematical approaches and analyses. Their research with medical data sets where Box constraints were not statistically significant between the 4 data sets. However, the strain on the algorithm was insignificant and could aid in over all determinations.[@veropoulos1999]
 
-### Journal Entry 3
-{{< include "Journal/Journal Entry 3.md" >}}
+###
+This article details the ways in which Support Vector Machines have been utilized to perform time series analysis. I found this very interesting as in my current line of work we are looking for ways to implement more Machine Learning into our models and we do a fair amount of Time Series Analysis. This is a important topic for us as we start to work through the best way we can utilize and implement our model and how to best identify the uses for the model. Additionally this article delves into SVR and how that methodology can also be utilized in Time Series modeling.[@sapankevych2009]
 
-### Journal Entry 4
-{{< include "Journal/Journal Entry 4.md" >}}
+###
+The above article delves into the comparative difference between a few different methodologies relative to Machine Learning, such as KNN, SVM, and LSTM. The article further details the strengths and weaknesses of each and their most practical use cases based on what the implementer is ultimately seeking to achieve. Ultimately this provides more context on how to best utilize our model and to most effectively choose our groups data set so that when we start building our project we are not starting off on the wrong foot.[@bansal2022]
 
-### Journal Entry 5
-{{< include "Journal/Journal Entry 5.md" >}}
+###
+The article above details out the various ways we can quickly train SVM models utilizing Sequential Minimal Optimization (SMO) algorithms to reduce the problems that can arise from large scale programming. A parallel SMO method was the primary focus of this paper as it covered the basic functions and algorithms behind the inner workings as applied to an SVM.[@zeng2008]
 
-### Journal Entry 6
-{{< include "Journal/Journal Entry 6.md" >}}
+###
+This article walks through how to successfully setup and run an SVM based on a binary classification problem. Furthermore, it details the inner workings of various types of kernels that can be used to accurately map your planes based on the complexity of the data. I found this particularly interesting as I was wondering about what kernel to build upon and it seems as if an RBF or a Gaussian kernel might be our ticket.[@mohan2020]
+
+###
+Support vector machines (SVMs) are a powerful method for machine learning that can be used for data mining. There are several different SVM kernels, and it is not always clear which one is best for a certain job. The goal of this paper is to help data scientists pick the best SVM kernel for a given job. The authors looked at how well different SVM models did at classification, regression, and clustering, among other data mining tasks. They used both real-world data and data that they made up themselves. The article by Xu et al. aimed to see how well various SVM kernels did at data mining jobs. They found that SVM with the RBF kernel did the best job at most data mining tasks. However, they also found that the performance of the different SVM kernels relies on the task and data set. One problem with this study is that there were only a few data mining jobs carried out. [@xu2010]
+
+###
+
+My next journal suggested a new SVM algorithm for jobs related to data mining. This is important since SVM is a powerful machine learning method, but they can be hard to train, especially on big datasets. The goal of this study is to suggest a new SVM algorithm that works better for data mining. They came up with a new SV algorithm that is made for data mining jobs. The program uses several methods to improve how well SVM training works. They tested how well their new SVM algorithm did at classification, regression, and grouping, among other tasks in data mining. They found that their new SVM algorithm was better at most data mining jobs than other SVM algorithms. But this algorithm has a weakness in that it is harder to understand than other SVM algorithms. [@hu2016]
+
+###
+In addition, Zhou et al wrote about deep mining of electronic medical data using support vector machines to predict the prognosis of severe, acute myocardial infarction. The authors talked about how the MIMIC-3 database is used to find the 13 markers for heart attack cases. They compared SVM algorithms and found that the model was about 92% accurate. They use this model to pull out certain features from the EMR and identify which patients will have a MI. They said that this helps doctors figure out the classification regression parts of a disease outlook. [zhou2023]
+
+###
+My next piece was about how Fouodo et al and others used support vector machines for survival analysis with R. They used the survivalSVM package to do three different kinds of survival analysis. They used both regression and ranking, which is a mix of the two. The next way to find the constraints was to use regression followed by Cox proportional hazard models. They stated that the SVM worked about as well as other methods on the datasets they used. So, this R package makes it quick and easy to find out how likely a patient is to live. [@fouodo2022]
+
+###
+Another article was called “Using Support Vector Machines for Diabetes Mellitus Classification from Electronic Medical Records.” The goal of this work is to show how support vector machines (SVMs) in electronic medical records (EMRs) can be used to classify diabetes mellitus. This study looked at how well SVMs can classify diabetes because they have been good at diagnosing other diseases from electronic medical records (EMRs). The writers used EMRs from both people with and without diabetes to train an SVM model. During preparation, noise and outliers were first taken out of the EMRs. The SVM model was then trained with the help of guided learning. [@adoye2021]
+
+###
+The next journal discussed a way to predict hospital readmissions using support vector machines. The goal of this study is to make a support vector machine (SVM) model that can predict a patient's return to the hospital. The importance was that going back to the hospital is a deadly problem in health care, and it can be expensive for patients. A reliable predictor of hospital readmission could help hospitals find people who are at risk and give them treatment to keep them from going back to the hospital. A solution is that a collection of electronic medical records (EMRs) was used to train an SVM model. First, during preprocessing, abnormalities were taken out of the EMRs. The SVM model was then trained with the help of guided learning and separated the information into two groups. With the SVM model, this included readmitted patients who had to go back to the hospital. [@ismail2020]
+
+### 
+In Machine learning in medicine: a practical introduction the authors provide a introduction to machine learning in the medical field and a survey of 3 supervised learning methodologies. The begin by explaining how machine learning is related to traditional statistical inference but noted that a major difference is that statistical inference aims to "reach conclusions about a population..." (Sidey-Gibbons, 2) while machine learning aims to predict a specific out come. The authors go on to state that the use of ML in the medical field is relatively easy to explain because many features or parameters that are input can be reasoned about when the prediction is made. An example the authors used were "body mass index and diabetes risk" as the linkage between the two are relatively well known and understood. The author's then go on to explain the difference between Auditable Algorithms that are easily understood and black box algorithms which are complex and can be hard to reason about. Support Vector Machines can be a member of the later group but not always.
+
+The authors then leverage a Generalized Linear model, Support Vector Machine, and Artificial Neural Network to predict whether or not a given breast tissue sample is cancerous. I will skip over the ANN and GLM as our group is not directly focused on them. However with the Support Vector Machine implementation they authors did note that the overall goal is to build a hyperplane that separates two categories the best. Some datasets do not easily separate so it is possible to rearrange the date by using a kernel trick or kernel function to increase the amount of linear separation between observations.
+
+Finally the authors compared the outcomes of their three algorithms and found that the best one (in terms of accuracy) for the data set they had was the support vector machine. The way they determined this was to build a ROC Curve to find the number of true true predictions and true false predictions[@gibbons2019]
+
+###
+In Dibiki et al's paper on Support vector machines he discussed what SVM's are and what that the underlying statistical methods are. The paper overall was heavily math based and at times over my head. However it did have information about how and why support vector machines are built. Predominately the author notes that reseacher Vapnik constructed SVM's based off of Structural Risk Minimaization(SRM) as opposed to Empirical Risk minimization and that SRM proved to be better at creating more generalizable models.
+
+The author goes on to explain that the hyperplane is a the maximal margin between data points in a data set. This is called the "Optimal Separating Hyperplane" The authors then went through the math of how to solve for the problems and examples of how to chose kernel functions to ensure that a hyperplane can be found.
+
+The examples the author used was were the classification if image data to determine classification of land cover (water, forest, roads, etc) Another example was comparing the performance of an Artificial Neural Network to Support Vector machines to predict stream flow data based on daily rainfall and evaporation based on 3 different locations. The general finding was that SVM and ANN's can both be readily leveraged to build similar models and predictions[@dibike2001]
+
+###
+This review of the text book contains more general information about support vector machines and various applications. It defines that the maximal marginal hyperplane is the single line that can be drawn between two "clusters" of data.This MMH (maximal marginal hyperplane) is defined as a line that can be drawn where the distances between two clusters of data is the largest. It also explains that while we can think of it as a line, the MMH is an actual plane that can support more than 2 dimensions. Additionally the vectors where the hyperplane touch are called the support vectors as the effectively define the sides of the hyper plane.
+
+In general the book explains that Support vector machines work very well with linear data sets, their use of kernel functions allow them to operate on non linear data. Kernel functions according to the book can be thought of as mathematic tricks that transform/map data from one dimension to a higher dimensions that is linearly separable.[@han2012]
+
+###
+In the article, the author briefly discusses the history of machine learning and its evolution from working predominately on linearly separable datasets to the advancements made with handling non linear data in the 1980s. The author then goes on to discuss the work and presentations of Vapnik et al in 1992. This allowed those wanting to do machine learning data on non linear data in a "principled yet efficient manner".  [@cristianini2002]
+
+one of the other key points that the other makes is that the higher the dimensionality of the problems space, the harder it is to create predictions based on it.
+
+The other new and interesting points pointed by the authors where that SVM's hold records (at the time the article was written) for ability to read handwritten digits and other tasks.This leads to it being very well suited for hand writing detection. Other areas that the models are good according to the author are "text categorization, handwritten digit recognition, and gene expression data classification" [@cristianini2002]
+
+###
+In Fast Training of Support Vector Machines for Survival Analysis the author explains that they wish to look at 3 different methods of training a support vector machine for survival analysis: ranking, regression, and a combination of ranking and regressions to determine how well they predict survivability. The author also introduces the concept of censored data. This is a term i hadn't heard of before but makes sense when explained and in the context of survivability prediction. As explained by the author, data is uncensored if a significant event occurs during the time period in which the study or model is used for. Meanwhile censored data is data in which the event did not occur during the study or observation period, however it may have occurred after the study completes. When thinking about patient survivability this makes sense. For example if we want to study whether or not a patient dies during a hospital stay we probably only want to predict that for a fixed time period (the hospital stay) as we all know every patient will eventually die...perhaps even in a (different) hospital stay!
+
+The author then goes on to show how ranking methods such as Cox proportional Hazards and others fair when given certain sized data sets and then comparing that with regression based model. The author summarizes at the end that using ordered statistic trees (which their algorithm uses) is a sufficiently accurate and fast model for predicting patient survivability.[@polsterl2015]
+
+###
+Mortality prediction based on imbalanced high-dimensional ICU big data takes a look at predicting mortality based on a large number of data dimensions with various amounts of data missing. Over all this paper appears to follow an approach that would be good for our project using the MIMIC data set.
+
+Most of the article goes beyond the scope of Support Vector Machines but delves into principal component analysis to determine what to use to build the support vector machines.The author leverages Cost Sensitive Principal Component Analysis to preprocess the data to deal with missing data and feature extraction. Once this preprocessing step has completed, the authors build a support vector machine to predict mortality. The also build a number of other support vector machines using Chaos particle swarm optimization for parameter optimization and derivatives of CPSO to determine the best model based on the ROC AUC value. In the end the found the SVM using data that had been processed with their modified Cost Sensitive Principal Component Analysis and SPSO
+
+Through their findings the authors also opine about the large amount of data and the necessity of determining which are the key features to from which to build a model such as a SVM. They state that the overall number of data points will continue to increase as sensors and technology are continually introduced and improved upon in medical settings and that while the data is great and represents a virtual gold mine, it is important to ensure that data is clean and useful for prediction and not just noisy data for algorithms to churn through[@liu2018]
+
 ## Methods
 
 ## Analysis and Results
