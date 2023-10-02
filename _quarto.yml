@@ -1,0 +1,23 @@
+project:
+  type: website
+  pre-render:
+    - pkgs.r
+website:
+  title: Stats 6257 Fall 2023 - Support Vector Machines
+  navbar:
+    right:
+      - text: "Home"
+        file: index.qmd
+      - text: "Journal Entries"
+        menu:
+          - text: "Brad's Journal"
+            file: Journal/brad.qmd
+          - text: "Eric's Journal"
+            file: Journal/eric.qmd
+          - text: "Josh's Journal"
+            file: Journal/josh.qmd
+format:
+  html:
+    theme: solar
+    css: styles.css
+    toc: true
