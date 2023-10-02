@@ -17,7 +17,8 @@ editor:
     wrap: 72
 ---
 
-# Machine learning in medicine: a practical introduction. [@gibbons2019]
+# Week 2
+## Machine learning in medicine: a practical introduction. [@gibbons2019]
 In Machine learning in medicine: a practical introduction the authors provide a introduction to machine learning in the medical field and a survey of 3 supervised learning methodologies. The begin by explaining how machine learning is related to traditional statistical inference but noted that a major difference is that statistical inference aims to "reach conclusions about a population..." (Sidey-Gibbons, 2) while machine learning aims to predict a specific out come. The authors go on to state that the use of ML in the medical field is relatively easy to explain because many features or parameters that are input can be reasoned about when the prediction is made. An example the authors used were "body mass index and diabetes risk" as the linkage between the two are relatively well known and understood. The author's then go on to explain the difference between Auditable Algorithms that are easily understood and black box algorithms which are complex and can be hard to reason about. Support Vector Machines can be a member of the later group but not always. 
 
 The authors then leverage a Generalized Linear model, Support Vector Machine, and Artificial Neural Network to predict whether or not a given breast tissue sample is cancerous. I will skip over the ANN and GLM as our group is not directly focused on them. However with the Support Vector Machine implementation they authors did note that the overall goal is to build a hyperplane that separates two categories the best. Some datasets do not easily separate so it is possible to rearrange the date by using a kernel trick or kernel function to increase the amount of linear separation between observations. 
@@ -26,7 +27,7 @@ Finally the authors compared the outcomes of their three algorithms and found th
 
 [UWF Access Url](https://login.ezproxy.lib.uwf.edu/login?url=https://www.proquest.com/scholarly-journals/machine-learning-medicine-practical-introduction/docview/2193650518/se-2?accountid=14787)
 
-# Model Induction with Support Vector Machines: Introductions and Applications.[@dibike2001]
+## Model Induction with Support Vector Machines: Introductions and Applications.[@dibike2001]
 
 In Dibiki et al's paper on Support vector machines he discussed what SVM's are and what that the underlying statistical methods are. The paper overall was heavily math based and at times over my head. However it did have information about how and why support vector machines are built. Predominately the author notes that reseacher Vapnik constructed SVM's based off of Structural Risk Minimaization(SRM) as opposed to Empirical Risk minimization and that SRM proved to be better at creating more generalizable models.
 
@@ -36,12 +37,13 @@ The examples the author used was were the classification if image data to determ
 
 [UWF Access Url](https://login.ezproxy.lib.uwf.edu/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=a9h&AN=4740022&site=ehost-live)
 
-# Data Mining: Concepts and Techniques [@han2012]
+# Week 3
+## Data Mining: Concepts and Techniques [@han2012]
 This review of the text book contains more general information about support vector machines and various applications. It defines that the maximal marginal hyperplane is the single line that can be drawn between two "clusters" of data.This MMH (maximal marginal hyperplane) is defined as a line that can be drawn where the distances between two clusters of data is the largest. It also explains that while we can think of it as a line, the MMH is an actual plane that can support more than 2 dimensions. Additionally the vectors where the hyperplane touch are called the support vectors as the effectively define the sides of the hyper plane.
 
 In general the book explains that Support vector machines work very well with linear data sets, their use of kernel functions allow them to operate on non linear data. Kernel functions according to the book can be thought of as mathematic tricks that transform/map data from one dimension to a higher dimensions that is linearly separable. 
 
-# Support vector machines and kernel methods: the new generation of learning machines [@cristianini2002]
+## Support vector machines and kernel methods: the new generation of learning machines [@cristianini2002]
 
 In the article, the author briefly discusses the history of machine learning and its evolution from working predominately on linearly separable datasets to the advancements made with handling non linear data in the 1980s. The author then goes on to discuss the work and presentations of Vapnik et al in 1992. This allowed those wanting to do machine learning data on non linear data in a "principled yet efficient manner".  (Cristianini and Scholkopf)
 
@@ -51,15 +53,18 @@ The other new and interesting points pointed by the authors where that SVM's hol
 
 [UWF Access Url]( https://link-gale-com.ezproxy.lib.uwf.edu/apps/doc/A92806024/EAIM?u=pens49866&sid=bookmark-EAIM&xid=d7a7aa96)
 
-# Fast Training of Support Vector Machines for Survival Analysis [@polsterl2015]
+# Week 4
+## Fast Training of Support Vector Machines for Survival Analysis [@polsterl2015]
 In Fast Training of Support Vector Machines for Survival Analysis the author explains that they wish to look at 3 different methods of training a support vector machine for survival analysis: ranking, regression, and a combination of ranking and regressions to determine how well they predict survivability. The author also introduces the concept of censored data. This is a term i hadn't heard of before but makes sense when explained and in the context of survivability prediction. As explained by the author, data is uncensored if a significant event occurs during the time period in which the study or model is used for.  Meanwhile censored data is data in which the event did not occur during the study or observation period, however it may have occurred after the study completes. When thinking about patient survivability this makes sense. For example if we want to study whether or not a patient dies during a hospital stay we probably only want to predict that for a fixed time period (the hospital stay) as we all know every patient will eventually die...perhaps even in a (different) hospital stay! 
 
 The author then goes on to show how ranking methods such as Cox proportional Hazards and others fair when given certain sized data sets and then comparing that with regression based model. The author summarizes at the end that using ordered statistic trees (which their algorithm uses) is a sufficiently accurate and fast model for predicting patient survivability.
 
-# Mortality prediction based on imbalanced high-dimensional ICU big Data [@liu2018]
+## Mortality prediction based on imbalanced high-dimensional ICU big Data [@liu2018]
 
 Mortality prediction based on imbalanced high-dimensional ICU big data takes a look at predicting mortality based on a large number of data dimensions with various amounts of data missing. Over all this paper appears to follow an approach that would be good for our project using the MIMIC data set.
 
 Most of the article goes beyond the scope of Support Vector Machines but delves into principal component analysis to determine what to use to build the support vector machines.The author leverages Cost Sensitive Principal Component Analysis to preprocess the data to deal with missing data and feature extraction. Once this preprocessing step has completed, the authors build a support vector machine to predict mortality. The also build a number of other support vector machines using Chaos particle swarm optimization for parameter optimization and derivatives of CPSO to determine the best model based on the ROC AUC value. In the end the found the SVM using data that had been processed with their modified Cost Sensitive Principal Component Analysis  and SPSO 
 
 Through their findings the authors also opine about the large amount of data and the necessity of determining which are the key features to from which to build a model such as a SVM. They state that the overall number of data points will continue to increase as sensors and technology are continually introduced and improved upon in medical settings and that while the data is great and represents a virtual gold mine, it is important to ensure that data is clean and useful for prediction and not just noisy data for algorithms to churn through
+
+# Week 6

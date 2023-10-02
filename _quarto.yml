@@ -16,6 +16,8 @@ website:
             file: Journal/eric.qmd
           - text: "Josh's Journal"
             file: Journal/josh.qmd
+      - text: "About"
+        file: about.qmd
 format:
   html:
     theme: solar

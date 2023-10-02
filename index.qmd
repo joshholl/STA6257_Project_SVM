@@ -63,15 +63,17 @@ to chose which features to include in model construction. Additionally, support 
 linearly, however unlike other methodologies this is not a strict requirement. Should data not be easily linearly seperable the use of a
 kernel function or kernel trick allows data to be mapped from one space to another for optimal construction of the maximally marginal hyperplane [@han2012] [@mohan2020] 
 
-## Methods
+# Methods
 
-## Analysis and Results
+We chose a data set from MIMIC and will build a model.
 
-### Data and Vizualisation
+# Analysis and Results
 
-### Statistical Modeling
+## Data and Vizualisation
 
-### Conlusion
+## Statistical Modeling
 
-## References
+# Conlusion
+
+# References
 

@@ -4521,12 +4521,22 @@ vertical-align: -.125em;
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#machine-learning-in-medicine-a-practical-introduction.-gibbons2019" id="toc-machine-learning-in-medicine-a-practical-introduction.-gibbons2019" class="nav-link active" data-scroll-target="#machine-learning-in-medicine-a-practical-introduction.-gibbons2019">Machine learning in medicine: a practical introduction. <span class="citation" data-cites="gibbons2019">(Chris J. Sidey-Gibbons 2019)</span></a></li>
+  <li><a href="#week-2" id="toc-week-2" class="nav-link active" data-scroll-target="#week-2">Week 2</a>
+  <ul class="collapse">
+  <li><a href="#machine-learning-in-medicine-a-practical-introduction.-gibbons2019" id="toc-machine-learning-in-medicine-a-practical-introduction.-gibbons2019" class="nav-link" data-scroll-target="#machine-learning-in-medicine-a-practical-introduction.-gibbons2019">Machine learning in medicine: a practical introduction. <span class="citation" data-cites="gibbons2019">(Chris J. Sidey-Gibbons 2019)</span></a></li>
   <li><a href="#model-induction-with-support-vector-machines-introductions-and-applications.dibike2001" id="toc-model-induction-with-support-vector-machines-introductions-and-applications.dibike2001" class="nav-link" data-scroll-target="#model-induction-with-support-vector-machines-introductions-and-applications.dibike2001">Model Induction with Support Vector Machines: Introductions and Applications.<span class="citation" data-cites="dibike2001">(Yonas B. Dibike and Abbott 2001)</span></a></li>
+  </ul></li>
+  <li><a href="#week-3" id="toc-week-3" class="nav-link" data-scroll-target="#week-3">Week 3</a>
+  <ul class="collapse">
   <li><a href="#data-mining-concepts-and-techniques-han2012" id="toc-data-mining-concepts-and-techniques-han2012" class="nav-link" data-scroll-target="#data-mining-concepts-and-techniques-han2012">Data Mining: Concepts and Techniques <span class="citation" data-cites="han2012">(Han and Pei 2012)</span></a></li>
   <li><a href="#support-vector-machines-and-kernel-methods-the-new-generation-of-learning-machines-cristianini2002" id="toc-support-vector-machines-and-kernel-methods-the-new-generation-of-learning-machines-cristianini2002" class="nav-link" data-scroll-target="#support-vector-machines-and-kernel-methods-the-new-generation-of-learning-machines-cristianini2002">Support vector machines and kernel methods: the new generation of learning machines <span class="citation" data-cites="cristianini2002">(Cristianini and Scholkopf Fall 2002)</span></a></li>
+  </ul></li>
+  <li><a href="#week-4" id="toc-week-4" class="nav-link" data-scroll-target="#week-4">Week 4</a>
+  <ul class="collapse">
   <li><a href="#fast-training-of-support-vector-machines-for-survival-analysis-polsterl2015" id="toc-fast-training-of-support-vector-machines-for-survival-analysis-polsterl2015" class="nav-link" data-scroll-target="#fast-training-of-support-vector-machines-for-survival-analysis-polsterl2015">Fast Training of Support Vector Machines for Survival Analysis <span class="citation" data-cites="polsterl2015">(Pölsterl, Navab, and Katouzian 2015)</span></a></li>
-  <li><a href="#mortality-prediction-based-on-imbalanced-high-dimensional-icu-big-data-liu2018" id="toc-mortality-prediction-based-on-imbalanced-high-dimensional-icu-big-data-liu2018" class="nav-link" data-scroll-target="#mortality-prediction-based-on-imbalanced-high-dimensional-icu-big-data-liu2018">Mortality prediction based on imbalanced high-dimensional ICU big data <span class="citation" data-cites="liu2018">(Liu June 2018)</span></a></li>
+  <li><a href="#mortality-prediction-based-on-imbalanced-high-dimensional-icu-big-data-liu2018" id="toc-mortality-prediction-based-on-imbalanced-high-dimensional-icu-big-data-liu2018" class="nav-link" data-scroll-target="#mortality-prediction-based-on-imbalanced-high-dimensional-icu-big-data-liu2018">Mortality prediction based on imbalanced high-dimensional ICU big Data <span class="citation" data-cites="liu2018">(Liu June 2018)</span></a></li>
+  </ul></li>
+  <li><a href="#week-6" id="toc-week-6" class="nav-link" data-scroll-target="#week-6">Week 6</a></li>
   </ul>
 </nav>
     </div>
@@ -4562,48 +4572,60 @@ vertical-align: -.125em;
 
 </header>
 
-<section id="machine-learning-in-medicine-a-practical-introduction.-gibbons2019" class="level1">
-<h1>Machine learning in medicine: a practical introduction. <span class="citation" data-cites="gibbons2019">(<a href="#ref-gibbons2019" role="doc-biblioref">Chris J. Sidey-Gibbons 2019</a>)</span></h1>
+<section id="week-2" class="level1">
+<h1>Week 2</h1>
+<section id="machine-learning-in-medicine-a-practical-introduction.-gibbons2019" class="level2">
+<h2 class="anchored" data-anchor-id="machine-learning-in-medicine-a-practical-introduction.-gibbons2019">Machine learning in medicine: a practical introduction. <span class="citation" data-cites="gibbons2019">(<a href="#ref-gibbons2019" role="doc-biblioref">Chris J. Sidey-Gibbons 2019</a>)</span></h2>
 <p>In Machine learning in medicine: a practical introduction the authors provide a introduction to machine learning in the medical field and a survey of 3 supervised learning methodologies. The begin by explaining how machine learning is related to traditional statistical inference but noted that a major difference is that statistical inference aims to “reach conclusions about a population…” (Sidey-Gibbons, 2) while machine learning aims to predict a specific out come. The authors go on to state that the use of ML in the medical field is relatively easy to explain because many features or parameters that are input can be reasoned about when the prediction is made. An example the authors used were “body mass index and diabetes risk” as the linkage between the two are relatively well known and understood. The author’s then go on to explain the difference between Auditable Algorithms that are easily understood and black box algorithms which are complex and can be hard to reason about. Support Vector Machines can be a member of the later group but not always.</p>
 <p>The authors then leverage a Generalized Linear model, Support Vector Machine, and Artificial Neural Network to predict whether or not a given breast tissue sample is cancerous. I will skip over the ANN and GLM as our group is not directly focused on them. However with the Support Vector Machine implementation they authors did note that the overall goal is to build a hyperplane that separates two categories the best. Some datasets do not easily separate so it is possible to rearrange the date by using a kernel trick or kernel function to increase the amount of linear separation between observations.</p>
 <p>Finally the authors compared the outcomes of their three algorithms and found that the best one (in terms of accuracy) for the data set they had was the support vector machine. The way they determined this was to build a ROC Curve to find the number of true true predictions and true false predictions</p>
 <p><a href="https://login.ezproxy.lib.uwf.edu/login?url=https://www.proquest.com/scholarly-journals/machine-learning-medicine-practical-introduction/docview/2193650518/se-2?accountid=14787">UWF Access Url</a></p>
 </section>
-<section id="model-induction-with-support-vector-machines-introductions-and-applications.dibike2001" class="level1">
-<h1>Model Induction with Support Vector Machines: Introductions and Applications.<span class="citation" data-cites="dibike2001">(<a href="#ref-dibike2001" role="doc-biblioref">Yonas B. Dibike and Abbott 2001</a>)</span></h1>
+<section id="model-induction-with-support-vector-machines-introductions-and-applications.dibike2001" class="level2">
+<h2 class="anchored" data-anchor-id="model-induction-with-support-vector-machines-introductions-and-applications.dibike2001">Model Induction with Support Vector Machines: Introductions and Applications.<span class="citation" data-cites="dibike2001">(<a href="#ref-dibike2001" role="doc-biblioref">Yonas B. Dibike and Abbott 2001</a>)</span></h2>
 <p>In Dibiki et al’s paper on Support vector machines he discussed what SVM’s are and what that the underlying statistical methods are. The paper overall was heavily math based and at times over my head. However it did have information about how and why support vector machines are built. Predominately the author notes that reseacher Vapnik constructed SVM’s based off of Structural Risk Minimaization(SRM) as opposed to Empirical Risk minimization and that SRM proved to be better at creating more generalizable models.</p>
 <p>The author goes on to explain that the hyperplane is a the maximal margin between data points in a data set. This is called the “Optimal Separating Hyperplane” The authors then went through the math of how to solve for the problems and examples of how to chose kernel functions to ensure that a hyperplane can be found.</p>
 <p>The examples the author used was were the classification if image data to determine classification of land cover (water, forest, roads, etc) Another example was comparing the performance of an Artificial Neural Network to Support Vector machines to predict stream flow data based on daily rainfall and evaporation based on 3 different locations. The general finding was that SVM and ANN’s can both be readily leveraged to build similar models and predictions</p>
 <p><a href="https://login.ezproxy.lib.uwf.edu/login?url=https://search.ebscohost.com/login.aspx?direct=true&amp;db=a9h&amp;AN=4740022&amp;site=ehost-live">UWF Access Url</a></p>
 </section>
-<section id="data-mining-concepts-and-techniques-han2012" class="level1">
-<h1>Data Mining: Concepts and Techniques <span class="citation" data-cites="han2012">(<a href="#ref-han2012" role="doc-biblioref">Han and Pei 2012</a>)</span></h1>
+</section>
+<section id="week-3" class="level1">
+<h1>Week 3</h1>
+<section id="data-mining-concepts-and-techniques-han2012" class="level2">
+<h2 class="anchored" data-anchor-id="data-mining-concepts-and-techniques-han2012">Data Mining: Concepts and Techniques <span class="citation" data-cites="han2012">(<a href="#ref-han2012" role="doc-biblioref">Han and Pei 2012</a>)</span></h2>
 <p>This review of the text book contains more general information about support vector machines and various applications. It defines that the maximal marginal hyperplane is the single line that can be drawn between two “clusters” of data.This MMH (maximal marginal hyperplane) is defined as a line that can be drawn where the distances between two clusters of data is the largest. It also explains that while we can think of it as a line, the MMH is an actual plane that can support more than 2 dimensions. Additionally the vectors where the hyperplane touch are called the support vectors as the effectively define the sides of the hyper plane.</p>
 <p>In general the book explains that Support vector machines work very well with linear data sets, their use of kernel functions allow them to operate on non linear data. Kernel functions according to the book can be thought of as mathematic tricks that transform/map data from one dimension to a higher dimensions that is linearly separable.</p>
 </section>
-<section id="support-vector-machines-and-kernel-methods-the-new-generation-of-learning-machines-cristianini2002" class="level1">
-<h1>Support vector machines and kernel methods: the new generation of learning machines <span class="citation" data-cites="cristianini2002">(<a href="#ref-cristianini2002" role="doc-biblioref">Cristianini and Scholkopf Fall 2002</a>)</span></h1>
+<section id="support-vector-machines-and-kernel-methods-the-new-generation-of-learning-machines-cristianini2002" class="level2">
+<h2 class="anchored" data-anchor-id="support-vector-machines-and-kernel-methods-the-new-generation-of-learning-machines-cristianini2002">Support vector machines and kernel methods: the new generation of learning machines <span class="citation" data-cites="cristianini2002">(<a href="#ref-cristianini2002" role="doc-biblioref">Cristianini and Scholkopf Fall 2002</a>)</span></h2>
 <p>In the article, the author briefly discusses the history of machine learning and its evolution from working predominately on linearly separable datasets to the advancements made with handling non linear data in the 1980s. The author then goes on to discuss the work and presentations of Vapnik et al in 1992. This allowed those wanting to do machine learning data on non linear data in a “principled yet efficient manner”.  (Cristianini and Scholkopf)</p>
 <p>one of the other key points that the other makes is that the higher the dimensionality of the problems space, the harder it is to create predictions based on it.</p>
 <p>The other new and interesting points pointed by the authors where that SVM’s hold records (at the time the article was written) for ability to read handwritten digits and other tasks.This leads to it being very well suited for hand writing detection. Other areas that the models are good according to the author are “text categorization, handwritten digit recognition, and gene expression data classification” (Cristianini and Scholkopf)</p>
 <p><a href="https://link-gale-com.ezproxy.lib.uwf.edu/apps/doc/A92806024/EAIM?u=pens49866&amp;sid=bookmark-EAIM&amp;xid=d7a7aa96">UWF Access Url</a></p>
 </section>
-<section id="fast-training-of-support-vector-machines-for-survival-analysis-polsterl2015" class="level1">
-<h1>Fast Training of Support Vector Machines for Survival Analysis <span class="citation" data-cites="polsterl2015">(<a href="#ref-polsterl2015" role="doc-biblioref">Pölsterl, Navab, and Katouzian 2015</a>)</span></h1>
+</section>
+<section id="week-4" class="level1">
+<h1>Week 4</h1>
+<section id="fast-training-of-support-vector-machines-for-survival-analysis-polsterl2015" class="level2">
+<h2 class="anchored" data-anchor-id="fast-training-of-support-vector-machines-for-survival-analysis-polsterl2015">Fast Training of Support Vector Machines for Survival Analysis <span class="citation" data-cites="polsterl2015">(<a href="#ref-polsterl2015" role="doc-biblioref">Pölsterl, Navab, and Katouzian 2015</a>)</span></h2>
 <p>In Fast Training of Support Vector Machines for Survival Analysis the author explains that they wish to look at 3 different methods of training a support vector machine for survival analysis: ranking, regression, and a combination of ranking and regressions to determine how well they predict survivability. The author also introduces the concept of censored data. This is a term i hadn’t heard of before but makes sense when explained and in the context of survivability prediction. As explained by the author, data is uncensored if a significant event occurs during the time period in which the study or model is used for. Meanwhile censored data is data in which the event did not occur during the study or observation period, however it may have occurred after the study completes. When thinking about patient survivability this makes sense. For example if we want to study whether or not a patient dies during a hospital stay we probably only want to predict that for a fixed time period (the hospital stay) as we all know every patient will eventually die…perhaps even in a (different) hospital stay!</p>
 <p>The author then goes on to show how ranking methods such as Cox proportional Hazards and others fair when given certain sized data sets and then comparing that with regression based model. The author summarizes at the end that using ordered statistic trees (which their algorithm uses) is a sufficiently accurate and fast model for predicting patient survivability.</p>
 </section>
-<section id="mortality-prediction-based-on-imbalanced-high-dimensional-icu-big-data-liu2018" class="level1">
-<h1>Mortality prediction based on imbalanced high-dimensional ICU big data <span class="citation" data-cites="liu2018">(<a href="#ref-liu2018" role="doc-biblioref">Liu June 2018</a>)</span></h1>
+<section id="mortality-prediction-based-on-imbalanced-high-dimensional-icu-big-data-liu2018" class="level2">
+<h2 class="anchored" data-anchor-id="mortality-prediction-based-on-imbalanced-high-dimensional-icu-big-data-liu2018">Mortality prediction based on imbalanced high-dimensional ICU big Data <span class="citation" data-cites="liu2018">(<a href="#ref-liu2018" role="doc-biblioref">Liu June 2018</a>)</span></h2>
 <p>Mortality prediction based on imbalanced high-dimensional ICU big data takes a look at predicting mortality based on a large number of data dimensions with various amounts of data missing. Over all this paper appears to follow an approach that would be good for our project using the MIMIC data set.</p>
 <p>Most of the article goes beyond the scope of Support Vector Machines but delves into principal component analysis to determine what to use to build the support vector machines.The author leverages Cost Sensitive Principal Component Analysis to preprocess the data to deal with missing data and feature extraction. Once this preprocessing step has completed, the authors build a support vector machine to predict mortality. The also build a number of other support vector machines using Chaos particle swarm optimization for parameter optimization and derivatives of CPSO to determine the best model based on the ROC AUC value. In the end the found the SVM using data that had been processed with their modified Cost Sensitive Principal Component Analysis and SPSO</p>
 <p>Through their findings the authors also opine about the large amount of data and the necessity of determining which are the key features to from which to build a model such as a SVM. They state that the overall number of data points will continue to increase as sensors and technology are continually introduced and improved upon in medical settings and that while the data is great and represents a virtual gold mine, it is important to ensure that data is clean and useful for prediction and not just noisy data for algorithms to churn through</p>
+</section>
+</section>
+<section id="week-6" class="level1">
+
 
 
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">Week 6</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-gibbons2019" class="csl-entry" role="listitem">
 Chris J. Sidey-Gibbons, Jenni A. M. Sidey-Gibbons &amp;. 2019. <span>“Machine Learning in Medicine: A Practical Introduction.”</span> <em>BMC Medical Research Methodology Volume</em> 19 (64).
 </div>

@@ -1,0 +1,22 @@
+---
+title: Predicting Survival of Intensive Care Unit Paitents with Support Vector Machines
+date: last-modified
+format:
+  html:
+    code-fold: TRUE
+bibliography: references.bib 
+nocite: |
+  @*
+---
+
+# Authors
+
+## Brad Lipson
+
+## Eric Miller
+
+## Josh Hollandsworth
+
+# Complete References
+::: {#refs}
+:::

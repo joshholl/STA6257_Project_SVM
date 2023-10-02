@@ -1,0 +1,70 @@
+---
+title: "Eric's Journal Entries"
+author: "Eric Miller"
+date: last-modified
+format:
+  html:
+    code-fold: true
+course: STA 6257 - Advanced Statistical Modeling
+bibliography: ../references.bib # file contains bibtex for references
+#always_allow_html: true # this allows to get PDF with HTML features
+self-contained: true
+execute: 
+  warning: false
+  message: false
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+# Week 2
+## Support Vector Machines in R [@karatzoglou2006]
+
+https://www.jstatsoft.org/article/view/v015i09
+
+The above article from the Journal of statistical Software outlines what Support Vector Machines are and what their use cases can be. The article continues by leveraging the mathematical equations for classification and regression as well as deployment strategies for data sets in R. The article concludes with examples of code and outputs showcasing the results on the iris data set. 
+
+## Controlling the Sensitivity of Support Vector Machines [@cristianini2002]
+
+https://seis.bristol.ac.uk/~enicgc/pubs/1999/ijcai_ss.pdf
+
+The above speaks to controlling the sensitivity of Support Vector Machines to reduce the number of False Positives/Negatives in the output. Veropoulos, Campbell, and Cristianini go on to detail the difference between Sensitivity and Specificity through various mathematical approaches and analyses. Their research with medical data sets where Box constraints were not statistically significant between the 4 data sets. However, the strain on the algorithm was insignificant and could aid in over all determinations. 
+
+# Week 3
+## Time Series Prediction Using Support Vector Machines: A Survey [@sapankevych2009]
+https://ieeexplore.ieee.org/abstract/document/4840324
+
+This article details the ways in which Support Vector Machines have been utilized to perform time series analysis. I found this very interesting as in my current line of work we are looking for ways to implement more Machine Learning into our models and we do a fair amount of Time Series Analysis. This is a important topic for us as we start to work through the best way we can utilize and implement our model and how to best identify the uses for the model. Additionally this article delves into SVR and how that methodology can also be utilized in Time Series modeling. 
+
+
+## A comparative analysis of K-Nearest Neighbor, Genetic, Support Vector Machine, Decision Tree, and Long Short Term Memory algorithms in machine learning [@bansal2022]
+
+https://www.sciencedirect.com/science/article/pii/S2772662222000261
+
+The above article delves into the comparative difference between a few different methodologies relative to Machine Learning, such as KNN, SVM, and LSTM. The article further details the strengths and weaknesses of each and their most practical use cases based on what the implementer is ultimately seeking to achieve. Ultimately this provides more context on how to best utilize our model and to most effectively choose our groups data set so that when we start building our project we are not starting off on the wrong foot. 
+
+# Week 4
+## Fast training Support Vector Machines using parallel sequential minimal optimization [@zeng2008]
+https://ieeexplore.ieee.org/abstract/document/4731075
+
+
+The article above details out the various ways we can quickly train SVM models utilizing Sequential Minimal Optimization (SMO) algorithms to reduce the problems that can arise from large scale programming. A parallel SMO method was the primary focus of this paper as it covered the basic functions and algorithms behind the inner workings as applied to an SVM. 
+
+## Support Vector Machine Accuracy Improvement with Classification [@mohan2020]
+https://ieeexplore.ieee.org/abstract/document/9242572
+
+This article walks through how to successfully setup and run an SVM based on a binary classification problem. Furthermore, it details the inner workings of various types of kernels that can be used to accurately map your planes based on the complexity of the data. I found this particularly interesting as I was wondering about what kernel to build upon and it seems as if an RBF or a Gaussian kernel might be our ticket. 
+
+# Week 6
+
+## Effectiveness of Random Search in SVM hyper-parameter tuning [@mantovani2015]
+https://ieeexplore.ieee.org/abstract/document/7280664
+
+The authors of this article delve into the theory and techniques of tuning the Hyper parameters utilized by the SVM in relation classification, specifically Random Search. Often times this tuning requires a significant time investment with trial and error. It can also require specific knowledge of the data and outcomes associated with the training of the model, and frequently different variables will yield greater results dependent on the outcome. They concluded that given low dimensionality data sets Random Search can yield similar predictive results as more complex tuning methods such as grid search and meta-heuris tics.  
+
+
+## Empirical Evaluation of Resampling Procedures for Optimising SVM Hyperparameters
+
+https://www.jmlr.org/papers/volume18/16-174/16-174.pdf
+
+The paper delves into the Radial Basis Function (RBF) Kernel of SVM's and discusses the need for hyperparameter selection between a regularization and a governing parameter. The paper goes on to detail that there is no generally accepted means for the optimization of hyperparameters. Once approach is to continuously re-sample the initial training data from the data set utilizing different methods and then evaluate them. Ultimately the paper concludes that based on the research and testing of 17 varying methods of 121 data sets there is no definite solution to determine a one size fits all approach to selection of parameters based on an expected outcome.  
