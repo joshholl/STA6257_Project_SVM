@@ -25,17 +25,16 @@ editor:
 Every day sensors and systems are capturing a virtual flood of data points and feeding those values into powerful 
 artificial intelligence and machine learning systems to derive classifications and predict a myriad of outcomes. 
 These systems help us do a broad spectrum of things from fraud detection to interactions with smart home systems. 
-It is there for of no surprise that the medical realm be no different.
-
-## Problem Statement
+Given the number of data points that are present in the medical field, it is of no surprise that machine learning is 
+increasingly being leveraged to elevate patient care.
 
 For as long as most of us remember, our interactions with physicians have included the gathering of data points to help them 
 detect illness and track progression of disease. Common data points are age, weight, height, temperature, blood pressure,
 list of any current symptoms and etc. Physicians then use their education and years of practice to provide diagnoses and 
-help us live as happy and healthy lives as possible. But what if this was process could be supported with machine learning, 
+help us live happy and healthy lives. But what if this was process could be supported with machine learning, 
 and brought into a more critical care setting? 
 
-Thanks to machine learning we can use data from the countless sensors and measurements taken by medical staff in Intensive 
+We can. Thanks to machine learning we can use data from the countless sensors and measurements taken by medical staff in Intensive 
 Care Units (ICU) to predict the survivability of patients under care. This data can then help teams organize around certain 
 cases to help ensure the best allotment of resources and highest attention to the most dire of cases. A method we will use 
 in this report is through the construction of Support Vector Machines or SVM's. 
@@ -46,21 +45,17 @@ data based on the creation of a maximally-marginal hyperplane.[@han2012]. A maxi
 as a line that can be drawn between two clusters that separates their members with the greatest distance between members of 
 each cluster that are their nearest. 
 
-## Revelance 
-
 While we did not find many cases of using support vector machines for ICU patient survival, the use of Support Vector Machines 
 in medicine is not a novel approach. In "Using Support Vector Machines for Diabetes Mellitus Classification from Electronic 
 Medical Records" by Adeoye the author leveraged electronic medical records to help classify individuals with and without 
 diabetes. Meanwhile, Zhou et al where able to use Support Vector Machines to predict the prognosis of severe, acute myocardial 
 infarction with 92% accuracy from electronic medical records[@zhou2023]
 
-## Limitation
-
 While Support Vector Machines can be a great utility used to cluster and predict outcomes, their usage in Medicine is not without 
 problems. One problem noted by Liu et al is that the sheer number of data points available can make it hard to find features (data 
 points of importance) for use in model construction.[@liu2018] In fact Liu goes as far as describing the use of Principal Component Analysis 
 to chose which features to include in model construction. Additionally, support vector machines work best when the data can be mapped 
-linearly, however unlike other methodologies this is not a strict requirement. Should data not be easily linearly seperable the use of a
+linearly, however unlike other methodologies this is not a strict requirement. Should data not be easily linearly separable the use of a
 kernel function or kernel trick allows data to be mapped from one space to another for optimal construction of the maximally marginal hyperplane [@han2012] [@mohan2020] 
 
 # Methods
