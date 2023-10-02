@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2023-10-01">
 
-<title>Stats 6257 Project Fall 2023 - Support Vector Machines – journal-entry-2</title>
+<title>Stats 6257 Fall 2023 - Support Vector Machines - Predicting Survival of Intensive Care Unit Paitents with Support Vector Machines</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,25 +21,44 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<script src="../site_libs/quarto-html/quarto.js"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -61,7 +81,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -71,8 +91,8 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
-    <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Stats 6257 Project Fall 2023 - Support Vector Machines</span>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Stats 6257 Fall 2023 - Support Vector Machines</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -80,32 +100,36 @@ ul.task-list li input[type="checkbox"] {
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll me-auto">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../index.html" rel="" target="">
+    <a class="nav-link" href="./index.html" rel="" target="">
  <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-journal-entries" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
  <span class="menu-text">Journal Entries</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-journal-entries">    
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-journal-entries">    
         <li>
-    <a class="dropdown-item" href="../Journal/brad.html" rel="" target="">
+    <a class="dropdown-item" href="./Journal/brad.html" rel="" target="">
  <span class="dropdown-text">Brad’s Journal</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../Journal/eric.html" rel="" target="">
+    <a class="dropdown-item" href="./Journal/eric.html" rel="" target="">
  <span class="dropdown-text">Eric’s Journal</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../Journal/josh.html" rel="" target="">
+    <a class="dropdown-item" href="./Journal/josh.html" rel="" target="">
  <span class="dropdown-text">Josh’s Journal</span></a>
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="./about.html" rel="" target="" aria-current="page">
+ <span class="menu-text">About</span></a>
+  </li>  
 </ul>
-            <div class="quarto-navbar-tools ms-auto">
+            <div class="quarto-navbar-tools">
 </div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
@@ -116,21 +140,122 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#authors" id="toc-authors" class="nav-link active" data-scroll-target="#authors">Authors</a>
+  <ul class="collapse">
+  <li><a href="#brad-lipson" id="toc-brad-lipson" class="nav-link" data-scroll-target="#brad-lipson">Brad Lipson</a></li>
+  <li><a href="#eric-miller" id="toc-eric-miller" class="nav-link" data-scroll-target="#eric-miller">Eric Miller</a></li>
+  <li><a href="#josh-hollandsworth" id="toc-josh-hollandsworth" class="nav-link" data-scroll-target="#josh-hollandsworth">Josh Hollandsworth</a></li>
+  </ul></li>
+  <li><a href="#complete-references" id="toc-complete-references" class="nav-link" data-scroll-target="#complete-references">Complete References</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Predicting Survival of Intensive Care Unit Paitents with Support Vector Machines</h1>
+</div>
 
 
-<p>In Dibiki et al’s paper on Support vector machines he discussed what SVM’s are and what that the underlying statistical methods are. The paper overall was heavily math based and at times over my head. However it did have information about how and why support vector machines are built. Predominately the author notes that reseacher Vapnik constructed SVM’s based off of Structural Risk Minimaization(SRM) as opposed to Empirical Risk minimization and that SRM proved to be better at creating more generalizable models.</p>
-<p>The author goes on to explain that the hyperplane is a the maximal margin between data points in a data set. This is called the “Optimal Separating Hyperplane” The authors then went through the math of how to solve for the problems and examples of how to chose kernel functions to ensure that a hyperplane can be found.</p>
-<p>The examples the author used was were the classification if image data to determine classification of land cover (water, forest, roads, etc) Another example was comparing the performance of an Artificial Neural Network to Support Vector machines to predict stream flow data based on daily rainfall and evaporation based on 3 different locations. The general finding was that SVM and ANN’s can both be readily leveraged to build similar models and predictions</p>
-<hr>
-<p>Link: https://login.ezproxy.lib.uwf.edu/login?url=https://search.ebscohost.com/login.aspx?direct=true&amp;db=a9h&amp;AN=4740022&amp;site=ehost-live</p>
-<p>Dibike, Y. B., Velickov, S., Solomatine, D., &amp; Abbott, M. B. (2001). Model Induction with Support Vector Machines: Introductions and Applications.&nbsp;<em>Journal of Computing in Civil Engineering</em>,&nbsp;<em>15</em>(3), 208. https://doi-org.ezproxy.lib.uwf.edu/10.1061/(ASCE)0887-3801(2001)15:3(208)</p>
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 1, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="authors" class="level1">
+<h1>Authors</h1>
+<section id="brad-lipson" class="level2">
+<h2 class="anchored" data-anchor-id="brad-lipson">Brad Lipson</h2>
+</section>
+<section id="eric-miller" class="level2">
+<h2 class="anchored" data-anchor-id="eric-miller">Eric Miller</h2>
+</section>
+<section id="josh-hollandsworth" class="level2">
+<h2 class="anchored" data-anchor-id="josh-hollandsworth">Josh Hollandsworth</h2>
+</section>
+</section>
+<section id="complete-references" class="level1">
+<h1>Complete References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-adoye2021" class="csl-entry" role="listitem">
+Adeoye, et al., Abiodun O. 2021. <span>“Utilizing Support Vector Machines for Diabetes Mellitus Classification from Electronic Medical Records,”</span> <em>International Journal of Advanced Computer Science and Information Technology (IJACSIT)</em> 11 (10): 120–14.
+</div>
+<div id="ref-bansal2022" class="csl-entry" role="listitem">
+Bansal, Malti, Apoorva Goyal, and Apoorva Choudhary. 2022. <span>“A Comparative Analysis of k-Nearest Neighbor, Genetic, Support Vector Machine, Decision Tree, and Long Short Term Memory Algorithms in Machine Learning.”</span> <em>Decision Analytics Journal</em> 3: 100071. https://doi.org/<a href="https://doi.org/10.1016/j.dajour.2022.100071">https://doi.org/10.1016/j.dajour.2022.100071</a>.
+</div>
+<div id="ref-gibbons2019" class="csl-entry" role="listitem">
+Chris J. Sidey-Gibbons, Jenni A. M. Sidey-Gibbons &amp;. 2019. <span>“Machine Learning in Medicine: A Practical Introduction.”</span> <em>BMC Medical Research Methodology Volume</em> 19 (64).
+</div>
+<div id="ref-cristianini2002" class="csl-entry" role="listitem">
+Cristianini, Nello, and Bernhard Scholkopf. Fall 2002. <span>“"Support Vector Machines and Kernel Methods: The New Generation of Learning Machines. (Articles).”</span> <em>AI Magazine</em> 23 (3): 31.
+</div>
+<div id="ref-fouodo2022" class="csl-entry" role="listitem">
+Fouodo, et al, Cesaire. 2022. <span>“Support Vector Machines for Survival Analysis with r.”</span> <em>R Journal</em> 14 (2): 92–107.
+</div>
+<div id="ref-han2012" class="csl-entry" role="listitem">
+Han, Kamber, J., and J. Pei. 2012. <em>Data Mining: Concepts and Techniques</em>. Morgan Kaufmann.
+</div>
+<div id="ref-hu2016" class="csl-entry" role="listitem">
+Hu, Wei Huang, Xiangfen, and Qiang Wu. n.d. <span>“A New Support Vector Machine Algorithm for Data Mining.”</span> <em>Knowledge-Based Systems</em> 112 (2016): 118–28.
+</div>
+<div id="ref-ismail2020" class="csl-entry" role="listitem">
+Ismail, et al, Gaber A. 2020. <span>“An Approach Using Support Vector Machines to Predict Hospital Readmission.”</span> <em>Journal of Medical Systems</em> 44 (9): 1–10.
+</div>
+<div id="ref-karatzoglou2006" class="csl-entry" role="listitem">
+Karatzoglou, Alexandros, David Meyer, and Kurt Hornik. 2006. <span>“Support Vector Machines in r.”</span> <em>Journal of Statistical Software</em> 15 (9): 1–28. <a href="https://doi.org/10.18637/jss.v015.i09">https://doi.org/10.18637/jss.v015.i09</a>.
+</div>
+<div id="ref-liu2018" class="csl-entry" role="listitem">
+Liu, X. X., Chen. June 2018. <span>“Mortality Prediction Based on Imbalanced High-Dimensional ICU Big Data.”</span> <em>Computers in Industry</em> 98 (June 2018): 218–25.
+</div>
+<div id="ref-mantovani2015" class="csl-entry" role="listitem">
+Mantovani, Rafael G., André L. D. Rossi, Joaquin Vanschoren, Bernd Bischl, and André C. P. L. F. de Carvalho. 2015. <span>“Effectiveness of Random Search in SVM Hyper-Parameter Tuning.”</span> In <em>2015 International Joint Conference on Neural Networks (IJCNN)</em>, 1–8. <a href="https://doi.org/10.1109/IJCNN.2015.7280664">https://doi.org/10.1109/IJCNN.2015.7280664</a>.
+</div>
+<div id="ref-mohan2020" class="csl-entry" role="listitem">
+Mohan, Lalit, Janmejay Pant, Priyanka Suyal, and Arvind Kumar. 2020. <span>“Support Vector Machine Accuracy Improvement with Classification.”</span> In <em>2020 12th International Conference on Computational Intelligence and Communication Networks (CICN)</em>, 477–81. <a href="https://doi.org/10.1109/CICN49253.2020.9242572">https://doi.org/10.1109/CICN49253.2020.9242572</a>.
+</div>
+<div id="ref-polsterl2015" class="csl-entry" role="listitem">
+Pölsterl, Sebastian, Nassir Navab, and Amin Katouzian. 2015. <span>“Fast Training of Support Vector Machines for Survival Analysis.”</span> In <em>Machine Learning and Knowledge Discovery in Databases</em>, edited by Annalisa Appice, Pedro Pereira Rodrigues, Vítor Santos Costa, João Gama, Alípio Jorge, and Carlos Soares, 243–59. Cham: Springer International Publishing.
+</div>
+<div id="ref-sapankevych2009" class="csl-entry" role="listitem">
+Sapankevych, Nicholas I., and Ravi Sankar. 2009. <span>“Time Series Prediction Using Support Vector Machines: A Survey.”</span> <em>IEEE Computational Intelligence Magazine</em> 4 (2): 24–38. <a href="https://doi.org/10.1109/MCI.2009.932254">https://doi.org/10.1109/MCI.2009.932254</a>.
+</div>
+<div id="ref-veropoulos1999" class="csl-entry" role="listitem">
+Veropoulos, Konstantinos, Colin Campbell, Nello Cristianini, et al. 1999. <span>“Controlling the Sensitivity of Support Vector Machines.”</span> In <em>Proceedings of the International Joint Conference on AI</em>, 55:60. Stockholm.
+</div>
+<div id="ref-xu2010" class="csl-entry" role="listitem">
+Xu, Lihong Li, Fei, and Zhihua Zhou. 2010. <span>“SVM Kernels for Data Mining: A Comparative Study.”</span> <em>Proceedings of the 2010 SIAM International Conference on Data Mining (SDM)</em>, 585–96.
+</div>
+<div id="ref-dibike2001" class="csl-entry" role="listitem">
+Yonas B. Dibike, Dimitri Solomatine, Slavco Velickov, and Michael B. Abbott. 2001. <span>“Model Induction with Support Vector Machines: Introduction and Applications.”</span> <em>Journal of Computing in Civil Engineering</em> 15 (3).
+</div>
+<div id="ref-zeng2008" class="csl-entry" role="listitem">
+Zeng, Zhi-Qiang, Hong-Bin Yu, Hua-Rong Xu, Yan-Qi Xie, and Ji Gao. 2008. <span>“Fast Training Support Vector Machines Using Parallel Sequential Minimal Optimization.”</span> In <em>2008 3rd International Conference on Intelligent System and Knowledge Engineering</em>, 1:997–1001. <a href="https://doi.org/10.1109/ISKE.2008.4731075">https://doi.org/10.1109/ISKE.2008.4731075</a>.
+</div>
+<div id="ref-zhou2023" class="csl-entry" role="listitem">
+Zhou, et al, Xingyu. 2023. <span>“Using Support Vector Machines for Deep Mining of Electronic Medical Records in Order to Predict Prognosis of Severe, Acute Myocardial Infarction.”</span> <em>Frontiers in Cardiovascular Medicine</em> 10: 918.
+</div>
+</div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

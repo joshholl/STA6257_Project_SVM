@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Stats 6257 Project Fall 2023 - Support Vector Machines – journal-entry-5</title>
+<title>Stats 6257 Fall 2023 - Support Vector Machines – week-3</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -35,10 +35,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -72,7 +72,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Stats 6257 Project Fall 2023 - Support Vector Machines</span>
+    <span class="navbar-title">Stats 6257 Fall 2023 - Support Vector Machines</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -80,7 +80,7 @@ ul.task-list li input[type="checkbox"] {
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll me-auto">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
     <a class="nav-link" href="../index.html" rel="" target="">
  <span class="menu-text">Home</span></a>
@@ -89,7 +89,7 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-journal-entries" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
  <span class="menu-text">Journal Entries</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-journal-entries">    
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-journal-entries">    
         <li>
     <a class="dropdown-item" href="../Journal/brad.html" rel="" target="">
  <span class="dropdown-text">Brad’s Journal</span></a>
@@ -104,8 +104,12 @@ ul.task-list li input[type="checkbox"] {
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
 </ul>
-            <div class="quarto-navbar-tools ms-auto">
+            <div class="quarto-navbar-tools">
 </div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
@@ -123,9 +127,6 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p>Pölsterl, Navab, N., &amp; Katouzian, A. (n.d.). Fast Training of Support Vector Machines for Survival Analysis. In Machine Learning and Knowledge Discovery in Databases (pp.&nbsp;243–259). Springer International Publishing. https://doi.org/10.1007/978-3-319-23525-7_15</p>
-<p>In Fast Training of Support Vector Machines for Survival Analysis the author explains that they wish to look at 3 different methods of training a support vector machine for survival analysis: ranking, regression, and a combination of ranking and regressions to determine how well they predict survivability. The author also introduces the concept of censored data. This is a term i hadn’t heard of before but makes sense when explained and in the context of survivability prediction. As explained by the author, data is uncensored if a significant event occurs during the time period in which the study or model is used for. Meanwhile censored data is data in which the event did not occur during the study or observation period, however it may have occurred after the study completes. When thinking about patient survivability this makes sense. For example if we want to study whether or not a patient dies during a hospital stay we probably only want to predict that for a fixed time period (the hospital stay) as we all know every patient will eventually die…perhaps even in a (different) hospital stay!</p>
-<p>The author then goes on to show how ranking methods such as Cox proportional Hazards and others fair when given certain sized data sets and then comparing that with regression based model. The author summarizes at the end that using ordered statistic trees (which their algorithm uses) is a sufficiently accurate and fast model for predicting patient survivability.</p>
 
 
 

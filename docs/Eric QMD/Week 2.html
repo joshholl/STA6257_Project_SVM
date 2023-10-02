@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Stats 6257 Project Fall 2023 - Support Vector Machines – journal-entry-1</title>
+<title>Stats 6257 Fall 2023 - Support Vector Machines – week-2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -35,10 +35,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -72,7 +72,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Stats 6257 Project Fall 2023 - Support Vector Machines</span>
+    <span class="navbar-title">Stats 6257 Fall 2023 - Support Vector Machines</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -80,7 +80,7 @@ ul.task-list li input[type="checkbox"] {
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll me-auto">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
     <a class="nav-link" href="../index.html" rel="" target="">
  <span class="menu-text">Home</span></a>
@@ -89,7 +89,7 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-journal-entries" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
  <span class="menu-text">Journal Entries</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-journal-entries">    
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-journal-entries">    
         <li>
     <a class="dropdown-item" href="../Journal/brad.html" rel="" target="">
  <span class="dropdown-text">Brad’s Journal</span></a>
@@ -104,8 +104,12 @@ ul.task-list li input[type="checkbox"] {
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
 </ul>
-            <div class="quarto-navbar-tools ms-auto">
+            <div class="quarto-navbar-tools">
 </div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
@@ -123,11 +127,6 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p>Sidey-Gibbons, J., &amp; Sidey-Gibbons, C. (2019). Machine learning in medicine: a practical introduction.&nbsp;<em>BMC Medical Research Methodology,</em>&nbsp;_19_https://doi.org/10.1186/s12874-019-0681-4</p>
-<p>https://login.ezproxy.lib.uwf.edu/login?url=https://www.proquest.com/scholarly-journals/machine-learning-medicine-practical-introduction/docview/2193650518/se-2?accountid=14787</p>
-<p>In Machine learning in medicine: a practical introduction the authors provide a introduction to machine learning in the medical field and a survey of 3 supervised learning methodologies. The begin by explaining how machine learning is related to traditional statistical inference but noted that a major difference is that statistical inference aims to “reach conclusions about a population…” (Sidey-Gibbons, 2) while machine learning aims to predict a specific out come. The authors go on to state that the use of ML in the medical field is relatively easy to explain because many features or parameters that are input can be reasoned about when the prediction is made. An example the authors used were “body mass index and diabetes risk” as the linkage between the two are relatively well known and understood. The author’s then go on to explain the difference between Auditable Algorithms that are easily understood and black box algorithms which are complex and can be hard to reason about. Support Vector Machines can be a member of the later group but not always.</p>
-<p>The authors then leverage a Generalized Linear model, Support Vector Machine, and Artificial Neural Network to predict whether or not a given breast tissue sample is cancerous. I will skip over the ANN and GLM as our group is not directly focused on them. However with the Support Vector Machine implementation they authors did note that the overall goal is to build a hyperplane that separates two categories the best. Some datasets do not easily separate so it is possible to rearrange the date by using a kernel trick or kernel function to increase the amount of linear separation between observations.</p>
-<p>Finally the authors compared the outcomes of their three algorithms and found that the best one (in terms of accuracy) for the data set they had was the support vector machine. The way they determined this was to build a ROC Curve to find the number of true true predictions and true false predictions</p>
 
 
 
