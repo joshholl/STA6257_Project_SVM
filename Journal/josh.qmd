@@ -68,3 +68,19 @@ Most of the article goes beyond the scope of Support Vector Machines but delves 
 Through their findings the authors also opine about the large amount of data and the necessity of determining which are the key features to from which to build a model such as a SVM. They state that the overall number of data points will continue to increase as sensors and technology are continually introduced and improved upon in medical settings and that while the data is great and represents a virtual gold mine, it is important to ensure that data is clean and useful for prediction and not just noisy data for algorithms to churn through
 
 # Week 6
+
+## Artificial Intelligence in the Intensive Care Unit [@greco2020]
+
+The authors of Artificial Intelligence in the Intensive Care Unit describe the ways that medicine can benefit by the usage of machine learning and compares various methods for machine learning. 
+The author goes in depth about why Intensive Care Units are a great place for the introduction of big data practices and machine learning in hospital settings. After introducing the methods of machine learning
+the paper then discusses the limits of machine learning, examples of machine learning in critical care and the future of big data and machine learning in medicine.
+
+[Live Access URL](https://www.thieme-connect.com/products/ejournals/html/10.1055/s-0040-1719037)
+
+## Predictive modelling of survival and length of stay in critically ill patients using sequential organ failure scores [@houthooft2015]
+
+The paper "Predictive modelling of survival and length of stay in critically ill patients using sequential organ failure scores" the authors talk about ways to use machine learning to model the length of stay
+as a predictor of patient mortality. The author talks about choosing the data sets and selecting certain features for modeling based on data from th first five days of a patients stay to predict both the patients 
+mortality and their length of stay. The results of the SVM the author built were compared to regression results to model the length of stay and then compared with mortality for patients with lengthy ICE stays.
+The author goes on to conclude that the models can be helpful to support physicians allocate ICU resources and make decisions during a patients time in ICU.
+

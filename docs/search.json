@@ -49,6 +49,20 @@
     "text": "Mortality prediction based on imbalanced high-dimensional ICU big Data (Liu June 2018)\nMortality prediction based on imbalanced high-dimensional ICU big data takes a look at predicting mortality based on a large number of data dimensions with various amounts of data missing. Over all this paper appears to follow an approach that would be good for our project using the MIMIC data set.\nMost of the article goes beyond the scope of Support Vector Machines but delves into principal component analysis to determine what to use to build the support vector machines.The author leverages Cost Sensitive Principal Component Analysis to preprocess the data to deal with missing data and feature extraction. Once this preprocessing step has completed, the authors build a support vector machine to predict mortality. The also build a number of other support vector machines using Chaos particle swarm optimization for parameter optimization and derivatives of CPSO to determine the best model based on the ROC AUC value. In the end the found the SVM using data that had been processed with their modified Cost Sensitive Principal Component Analysis and SPSO\nThrough their findings the authors also opine about the large amount of data and the necessity of determining which are the key features to from which to build a model such as a SVM. They state that the overall number of data points will continue to increase as sensors and technology are continually introduced and improved upon in medical settings and that while the data is great and represents a virtual gold mine, it is important to ensure that data is clean and useful for prediction and not just noisy data for algorithms to churn through"
   },
   {
+    "objectID": "Journal/josh.html#artificial-intelligence-in-the-intensive-care-unit-greco2020",
+    "href": "Journal/josh.html#artificial-intelligence-in-the-intensive-care-unit-greco2020",
+    "title": "Josh’s Journal Entries",
+    "section": "Artificial Intelligence in the Intensive Care Unit (Greco, Caruso, and Cecconi 2020)",
+    "text": "Artificial Intelligence in the Intensive Care Unit (Greco, Caruso, and Cecconi 2020)\nThe authors of Artificial Intelligence in the Intensive Care Unit describe the ways that medicine can benefit by the usage of machine learning and compares various methods for machine learning. The author goes in depth about why Intensive Care Units are a great place for the introduction of big data practices and machine learning in hospital settings. After introducing the methods of machine learning the paper then discusses the limits of machine learning, examples of machine learning in critical care and the future of big data and machine learning in medicine.\nLive Access URL"
+  },
+  {
+    "objectID": "Journal/josh.html#predictive-modelling-of-survival-and-length-of-stay-in-critically-ill-patients-using-sequential-organ-failure-scores-houthooft2015",
+    "href": "Journal/josh.html#predictive-modelling-of-survival-and-length-of-stay-in-critically-ill-patients-using-sequential-organ-failure-scores-houthooft2015",
+    "title": "Josh’s Journal Entries",
+    "section": "Predictive modelling of survival and length of stay in critically ill patients using sequential organ failure scores (Houthooft et al. 2015)",
+    "text": "Predictive modelling of survival and length of stay in critically ill patients using sequential organ failure scores (Houthooft et al. 2015)\nThe paper “Predictive modelling of survival and length of stay in critically ill patients using sequential organ failure scores” the authors talk about ways to use machine learning to model the length of stay as a predictor of patient mortality. The author talks about choosing the data sets and selecting certain features for modeling based on data from th first five days of a patients stay to predict both the patients mortality and their length of stay. The results of the SVM the author built were compared to regression results to model the length of stay and then compared with mortality for patients with lengthy ICE stays. The author goes on to conclude that the models can be helpful to support physicians allocate ICU resources and make decisions during a patients time in ICU."
+  },
+  {
     "objectID": "Journal/eric.html",
     "href": "Journal/eric.html",
     "title": "Eric’s Journal Entries",
@@ -145,13 +159,6 @@
     "title": "SVM application in Data Mining in EMR",
     "section": "References",
     "text": "References"
-  },
-  {
-    "objectID": "Eric QMD/Week 6.html",
-    "href": "Eric QMD/Week 6.html",
-    "title": "Stats 6257 Fall 2023 - Support Vector Machines",
-    "section": "",
-    "text": "https://ieeexplore.ieee.org/abstract/document/7280664\nThe authors of this article delve into the theory and techniques of tuning the Hyper parameters utilized by the SVM in relation classification, specifically Random Search. Often times this tuning requires a significant time investment with trial and error. It can also require specific knowledge of the data and outcomes associated with the training of the model, and frequently different variables will yield greater results dependent on the outcome. They concluded that given low dimensionality data sets Random Search can yield similar predictive results as more complex tuning methods such as grid search and meta-heuris tics.\nhttps://www.jmlr.org/papers/volume18/16-174/16-174.pdf\nThe paper delves into the Radial Basis Function (RBF) Kernel of SVM’s and discusses the need for hyperparameter selection between a regularization and a governing parameter. The paper goes on to detail that there is no generally accepted means for the optimization of hyperparameters. Once approach is to continuously re-sample the initial training data from the data set utilizing different methods and then evaluate them. Ultimately the paper concludes that based on the research and testing of 17 varying methods of 121 data sets there is no definite solution to determine a one size fits all approach to selection of parameters based on an expected outcome."
   },
   {
     "objectID": "index.html",
