@@ -1,5 +1,5 @@
 ---
-title: Predicting Survival of Intensive Care Unit Paitents with Support Vector Machines
+title: Predicting Survival of Intensive Care Unit Patients with Support Vector Machines
 authors: 
   - name: Josh Hollandsworth
   - name: Brad Lipson
@@ -60,7 +60,10 @@ kernel function or kernel trick allows data to be mapped from one space to anoth
 
 # Methods
 
-We chose a data set from MIMIC and will build a model.
+Data Source 
+
+To build our model for predicting patient survivability, we are using data from the [Medical Information Mart for Intensive Care (MIMIC)](https://mimic.mit.edu). We are specifically targeting the MIMIC III data set. You can find more information about the MIMIC III dataset at [https://mimic.mit.edu/docs/iii/](https://mimic.mit.edu/docs/iii/)  The data set itself is rather large so we have pre-processed the data slightly in order to generate a file of comma separated values rather than consume directly from their highly normalized format.
+
 
 # Analysis and Results
 
