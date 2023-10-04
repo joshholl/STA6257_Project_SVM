@@ -6,8 +6,9 @@ packages <- c("tidyverse",
     "dslabs", 
     "ggplot2",
     "dplyr",
-    "data.table"
-    "ggthemes"
+    "data.table",
+    "ggthemes",
+    "extrafont"
 )
 
 install.packages("easypackages", repos = "http://cran.us.r-project.org")

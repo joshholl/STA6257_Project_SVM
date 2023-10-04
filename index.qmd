@@ -28,7 +28,8 @@ libraries( c("tidyverse",
     "dslabs", 
     "ggplot2",
     "dplyr",
-    "data.table"
+    "data.table",
+    "extrafont"
 ))
 
 mimic_data <- fread("./MIMIC_ICU_DATA/mimic_icu_data.csv")
@@ -86,13 +87,14 @@ To build our model for predicting patient survivability, we are using data from 
 
 ### Patient Demographics
 
+#### Patient Age
 ```{r}
 ggplot(mimic_data, aes(x=age))+ 
-  geom_histogram( color="#e9ecef", alpha=0.6, position = 'identity') +
-  theme_economist() + 
-  scale_colour_economist()
+  geom_histogram( color="#e9ecef", fill="#188bc2", alpha=0.9, position = 'identity') +
+  theme_economist(base_family="ITC Officina Sans")
 ```
 
+#### Patient Sex
 ```{r, dev = "png", dev.args=list(bg="transparent"), fig.align="left"}
 mimic_data <- mimic_data %>% mutate(
   gender = case_when(gender == "M" ~ "male",
@@ -112,7 +114,7 @@ patient_sex_viz <- mimic_data %>%
 ggplot(patient_sex_viz, aes(x = "", y = N, fill = gender)) +
   geom_bar(stat = "identity", width=1, color="white", position = "stack") +  
   coord_polar(theta = "y", direction = -1, clip = "off") +
-  theme_economist() + 
+  theme_economist(base_family="ITC Officina Sans") + 
   theme(
     legend.position="none",
     line=element_blank(),
@@ -125,15 +127,62 @@ ggplot(patient_sex_viz, aes(x = "", y = N, fill = gender)) +
   ) + 
   geom_text(aes(y = pos, label = label), color = "white", size=6) +
   scale_fill_economist(labels=NULL)
-
-  
-
-
-
-
-
 ```
+
+#### Patient Survival
+```{r, dev = "png", dev.args=list(bg="transparent"), fig.align="left"}
+mimic_data <- mimic_data %>% mutate(
+  survived = case_when(hospital_expire_flag == 1 ~ "Died",
+                     hospital_expire_flag == 0 ~ "Survived")
+)
+
+ggplot(mimic_data, aes(x = survived, fill=survived)) +
+  geom_bar(color="white") +  
+  theme_economist(base_family="ITC Officina Sans") +
+  scale_fill_economist(labels=NULL)
+```
+
 ### Vital Signs
+
+####	Heart rate
+```{r}
+ggplot(mimic_data, aes(x=heartrate_mean)) + 
+  geom_histogram( color="#e9ecef", fill="#188bc2", alpha=0.9, position = 'identity') +
+  theme_economist(base_family="ITC Officina Sans")
+```
+
+
+
+####	Blood pressure: Median systolic blood pressure 134 mmHg (Q1–Q3: 116–154 mmHg); median diastolic blood pressure 78 mmHg (Q1–Q3: 66–90 mmHg)
+
+```{r}
+ggplot(mimic_data, aes(x=sysbp_mean)) + 
+  geom_histogram( color="#e9ecef", fill="#188bc2", alpha=0.9, position = 'identity') +
+  theme_economist(base_family="ITC Officina Sans")
+```
+
+
+####	Respiratory rate
+```{r}
+ggplot(mimic_data, aes(x=resprate_mean)) + 
+  geom_histogram( color="#e9ecef", fill="#188bc2", alpha=0.9, position = 'identity') +
+  theme_economist(base_family="ITC Officina Sans")
+```
+####	Temperature
+
+```{r}
+ggplot(mimic_data, aes(x=tempc_mean)) + 
+  geom_histogram( color="#e9ecef", fill="#188bc2", alpha=0.9, position = 'identity') +
+  theme_economist(base_family="ITC Officina Sans")
+```
+####	Oxygen saturation: Median 96% (Q1–Q3: 93–99%)
+
+```{r}
+ggplot(mimic_data, aes(x=spo2_mean)) + 
+  geom_histogram( color="#e9ecef", fill="#188bc2", alpha=0.9, position = 'identity') +
+  theme_economist(base_family="ITC Officina Sans")
+```
+
 
 ### Laboratory Values
 
