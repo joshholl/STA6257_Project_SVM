@@ -20,6 +20,21 @@ editor:
     wrap: 72
 ---
 
+```{r, echo=FALSE}
+library(easypackages)
+libraries( c("tidyverse", 
+    "ggthemes",
+    "ggrepel",
+    "dslabs", 
+    "ggplot2",
+    "dplyr",
+    "data.table"
+))
+
+mimic_data <- fread("./MIMIC_ICU_DATA/mimic_icu_data.csv")
+```
+
+
 # Introduction
 
 Every day sensors and systems are capturing a virtual flood of data points and feeding those values into powerful 
@@ -68,6 +83,60 @@ To build our model for predicting patient survivability, we are using data from 
 # Analysis and Results
 
 ## Data and Vizualisation
+
+### Patient Demographics
+
+```{r}
+ggplot(mimic_data, aes(x=age))+ 
+  geom_histogram( color="#e9ecef", alpha=0.6, position = 'identity') +
+  theme_economist() + 
+  scale_colour_economist()
+```
+
+```{r, dev = "png", dev.args=list(bg="transparent"), fig.align="left"}
+mimic_data <- mimic_data %>% mutate(
+  gender = case_when(gender == "M" ~ "male",
+                     gender == "F" ~ "female",
+                     TRUE ~ gender)
+)
+
+patient_sex_viz <- mimic_data %>%
+  group_by(gender) %>%
+  summarise(N = n()) %>%
+  mutate(
+    gender = as.factor(gender),
+    pos = cumsum(N) - N/2,
+    label = paste(N,  " ", gender, "\npatients\n(", 100*round(N/sum(N), 2), "%)", sep="")
+  )
+
+ggplot(patient_sex_viz, aes(x = "", y = N, fill = gender)) +
+  geom_bar(stat = "identity", width=1, color="white", position = "stack") +  
+  coord_polar(theta = "y", direction = -1, clip = "off") +
+  theme_economist() + 
+  theme(
+    legend.position="none",
+    line=element_blank(),
+    axis.title.x=element_blank(),
+    axis.text.x=element_blank(), #remove x axis labels
+    axis.ticks.x=element_blank(), #remove x axis ticks
+    axis.title.y=element_blank(),
+    axis.text.y=element_blank(),  #remove y axis labels
+    axis.ticks.y=element_blank()  #remove y axis ticks
+  ) + 
+  geom_text(aes(y = pos, label = label), color = "white", size=6) +
+  scale_fill_economist(labels=NULL)
+
+  
+
+
+
+
+
+```
+### Vital Signs
+
+### Laboratory Values
+
 
 ## Statistical Modeling
 

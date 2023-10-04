@@ -17,6 +17,13 @@ nocite: |
 
 ## Josh Hollandsworth
 
+# Guide to running
+
+You will need to install the following ***system*** libraries in order for the r code to work properly
+
+* libgit2
+
+
 # Complete References
 ::: {#refs}
 :::
