@@ -8,11 +8,15 @@ packages <- c("tidyverse",
     "dplyr",
     "data.table",
     "ggthemes",
-    "extrafont"
+    "extrafont",
+    "dataMaid", 
+    "DataExplorer",
+    "SmartEDA"
 )
 
 install.packages("easypackages", repos = "http://cran.us.r-project.org")
 library(easypackages)
 libraries(packages)
+
 
 
