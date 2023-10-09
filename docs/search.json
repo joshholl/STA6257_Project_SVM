@@ -180,5 +180,754 @@
     "title": "Predicting Survival of Intensive Care Unit Patients with Support Vector Machines",
     "section": "Statistical Modeling",
     "text": "Statistical Modeling"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html",
+    "title": "data",
+    "section": "",
+    "text": "The dataset examined has the following dimensions:\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nNumber of observations\n4559\n\n\nNumber of variables\n106\n\n\n\n\n\nThe following variable checks were performed, depending on the data type of each variable:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n \ncharacter\nfactor\nlabelled\nhaven labelled\nnumeric\ninteger\nlogical\nDate\n\n\n\n\nIdentify miscoded missing values\n×\n×\n×\n×\n×\n×\n\n×\n\n\nIdentify prefixed and suffixed whitespace\n×\n×\n×\n×\n\n\n\n\n\n\nIdentify levels with &lt; 6 obs.\n×\n×\n×\n×\n\n\n\n\n\n\nIdentify case issues\n×\n×\n×\n×\n\n\n\n\n\n\nIdentify misclassified numeric or integer variables\n×\n×\n×\n×\n\n\n\n\n\n\nIdentify outliers\n\n\n\n\n×\n×\n\n×\n\n\n\nPlease note that all numerical values in the following have been rounded to 2 decimals."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#icustay_id1",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#icustay_id1",
+    "title": "data",
+    "section": "icustay_id…1",
+    "text": "icustay_id…1\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n4559\n\n\nMedian\n251008\n\n\n1st and 3rd quartiles\n225575.5; 275526\n\n\nMin. and max.\n200075; 299998"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#hadm_id2",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#hadm_id2",
+    "title": "data",
+    "section": "hadm_id…2",
+    "text": "hadm_id…2\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n4559\n\n\nMedian\n149643\n\n\n1st and 3rd quartiles\n125389; 175033\n\n\nMin. and max.\n100003; 199962"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#intime",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#intime",
+    "title": "data",
+    "section": "intime",
+    "text": "intime\n\nThe variable is a key (distinct values for each observation)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#outtime",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#outtime",
+    "title": "data",
+    "section": "outtime",
+    "text": "outtime\n\nThe variable is a key (distinct values for each observation)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#dbsource",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#dbsource",
+    "title": "data",
+    "section": "dbsource",
+    "text": "dbsource\n\nThe variable only takes one (non-missing) value: \"metavision\". The variable contains 0 % missing observations."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#suspected_infection_time_poe",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#suspected_infection_time_poe",
+    "title": "data",
+    "section": "suspected_infection_time_poe",
+    "text": "suspected_infection_time_poe\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\ncharacter\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n4558\n\n\nMode\n“18/8/2159 00:00:00”\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following levels have at most five observations: \"1/1/2118 1:02\", \"1/1/2118 14:36\", \"1/1/2125 14:05\", \"1/1/2132 21:00\", \"1/1/2135 15:55\", …, \"9/9/2184 10:25\", \"9/9/2185 18:24\", \"9/9/2186 18:18\", \"9/9/2188 1:05\", \"9/9/2198 18:30\" (4548 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#suspected_infection_time_poe_days",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#suspected_infection_time_poe_days",
+    "title": "data",
+    "section": "suspected_infection_time_poe_days",
+    "text": "suspected_infection_time_poe_days\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n4370\n\n\nMedian\n0.03\n\n\n1st and 3rd quartiles\n-0.08; 0.16\n\n\nMin. and max.\n-0.99; 1\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"-0.99\", \"-0.98\", \"-0.93\", \"-0.93\", \"-0.92\", …, \"0.99\", \"0.99\", \"0.99\", \"0.99\", \"1\" (519 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#specimen_poe",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#specimen_poe",
+    "title": "data",
+    "section": "specimen_poe",
+    "text": "specimen_poe\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\ncharacter\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n35\n\n\nMode\n“BLOOD CULTURE”\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following levels have at most five observations: \"ABSCESS\", \"BILE\", \"Blood (EBV)\", \"Blood (Malaria)\", \"Blood (Toxo)\", …, \"NEOPLASTIC BLOOD\", \"PLEURAL FLUID\", \"RAPID RESPIRATORY VIRAL ANTIGEN TEST\", \"Rapid Respiratory Viral Screen & Culture\", \"URINE,KIDNEY\" (10 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#positiveculture_poe",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#positiveculture_poe",
+    "title": "data",
+    "section": "positiveculture_poe",
+    "text": "positiveculture_poe\n\nNote that this variable is treated as a factor variable below, as it only takes a few unique values.\n\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n2\n\n\nMode\n“0”\n\n\nReference category\n0"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#antibiotic_time_poe",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#antibiotic_time_poe",
+    "title": "data",
+    "section": "antibiotic_time_poe",
+    "text": "antibiotic_time_poe\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\ncharacter\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n4274\n\n\nMode\n“1/4/2191 0:00”\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following levels have at most five observations: \"1/1/2111 0:00\", \"1/1/2116 0:00\", \"1/1/2130 0:00\", \"1/1/2134 0:00\", \"1/1/2135 0:00\", …, \"9/9/2181 0:00\", \"9/9/2185 0:00\", \"9/9/2187 0:00\", \"9/9/2189 0:00\", \"9/9/2198 0:00\" (4264 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#blood_culture_time",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#blood_culture_time",
+    "title": "data",
+    "section": "blood_culture_time",
+    "text": "blood_culture_time\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\ncharacter\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n4558\n\n\nMode\n“18/8/2159 00:00:00”\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following levels have at most five observations: \"1/1/2113 20:45\", \"1/1/2118 1:02\", \"1/1/2118 14:36\", \"1/1/2125 14:05\", \"1/1/2132 21:00\", …, \"9/9/2184 10:25\", \"9/9/2185 18:24\", \"9/9/2186 18:18\", \"9/9/2188 1:05\", \"9/9/2198 18:30\" (4548 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#blood_culture_positive",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#blood_culture_positive",
+    "title": "data",
+    "section": "blood_culture_positive",
+    "text": "blood_culture_positive\n\nNote that this variable is treated as a factor variable below, as it only takes a few unique values.\n\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n2\n\n\nMode\n“0”\n\n\nReference category\n0"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#age",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#age",
+    "title": "data",
+    "section": "age",
+    "text": "age\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n3831\n\n\nMedian\n66.59\n\n\n1st and 3rd quartiles\n53.76; 79.53\n\n\nMin. and max.\n16.78; 91.4"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#gender",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#gender",
+    "title": "data",
+    "section": "gender",
+    "text": "gender\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\ncharacter\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n2\n\n\nMode\n“M”"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#is_male",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#is_male",
+    "title": "data",
+    "section": "is_male",
+    "text": "is_male\n\nNote that this variable is treated as a factor variable below, as it only takes a few unique values.\n\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n2\n\n\nMode\n“1”\n\n\nReference category\n0"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#ethnicity",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#ethnicity",
+    "title": "data",
+    "section": "ethnicity",
+    "text": "ethnicity\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\ncharacter\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n41\n\n\nMode\n“WHITE”\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following levels have at most five observations: \"AMERICAN INDIAN/ALASKA NATIVE\", \"AMERICAN INDIAN/ALASKA NATIVE FEDERALLY RECOGNIZED TRIBE\", \"ASIAN - CAMBODIAN\", \"ASIAN - FILIPINO\", \"ASIAN - JAPANESE\", …, \"HISPANIC/LATINO - SALVADORAN\", \"NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER\", \"SOUTH AMERICAN\", \"WHITE - BRAZILIAN\", \"WHITE - EASTERN EUROPEAN\" (11 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#race_white",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#race_white",
+    "title": "data",
+    "section": "race_white",
+    "text": "race_white\n\nNote that this variable is treated as a factor variable below, as it only takes a few unique values.\n\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n2\n\n\nMode\n“1”\n\n\nReference category\n0"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#race_black",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#race_black",
+    "title": "data",
+    "section": "race_black",
+    "text": "race_black\n\nNote that this variable is treated as a factor variable below, as it only takes a few unique values.\n\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n2\n\n\nMode\n“0”\n\n\nReference category\n0"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#race_hispanic",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#race_hispanic",
+    "title": "data",
+    "section": "race_hispanic",
+    "text": "race_hispanic\n\nNote that this variable is treated as a factor variable below, as it only takes a few unique values.\n\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n2\n\n\nMode\n“0”\n\n\nReference category\n0"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#race_other",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#race_other",
+    "title": "data",
+    "section": "race_other",
+    "text": "race_other\n\nNote that this variable is treated as a factor variable below, as it only takes a few unique values.\n\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n2\n\n\nMode\n“0”\n\n\nReference category\n0"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#metastatic_cancer",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#metastatic_cancer",
+    "title": "data",
+    "section": "metastatic_cancer",
+    "text": "metastatic_cancer\n\nNote that this variable is treated as a factor variable below, as it only takes a few unique values.\n\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n2\n\n\nMode\n“0”\n\n\nReference category\n0"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#diabetes",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#diabetes",
+    "title": "data",
+    "section": "diabetes",
+    "text": "diabetes\n\nNote that this variable is treated as a factor variable below, as it only takes a few unique values.\n\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n2\n\n\nMode\n“0”\n\n\nReference category\n0"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#first_service",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#first_service",
+    "title": "data",
+    "section": "first_service",
+    "text": "first_service\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\ncharacter\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n13\n\n\nMode\n“MED”"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#hospital_expire_flag",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#hospital_expire_flag",
+    "title": "data",
+    "section": "hospital_expire_flag",
+    "text": "hospital_expire_flag\n\nNote that this variable is treated as a factor variable below, as it only takes a few unique values.\n\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n2\n\n\nMode\n“0”\n\n\nReference category\n0"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#thirtyday_expire_flag",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#thirtyday_expire_flag",
+    "title": "data",
+    "section": "thirtyday_expire_flag",
+    "text": "thirtyday_expire_flag\n\nNote that this variable is treated as a factor variable below, as it only takes a few unique values.\n\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n2\n\n\nMode\n“0”\n\n\nReference category\n0"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#icu_los",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#icu_los",
+    "title": "data",
+    "section": "icu_los",
+    "text": "icu_los\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n4401\n\n\nMedian\n2.82\n\n\n1st and 3rd quartiles\n1.61; 5.87\n\n\nMin. and max.\n0.17; 101.74\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"0.17\", \"0.25\", \"0.25\", \"0.3\", \"0.31\", …, \"59.47\", \"60.94\", \"61.93\", \"79.11\", \"101.74\" (96 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#hosp_los",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#hosp_los",
+    "title": "data",
+    "section": "hosp_los",
+    "text": "hosp_los\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n4191\n\n\nMedian\n7.79\n\n\n1st and 3rd quartiles\n4.73; 13.03\n\n\nMin. and max.\n-0.43; 206.43\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"-0.43\", \"-0.06\", \"0.11\", \"0.17\", \"0.18\", …, \"100.49\", \"101.62\", \"123.13\", \"133.1\", \"206.43\" (207 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#sepsis_angus",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#sepsis_angus",
+    "title": "data",
+    "section": "sepsis_angus",
+    "text": "sepsis_angus\n\nNote that this variable is treated as a factor variable below, as it only takes a few unique values.\n\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n2\n\n\nMode\n“1”\n\n\nReference category\n0"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#sepsis_martin",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#sepsis_martin",
+    "title": "data",
+    "section": "sepsis_martin",
+    "text": "sepsis_martin\n\nNote that this variable is treated as a factor variable below, as it only takes a few unique values.\n\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n2\n\n\nMode\n“0”\n\n\nReference category\n0"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#sepsis_explicit",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#sepsis_explicit",
+    "title": "data",
+    "section": "sepsis_explicit",
+    "text": "sepsis_explicit\n\nNote that this variable is treated as a factor variable below, as it only takes a few unique values.\n\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n2\n\n\nMode\n“0”\n\n\nReference category\n0"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#septic_shock_explicit",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#septic_shock_explicit",
+    "title": "data",
+    "section": "septic_shock_explicit",
+    "text": "septic_shock_explicit\n\nNote that this variable is treated as a factor variable below, as it only takes a few unique values.\n\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n2\n\n\nMode\n“0”\n\n\nReference category\n0"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#severe_sepsis_explicit",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#severe_sepsis_explicit",
+    "title": "data",
+    "section": "severe_sepsis_explicit",
+    "text": "severe_sepsis_explicit\n\nNote that this variable is treated as a factor variable below, as it only takes a few unique values.\n\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n2\n\n\nMode\n“0”\n\n\nReference category\n0"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#sepsis_nqf",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#sepsis_nqf",
+    "title": "data",
+    "section": "sepsis_nqf",
+    "text": "sepsis_nqf\n\nNote that this variable is treated as a factor variable below, as it only takes a few unique values.\n\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n2\n\n\nMode\n“0”\n\n\nReference category\n0"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#sepsis_cdc",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#sepsis_cdc",
+    "title": "data",
+    "section": "sepsis_cdc",
+    "text": "sepsis_cdc\n\nNote that this variable is treated as a factor variable below, as it only takes a few unique values.\n\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n2\n\n\nMode\n“1”\n\n\nReference category\n0"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#sepsis_cdc_simple",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#sepsis_cdc_simple",
+    "title": "data",
+    "section": "sepsis_cdc_simple",
+    "text": "sepsis_cdc_simple\n\nNote that this variable is treated as a factor variable below, as it only takes a few unique values.\n\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n2\n\n\nMode\n“1”\n\n\nReference category\n0"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#elixhauser_hospital",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#elixhauser_hospital",
+    "title": "data",
+    "section": "elixhauser_hospital",
+    "text": "elixhauser_hospital\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n49\n\n\nMedian\n4\n\n\n1st and 3rd quartiles\n0; 9\n\n\nMin. and max.\n-23; 30\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"-23\", \"-21\", \"-20\", \"-19\", \"-16\", …, \"24\", \"25\", \"27\", \"28\", \"30\" (3 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#vent",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#vent",
+    "title": "data",
+    "section": "vent",
+    "text": "vent\n\nNote that this variable is treated as a factor variable below, as it only takes a few unique values.\n\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n2\n\n\nMode\n“1”\n\n\nReference category\n0"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#sofa",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#sofa",
+    "title": "data",
+    "section": "sofa",
+    "text": "sofa\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n20\n\n\nMedian\n5\n\n\n1st and 3rd quartiles\n3; 7\n\n\nMin. and max.\n2; 21\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"18\", \"19\", \"20\", \"21\"."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#lods",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#lods",
+    "title": "data",
+    "section": "lods",
+    "text": "lods\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n21\n\n\nMedian\n5\n\n\n1st and 3rd quartiles\n3; 7\n\n\nMin. and max.\n0; 20\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"14\", \"15\", \"16\", \"17\", \"18\", \"19\", \"20\"."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#sirs",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#sirs",
+    "title": "data",
+    "section": "sirs",
+    "text": "sirs\n\nNote that this variable is treated as a factor variable below, as it only takes a few unique values.\n\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n5\n\n\nMode\n“3”\n\n\nReference category\n0"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#qsofa",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#qsofa",
+    "title": "data",
+    "section": "qsofa",
+    "text": "qsofa\n\nNote that this variable is treated as a factor variable below, as it only takes a few unique values.\n\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n4\n\n\nMode\n“2”\n\n\nReference category\n0"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#qsofa_sysbp_score",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#qsofa_sysbp_score",
+    "title": "data",
+    "section": "qsofa_sysbp_score",
+    "text": "qsofa_sysbp_score\n\nNote that this variable is treated as a factor variable below, as it only takes a few unique values.\n\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n7 (0.15 %)\n\n\nNumber of unique values\n2\n\n\nMode\n“1”\n\n\nReference category\n0"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#qsofa_gcs_score",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#qsofa_gcs_score",
+    "title": "data",
+    "section": "qsofa_gcs_score",
+    "text": "qsofa_gcs_score\n\nNote that this variable is treated as a factor variable below, as it only takes a few unique values.\n\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n3 (0.07 %)\n\n\nNumber of unique values\n2\n\n\nMode\n“0”\n\n\nReference category\n0"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#qsofa_resprate_score",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#qsofa_resprate_score",
+    "title": "data",
+    "section": "qsofa_resprate_score",
+    "text": "qsofa_resprate_score\n\nNote that this variable is treated as a factor variable below, as it only takes a few unique values.\n\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n1 (0.02 %)\n\n\nNumber of unique values\n2\n\n\nMode\n“1”\n\n\nReference category\n0"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#aniongap_min",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#aniongap_min",
+    "title": "data",
+    "section": "aniongap_min",
+    "text": "aniongap_min\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n14 (0.31 %)\n\n\nNumber of unique values\n34\n\n\nMedian\n12\n\n\n1st and 3rd quartiles\n10; 15\n\n\nMin. and max.\n3; 42\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"3\", \"4\", \"5\", \"6\", \"29\", …, \"32\", \"33\", \"35\", \"36\", \"42\" (2 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#aniongap_max",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#aniongap_max",
+    "title": "data",
+    "section": "aniongap_max",
+    "text": "aniongap_max\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n14 (0.31 %)\n\n\nNumber of unique values\n43\n\n\nMedian\n16\n\n\n1st and 3rd quartiles\n13; 19\n\n\nMin. and max.\n6; 56\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"6\", \"7\", \"32\", \"33\", \"34\", …, \"44\", \"46\", \"47\", \"54\", \"56\" (9 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#bicarbonate_min",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#bicarbonate_min",
+    "title": "data",
+    "section": "bicarbonate_min",
+    "text": "bicarbonate_min\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n3 (0.07 %)\n\n\nNumber of unique values\n39\n\n\nMedian\n21\n\n\n1st and 3rd quartiles\n18; 24\n\n\nMin. and max.\n5; 45\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"5\", \"6\", \"7\", \"8\", \"34\", …, \"38\", \"39\", \"40\", \"41\", \"45\" (3 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#bicarbonate_max",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#bicarbonate_max",
+    "title": "data",
+    "section": "bicarbonate_max",
+    "text": "bicarbonate_max\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n3 (0.07 %)\n\n\nNumber of unique values\n42\n\n\nMedian\n24\n\n\n1st and 3rd quartiles\n22; 27\n\n\nMin. and max.\n8; 49\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"8\", \"9\", \"10\", \"11\", \"12\", …, \"44\", \"45\", \"46\", \"47\", \"49\" (11 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#creatinine_min",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#creatinine_min",
+    "title": "data",
+    "section": "creatinine_min",
+    "text": "creatinine_min\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n2 (0.04 %)\n\n\nNumber of unique values\n97\n\n\nMedian\n1\n\n\n1st and 3rd quartiles\n0.7; 1.4\n\n\nMin. and max.\n0.1; 22.1\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"0.1\", \"0.2\", \"0.3\", \"0.4\", \"4.3\", …, \"11.3\", \"12\", \"14.9\", \"17.3\", \"22.1\" (49 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#creatinine_max",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#creatinine_max",
+    "title": "data",
+    "section": "creatinine_max",
+    "text": "creatinine_max\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n2 (0.04 %)\n\n\nNumber of unique values\n122\n\n\nMedian\n1.2\n\n\n1st and 3rd quartiles\n0.9; 1.9\n\n\nMin. and max.\n0.1; 27.8\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"0.1\", \"0.2\", \"0.3\", \"0.4\", \"0.5\", …, \"16\", \"17\", \"20.6\", \"27.5\", \"27.8\" (45 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#chloride_min",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#chloride_min",
+    "title": "data",
+    "section": "chloride_min",
+    "text": "chloride_min\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n1 (0.02 %)\n\n\nNumber of unique values\n66\n\n\nMedian\n102\n\n\n1st and 3rd quartiles\n98; 106\n\n\nMin. and max.\n58; 139\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"58\", \"61\", \"62\", \"64\", \"65\", …, \"127\", \"128\", \"133\", \"134\", \"139\" (23 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#chloride_max",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#chloride_max",
+    "title": "data",
+    "section": "chloride_max",
+    "text": "chloride_max\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n1 (0.02 %)\n\n\nNumber of unique values\n64\n\n\nMedian\n108\n\n\n1st and 3rd quartiles\n104; 112\n\n\nMin. and max.\n67; 155\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"67\", \"80\", \"81\", \"82\", \"84\", …, \"139\", \"140\", \"141\", \"144\", \"155\" (21 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#glucose_min",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#glucose_min",
+    "title": "data",
+    "section": "glucose_min",
+    "text": "glucose_min\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n257\n\n\nMedian\n106\n\n\n1st and 3rd quartiles\n90; 127\n\n\nMin. and max.\n15; 425\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"15\", \"19\", \"20\", \"21\", \"22\", …, \"353\", \"355\", \"359\", \"424\", \"425\" (91 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#glucose_max",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#glucose_max",
+    "title": "data",
+    "section": "glucose_max",
+    "text": "glucose_max\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n473\n\n\nMedian\n161\n\n\n1st and 3rd quartiles\n128; 211\n\n\nMin. and max.\n38; 2275\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"38\", \"40\", \"56\", \"57\", \"58\", …, \"1155\", \"1208\", \"1317\", \"1689\", \"2275\" (107 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#hematocrit_min",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#hematocrit_min",
+    "title": "data",
+    "section": "hematocrit_min",
+    "text": "hematocrit_min\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n3 (0.07 %)\n\n\nNumber of unique values\n340\n\n\nMedian\n29.5\n\n\n1st and 3rd quartiles\n25.3; 34\n\n\nMin. and max.\n9; 55.9\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"9\", \"9.1\", \"9.9\", \"10.6\", \"11\", …, \"52.8\", \"53.3\", \"54\", \"54.5\", \"55.9\" (18 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#hematocrit_max",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#hematocrit_max",
+    "title": "data",
+    "section": "hematocrit_max",
+    "text": "hematocrit_max\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n3 (0.07 %)\n\n\nNumber of unique values\n330\n\n\nMedian\n35.6\n\n\n1st and 3rd quartiles\n31.6; 40\n\n\nMin. and max.\n16.4; 61\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"16.4\", \"18.1\", \"19.1\", \"20.3\", \"20.6\", …, \"59.1\", \"60.4\", \"60.5\", \"60.9\", \"61\" (14 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#hemoglobin_min",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#hemoglobin_min",
+    "title": "data",
+    "section": "hemoglobin_min",
+    "text": "hemoglobin_min\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n3 (0.07 %)\n\n\nNumber of unique values\n138\n\n\nMedian\n9.9\n\n\n1st and 3rd quartiles\n8.5; 11.4\n\n\nMin. and max.\n2.7; 18\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"2.7\", \"2.9\", \"3\", \"3.2\", \"3.5\", …, \"16.6\", \"17.2\", \"17.4\", \"17.5\", \"18\" (14 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#hemoglobin_max",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#hemoglobin_max",
+    "title": "data",
+    "section": "hemoglobin_max",
+    "text": "hemoglobin_max\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n3 (0.07 %)\n\n\nNumber of unique values\n129\n\n\nMedian\n11.85\n\n\n1st and 3rd quartiles\n10.4; 13.4\n\n\nMin. and max.\n4.8; 19.6\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"4.8\", \"6\", \"6.3\", \"6.4\", \"18.5\", …, \"19.1\", \"19.3\", \"19.4\", \"19.5\", \"19.6\" (1 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#lactate_min",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#lactate_min",
+    "title": "data",
+    "section": "lactate_min",
+    "text": "lactate_min\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n97\n\n\nMedian\n1.4\n\n\n1st and 3rd quartiles\n1; 2\n\n\nMin. and max.\n0.3; 20.3\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"0.3\", \"0.4\", \"5.4\", \"5.5\", \"5.6\", …, \"12.1\", \"12.6\", \"13.2\", \"15.6\", \"20.3\" (37 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#lactate_max",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#lactate_max",
+    "title": "data",
+    "section": "lactate_max",
+    "text": "lactate_max\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n165\n\n\nMedian\n2.2\n\n\n1st and 3rd quartiles\n1.5; 3.5\n\n\nMin. and max.\n0.3; 32\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"0.3\", \"0.4\", \"0.5\", \"0.6\", \"0.7\", …, \"21.2\", \"21.4\", \"22.4\", \"23.5\", \"32\" (40 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#lactate_mean",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#lactate_mean",
+    "title": "data",
+    "section": "lactate_mean",
+    "text": "lactate_mean\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n209\n\n\nMedian\n1.9\n\n\n1st and 3rd quartiles\n1.35; 2.75\n\n\nMin. and max.\n0.3; 20.85\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"0.3\", \"0.4\", \"0.45\", \"0.5\", \"0.55\", …, \"15.35\", \"15.55\", \"16.8\", \"19.55\", \"20.85\" (58 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#platelet_min",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#platelet_min",
+    "title": "data",
+    "section": "platelet_min",
+    "text": "platelet_min\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n6 (0.13 %)\n\n\nNumber of unique values\n527\n\n\nMedian\n178\n\n\n1st and 3rd quartiles\n122; 246\n\n\nMin. and max.\n5; 1297\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"5\", \"6\", \"7\", \"8\", \"9\", …, \"951\", \"961\", \"996\", \"1039\", \"1297\" (57 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#platelet_max",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#platelet_max",
+    "title": "data",
+    "section": "platelet_max",
+    "text": "platelet_max\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n6 (0.13 %)\n\n\nNumber of unique values\n608\n\n\nMedian\n224\n\n\n1st and 3rd quartiles\n159; 303\n\n\nMin. and max.\n16; 1775\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"16\", \"18\", \"19\", \"20\", \"21\", …, \"1081\", \"1163\", \"1308\", \"1418\", \"1775\" (73 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#potassium_min",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#potassium_min",
+    "title": "data",
+    "section": "potassium_min",
+    "text": "potassium_min\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n51\n\n\nMedian\n3.7\n\n\n1st and 3rd quartiles\n3.4; 4.1\n\n\nMin. and max.\n0.9; 6.8\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"0.9\", \"1.2\", \"1.4\", \"1.5\", \"1.7\", …, \"5.9\", \"6\", \"6.2\", \"6.4\", \"6.8\" (13 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#potassium_max",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#potassium_max",
+    "title": "data",
+    "section": "potassium_max",
+    "text": "potassium_max\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n73\n\n\nMedian\n4.5\n\n\n1st and 3rd quartiles\n4.1; 5.1\n\n\nMin. and max.\n2.3; 13.5\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"2.3\", \"2.8\", \"2.9\", \"3\", \"3.1\", …, \"9.7\", \"9.8\", \"9.9\", \"10.2\", \"13.5\" (17 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#inr_min",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#inr_min",
+    "title": "data",
+    "section": "inr_min",
+    "text": "inr_min\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n270 (5.92 %)\n\n\nNumber of unique values\n68\n\n\nMedian\n1.2\n\n\n1st and 3rd quartiles\n1.1; 1.4\n\n\nMin. and max.\n0.6; 14.6\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"0.6\", \"0.7\", \"0.8\", \"0.9\", \"2.7\", …, \"7.1\", \"7.7\", \"12\", \"13\", \"14.6\" (38 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#inr_max",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#inr_max",
+    "title": "data",
+    "section": "inr_max",
+    "text": "inr_max\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n270 (5.92 %)\n\n\nNumber of unique values\n98\n\n\nMedian\n1.3\n\n\n1st and 3rd quartiles\n1.2; 1.7\n\n\nMin. and max.\n0.6; 24\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"0.6\", \"0.8\", \"0.9\", \"1\", \"5.1\", …, \"18.8\", \"21\", \"21.1\", \"21.5\", \"24\" (47 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#sodium_min",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#sodium_min",
+    "title": "data",
+    "section": "sodium_min",
+    "text": "sodium_min\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n61\n\n\nMedian\n136\n\n\n1st and 3rd quartiles\n133; 139\n\n\nMin. and max.\n74; 166\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"74\", \"95\", \"103\", \"104\", \"106\", …, \"160\", \"162\", \"163\", \"165\", \"166\" (26 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#sodium_max",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#sodium_max",
+    "title": "data",
+    "section": "sodium_max",
+    "text": "sodium_max\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n63\n\n\nMedian\n140\n\n\n1st and 3rd quartiles\n138; 143\n\n\nMin. and max.\n108; 182\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"108\", \"113\", \"114\", \"116\", \"117\", …, \"173\", \"174\", \"175\", \"180\", \"182\" (33 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#bun_min",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#bun_min",
+    "title": "data",
+    "section": "bun_min",
+    "text": "bun_min\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n2 (0.04 %)\n\n\nNumber of unique values\n139\n\n\nMedian\n19\n\n\n1st and 3rd quartiles\n13; 32\n\n\nMin. and max.\n1; 182\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"1\", \"2\", \"3\", \"4\", \"5\", …, \"152\", \"155\", \"160\", \"181\", \"182\" (16 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#bun_max",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#bun_max",
+    "title": "data",
+    "section": "bun_max",
+    "text": "bun_max\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n2 (0.04 %)\n\n\nNumber of unique values\n156\n\n\nMedian\n24\n\n\n1st and 3rd quartiles\n16; 39\n\n\nMin. and max.\n3; 261\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"3\", \"4\", \"5\", \"6\", \"7\", …, \"212\", \"218\", \"229\", \"251\", \"261\" (13 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#bun_mean",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#bun_mean",
+    "title": "data",
+    "section": "bun_mean",
+    "text": "bun_mean\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n256\n\n\nMedian\n21.5\n\n\n1st and 3rd quartiles\n14.5; 36\n\n\nMin. and max.\n0; 216.5\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"0\", \"2\", \"3\", \"3.5\", \"4\", …, \"172\", \"178.5\", \"194.5\", \"206.5\", \"216.5\" (19 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#wbc_min",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#wbc_min",
+    "title": "data",
+    "section": "wbc_min",
+    "text": "wbc_min\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n5 (0.11 %)\n\n\nNumber of unique values\n348\n\n\nMedian\n9.6\n\n\n1st and 3rd quartiles\n6.6; 13.4\n\n\nMin. and max.\n0.1; 336.7\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"0.1\", \"0.2\", \"0.3\", \"0.4\", \"0.5\", …, \"86\", \"87.8\", \"181.4\", \"243.6\", \"336.7\" (66 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#wbc_max",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#wbc_max",
+    "title": "data",
+    "section": "wbc_max",
+    "text": "wbc_max\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n5 (0.11 %)\n\n\nNumber of unique values\n435\n\n\nMedian\n13.6\n\n\n1st and 3rd quartiles\n9.7; 18.5\n\n\nMin. and max.\n0.1; 471.7\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"0.1\", \"0.2\", \"0.3\", \"0.4\", \"0.5\", …, \"126.2\", \"183\", \"325.7\", \"462.6\", \"471.7\" (78 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#wbc_mean",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#wbc_mean",
+    "title": "data",
+    "section": "wbc_mean",
+    "text": "wbc_mean\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n658\n\n\nMedian\n11.75\n\n\n1st and 3rd quartiles\n8.4; 15.85\n\n\nMin. and max.\n0; 404.2\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"0\", \"0.1\", \"0.15\", \"0.2\", \"0.25\", …, \"106.1\", \"182.2\", \"206.75\", \"353.1\", \"404.2\" (94 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#heartrate_min",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#heartrate_min",
+    "title": "data",
+    "section": "heartrate_min",
+    "text": "heartrate_min\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n114\n\n\nMedian\n72\n\n\n1st and 3rd quartiles\n62; 84\n\n\nMin. and max.\n1; 134\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"1\", \"3\", \"4\", \"5\", \"8\", …, \"37\", \"127\", \"129\", \"130\", \"134\" (17 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#heartrate_max",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#heartrate_max",
+    "title": "data",
+    "section": "heartrate_max",
+    "text": "heartrate_max\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n131\n\n\nMedian\n106\n\n\n1st and 3rd quartiles\n92; 121\n\n\nMin. and max.\n41; 223\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"41\", \"49\", \"50\", \"53\", \"55\", …, \"190\", \"194\", \"213\", \"215\", \"223\" (9 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#heartrate_mean",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#heartrate_mean",
+    "title": "data",
+    "section": "heartrate_mean",
+    "text": "heartrate_mean\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n3902\n\n\nMedian\n87.78\n\n\n1st and 3rd quartiles\n76.02; 99.75\n\n\nMin. and max.\n35.78; 154.53\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"35.78\", \"36\", \"37.62\", \"138.48\", \"138.71\", …, \"139.14\", \"139.48\", \"149.12\", \"152.22\", \"154.53\" (1 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#sysbp_min",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#sysbp_min",
+    "title": "data",
+    "section": "sysbp_min",
+    "text": "sysbp_min\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n8 (0.18 %)\n\n\nNumber of unique values\n134\n\n\nMedian\n88\n\n\n1st and 3rd quartiles\n79; 98\n\n\nMin. and max.\n5; 168\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"5\", \"10\", \"18\", \"22\", \"23\", …, \"151\", \"158\", \"161\", \"162\", \"168\" (49 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#sysbp_max",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#sysbp_max",
+    "title": "data",
+    "section": "sysbp_max",
+    "text": "sysbp_max\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n8 (0.18 %)\n\n\nNumber of unique values\n151\n\n\nMedian\n146\n\n\n1st and 3rd quartiles\n132; 162\n\n\nMin. and max.\n83; 311\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"83\", \"89\", \"90\", \"91\", \"92\", …, \"252\", \"254\", \"265\", \"273\", \"311\" (21 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#sysbp_mean",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#sysbp_mean",
+    "title": "data",
+    "section": "sysbp_mean",
+    "text": "sysbp_mean\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n8 (0.18 %)\n\n\nNumber of unique values\n3867\n\n\nMedian\n113.61\n\n\n1st and 3rd quartiles\n104.89; 125.63\n\n\nMin. and max.\n69.88; 195.34\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"69.88\", \"71.68\", \"71.73\", \"73.12\", \"75.44\", …, \"180.83\", \"181.96\", \"182.48\", \"188.29\", \"195.34\" (85 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#diasbp_min",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#diasbp_min",
+    "title": "data",
+    "section": "diasbp_min",
+    "text": "diasbp_min\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n8 (0.18 %)\n\n\nNumber of unique values\n80\n\n\nMedian\n44\n\n\n1st and 3rd quartiles\n37; 51\n\n\nMin. and max.\n5; 114\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"5\", \"6\", \"11\", \"12\", \"13\", …, \"85\", \"88\", \"92\", \"93\", \"114\" (13 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#diasbp_max",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#diasbp_max",
+    "title": "data",
+    "section": "diasbp_max",
+    "text": "diasbp_max\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n8 (0.18 %)\n\n\nNumber of unique values\n136\n\n\nMedian\n83\n\n\n1st and 3rd quartiles\n73; 96\n\n\nMin. and max.\n35; 197\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"35\", \"41\", \"44\", \"46\", \"48\", …, \"183\", \"185\", \"187\", \"196\", \"197\" (30 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#diasbp_mean",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#diasbp_mean",
+    "title": "data",
+    "section": "diasbp_mean",
+    "text": "diasbp_mean\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n8 (0.18 %)\n\n\nNumber of unique values\n3621\n\n\nMedian\n60.3\n\n\n1st and 3rd quartiles\n54.09; 67\n\n\nMin. and max.\n26.33; 129.57\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"26.33\", \"28.4\", \"32.48\", \"32.94\", \"33.43\", …, \"103.52\", \"104.29\", \"105.46\", \"107.43\", \"129.57\" (67 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#meanbp_min",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#meanbp_min",
+    "title": "data",
+    "section": "meanbp_min",
+    "text": "meanbp_min\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n103\n\n\nMedian\n56\n\n\n1st and 3rd quartiles\n49; 63\n\n\nMin. and max.\n1; 113\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"1\", \"2\", \"3\", \"4\", \"5\", …, \"101\", \"102\", \"104\", \"109\", \"113\" (37 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#meanbp_max",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#meanbp_max",
+    "title": "data",
+    "section": "meanbp_max",
+    "text": "meanbp_max\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n197\n\n\nMedian\n101\n\n\n1st and 3rd quartiles\n90; 114\n\n\nMin. and max.\n56; 298\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"56\", \"58\", \"60\", \"62\", \"63\", …, \"294\", \"295\", \"296\", \"297\", \"298\" (89 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#meanbp_mean",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#meanbp_mean",
+    "title": "data",
+    "section": "meanbp_mean",
+    "text": "meanbp_mean\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n3677\n\n\nMedian\n75\n\n\n1st and 3rd quartiles\n69.04; 82.41\n\n\nMin. and max.\n45.6; 133.16\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"45.6\", \"46.97\", \"48.36\", \"48.71\", \"49.83\", …, \"122.48\", \"123.21\", \"124.96\", \"131.5\", \"133.16\" (71 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#resprate_min",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#resprate_min",
+    "title": "data",
+    "section": "resprate_min",
+    "text": "resprate_min\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n1 (0.02 %)\n\n\nNumber of unique values\n30\n\n\nMedian\n13\n\n\n1st and 3rd quartiles\n10; 15\n\n\nMin. and max.\n1; 32\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"1\", \"2\", \"23\", \"24\", \"25\", \"26\", \"27\", \"28\", \"30\", \"32\"."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#resprate_max",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#resprate_max",
+    "title": "data",
+    "section": "resprate_max",
+    "text": "resprate_max\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n1 (0.02 %)\n\n\nNumber of unique values\n53\n\n\nMedian\n27\n\n\n1st and 3rd quartiles\n24; 32\n\n\nMin. and max.\n13; 69\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"13\", \"14\", \"15\", \"16\", \"17\", …, \"61\", \"62\", \"64\", \"68\", \"69\" (10 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#resprate_mean",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#resprate_mean",
+    "title": "data",
+    "section": "resprate_mean",
+    "text": "resprate_mean\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n1 (0.02 %)\n\n\nNumber of unique values\n3110\n\n\nMedian\n19.26\n\n\n1st and 3rd quartiles\n16.79; 22.4\n\n\nMin. and max.\n9.54; 40.58\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"9.54\", \"9.78\", \"10.17\", \"10.5\", \"10.79\", …, \"38.44\", \"38.96\", \"40.16\", \"40.37\", \"40.58\" (20 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#tempc_min",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#tempc_min",
+    "title": "data",
+    "section": "tempc_min",
+    "text": "tempc_min\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n103 (2.26 %)\n\n\nNumber of unique values\n167\n\n\nMedian\n36.11\n\n\n1st and 3rd quartiles\n35.61; 36.61\n\n\nMin. and max.\n15; 39.6\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"15\", \"26.67\", \"29.44\", \"29.9\", \"30.56\", …, \"38.7\", \"38.72\", \"38.94\", \"39.2\", \"39.6\" (53 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#tempc_max",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#tempc_max",
+    "title": "data",
+    "section": "tempc_max",
+    "text": "tempc_max\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n103 (2.26 %)\n\n\nNumber of unique values\n164\n\n\nMedian\n37.5\n\n\n1st and 3rd quartiles\n37; 38.11\n\n\nMin. and max.\n31.6; 42\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"31.6\", \"32.2\", \"32.4\", \"32.61\", \"32.7\", …, \"40.9\", \"40.94\", \"41.11\", \"41.6\", \"42\" (39 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#tempc_mean",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#tempc_mean",
+    "title": "data",
+    "section": "tempc_mean",
+    "text": "tempc_mean\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n103 (2.26 %)\n\n\nNumber of unique values\n1692\n\n\nMedian\n36.82\n\n\n1st and 3rd quartiles\n36.41; 37.31\n\n\nMin. and max.\n31.6; 40.1\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"31.6\", \"32.02\", \"32.1\", \"32.2\", \"32.35\", …, \"39.36\", \"39.45\", \"39.56\", \"39.71\", \"40.1\" (84 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#spo2_min",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#spo2_min",
+    "title": "data",
+    "section": "spo2_min",
+    "text": "spo2_min\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n1 (0.02 %)\n\n\nNumber of unique values\n71\n\n\nMedian\n93\n\n\n1st and 3rd quartiles\n90; 95\n\n\nMin. and max.\n1; 100\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"1\", \"5\", \"11\", \"13\", \"18\", …, \"74\", \"75\", \"76\", \"99\", \"100\" (39 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#spo2_max",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#spo2_max",
+    "title": "data",
+    "section": "spo2_max",
+    "text": "spo2_max\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n1 (0.02 %)\n\n\nNumber of unique values\n12\n\n\nMedian\n100\n\n\n1st and 3rd quartiles\n100; 100\n\n\nMin. and max.\n89; 100\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"89\", \"90\", \"91\", \"92\", \"93\", …, \"95\", \"96\", \"97\", \"98\", \"99\" (1 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#spo2_mean",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#spo2_mean",
+    "title": "data",
+    "section": "spo2_mean",
+    "text": "spo2_mean\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n1 (0.02 %)\n\n\nNumber of unique values\n2015\n\n\nMedian\n97.26\n\n\n1st and 3rd quartiles\n95.8; 98.6\n\n\nMin. and max.\n55.87; 100\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"55.87\", \"71.85\", \"76.16\", \"76.38\", \"78.08\", …, \"89.81\", \"89.96\", \"90\", \"90.07\", \"90.13\" (55 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#glucose_min1",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#glucose_min1",
+    "title": "data",
+    "section": "glucose_min1",
+    "text": "glucose_min1\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n30 (0.66 %)\n\n\nNumber of unique values\n245\n\n\nMedian\n106\n\n\n1st and 3rd quartiles\n89; 127\n\n\nMin. and max.\n12; 480\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"12\", \"15\", \"16\", \"19\", \"20\", …, \"356\", \"357\", \"374\", \"424\", \"480\" (80 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#glucose_max1",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#glucose_max1",
+    "title": "data",
+    "section": "glucose_max1",
+    "text": "glucose_max1\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n30 (0.66 %)\n\n\nNumber of unique values\n454\n\n\nMedian\n166\n\n\n1st and 3rd quartiles\n130; 217\n\n\nMin. and max.\n57; 999999\n\n\n\n\n\n\n\n\n\n\n\n\n\nThe following suspected missing value codes enter as regular values: \"999999\".\nNote that the following possible outlier values were detected: \"57\", \"62\", \"64\", \"65\", \"66\", …, \"883\", \"900\", \"1016\", \"1038\", \"999999\" (62 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#glucose_mean",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#glucose_mean",
+    "title": "data",
+    "section": "glucose_mean",
+    "text": "glucose_mean\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n30 (0.66 %)\n\n\nNumber of unique values\n2228\n\n\nMedian\n134.19\n\n\n1st and 3rd quartiles\n113; 165\n\n\nMin. and max.\n52.44; 142966.86\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"52.44\", \"57\", \"62\", \"62.75\", \"63.07\", …, \"479.26\", \"578.25\", \"657\", \"786.22\", \"142966.86\" (114 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#rrt",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#rrt",
+    "title": "data",
+    "section": "rrt",
+    "text": "rrt\n\nNote that this variable is treated as a factor variable below, as it only takes a few unique values.\n\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n2\n\n\nMode\n“0”\n\n\nReference category\n0"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#subject_id",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#subject_id",
+    "title": "data",
+    "section": "subject_id",
+    "text": "subject_id\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n4559\n\n\nMedian\n68368\n\n\n1st and 3rd quartiles\n53111.5; 83771.5\n\n\nMin. and max.\n165; 99982\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"165\", \"266\", \"671\", \"5771\", \"7310\"."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#hadm_id102",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#hadm_id102",
+    "title": "data",
+    "section": "hadm_id…102",
+    "text": "hadm_id…102\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n4559\n\n\nMedian\n149643\n\n\n1st and 3rd quartiles\n125389; 175033\n\n\nMin. and max.\n100003; 199962"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#icustay_id103",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#icustay_id103",
+    "title": "data",
+    "section": "icustay_id…103",
+    "text": "icustay_id…103\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n4559\n\n\nMedian\n251008\n\n\n1st and 3rd quartiles\n225575.5; 275526\n\n\nMin. and max.\n200075; 299998"
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#urineoutput",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#urineoutput",
+    "title": "data",
+    "section": "urineoutput",
+    "text": "urineoutput\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n0 (0 %)\n\n\nNumber of unique values\n1794\n\n\nMedian\n1560\n\n\n1st and 3rd quartiles\n897.5; 2460\n\n\nMin. and max.\n0; 50515\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"6540\", \"6560\", \"6640\", \"6650\", \"6670\", …, \"9910\", \"10525\", \"11025\", \"12210\", \"50515\" (34 values omitted)."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#colloid_bolus",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#colloid_bolus",
+    "title": "data",
+    "section": "colloid_bolus",
+    "text": "colloid_bolus\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n4050 (88.84 %)\n\n\nNumber of unique values\n13\n\n\nMedian\n500\n\n\n1st and 3rd quartiles\n250; 500\n\n\nMin. and max.\n150; 1000\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"550\", \"600\", \"900\", \"1000\"."
+  },
+  {
+    "objectID": "MIMIC_ICU_Data/dataMaid_data.html#crystalloid_bolus",
+    "href": "MIMIC_ICU_Data/dataMaid_data.html#crystalloid_bolus",
+    "title": "data",
+    "section": "crystalloid_bolus",
+    "text": "crystalloid_bolus\n\n\n\n\n\n\n\n\n\nFeature\nResult\n\n\n\n\nVariable type\nnumeric\n\n\nNumber of missing obs.\n1194 (26.19 %)\n\n\nNumber of unique values\n96\n\n\nMedian\n500\n\n\n1st and 3rd quartiles\n500; 1000\n\n\nMin. and max.\n250; 11000\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote that the following possible outlier values were detected: \"250\", \"258\", \"267\", \"275\", \"276\", …, \"423\", \"433\", \"450\", \"467\", \"475\" (21 values omitted).\n\n\nReport generation information:\n\nCreated by: Could not determine from system (username: ecm20).\nReport creation time: Sun Oct 08 2023 10:44:20\nReport was run from directory: /home/ecm20/R/STA6257_Project_SVM/Josh Branch/STA6257_Project_SVM_Josh/Team Repo\ndataMaid v1.4.1 [Pkg: 2021-10-08 from CRAN (R 4.3.1)]\nR version 4.3.1 (2023-06-16).\nPlatform: x86_64-pc-linux-gnu (64-bit)(America/Chicago).\nFunction call: makeDataReport(data = data, output = \"html\", replace = TRUE)"
   }
 ]

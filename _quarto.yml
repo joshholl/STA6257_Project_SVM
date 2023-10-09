@@ -19,6 +19,8 @@ website:
             file: Journal/josh.qmd
       - text: "About"
         file: about.qmd
+      - text: "Data Reports"
+        file: MIMIC_ICU_Data/dataMaid_data.Rmd
 format:
   html:
     theme: solar

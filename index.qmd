@@ -9,7 +9,7 @@ format:
   html:
     code-fold: true
 course: STA 6257 - Advanced Statistical Modeling
-bibliography: references.bib # file contains bibtex for references
+bibliography: ./references.bib # file contains bibtex for references
 #always_allow_html: true # this allows to get PDF with HTML features
 self-contained: true
 execute: 
@@ -18,6 +18,8 @@ execute:
 editor: 
   markdown: 
     wrap: 72
+nocite: |
+  @*
 ---
 
 ```{r, echo=FALSE}
@@ -29,7 +31,8 @@ libraries( c("tidyverse",
     "ggplot2",
     "dplyr",
     "data.table",
-    "extrafont"
+    "extrafont",
+    "dataMaid"
 ))
 
 mimic_data <- fread("./MIMIC_ICU_DATA/mimic_icu_data.csv")

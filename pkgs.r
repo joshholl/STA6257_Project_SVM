@@ -11,7 +11,9 @@ packages <- c("tidyverse",
     "extrafont",
     "dataMaid", 
     "DataExplorer",
-    "SmartEDA"
+    "SmartEDA",
+    "pander"
+
 )
 
 install.packages("easypackages", repos = "http://cran.us.r-project.org")

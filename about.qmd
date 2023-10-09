@@ -23,7 +23,6 @@ You will need to install the following ***system*** libraries in order for the r
 
 * libgit2
 
-
 # Complete References
 ::: {#refs}
 :::
