@@ -32,7 +32,8 @@ libraries( c("tidyverse",
     "dplyr",
     "data.table",
     "extrafont",
-    "dataMaid"
+    "dataMaid",
+    "gtsummary"
 ))
 
 mimic_data <- fread("./MIMIC_ICU_DATA/mimic_icu_data.csv")
@@ -87,7 +88,72 @@ To build our model for predicting patient survivability, we are using data from 
 # Analysis and Results
 
 ## Data and Vizualisation
+```{r, dev = "png", dev.args=list(bg="transparent"), fig.align="left"}
+library(gtsummary)
 
+mimic_data_summary <- mimic_data %>% select(age, 
+gender, 
+hospital_expire_flag, 
+heartrate_mean,
+sysbp_mean,
+resprate_mean,
+tempc_mean,
+wbc_mean,
+platelet_min,
+creatinine_max,
+lactate_mean) %>%
+mutate(
+  gender = case_when(gender == "M" ~ "male",
+                     gender == "F" ~ "female",
+                     TRUE ~ gender),
+  survived = case_when(hospital_expire_flag == 1 ~ "Died",
+                     hospital_expire_flag == 0 ~ "Survived")
+) %>%
+  tbl_summary(
+    label = list(age ~ "Patient Age", 
+      gender ~ "Patient Sex", 
+      survived ~ "Patient Survived",  
+      heartrate_mean ~ "Heart Rate",
+      sysbp_mean ~ "Systolic Blood Pressure",
+      resprate_mean ~ "Respiration Rate",
+      tempc_mean ~ "Body Temperature (c)",
+      wbc_mean ~ "White Blood Cell Count",
+      platelet_min ~"Platelet Count",
+      creatinine_max ~"Creatinine Level",
+      lactate_mean ~"Lactate Level"
+      ),
+     type = list(age ~ "continuous2", 
+      gender ~ "categorical", 
+      survived ~ "categorical",  
+      heartrate_mean ~ "continuous2",
+      sysbp_mean ~ "continuous2",
+      resprate_mean ~ "continuous2",
+      tempc_mean ~ "continuous2",
+      wbc_mean ~ "continuous2",
+      platelet_min ~"continuous2",
+      creatinine_max ~"continuous2",
+      lactate_mean ~"continuous2"
+      ), 
+      statistic = all_continuous() ~ c("{median} ({p25}, {p75})", "{min}, {max}"),
+      include = c(
+        "age", 
+        "gender", 
+        "heartrate_mean",
+        "survived",
+        "sysbp_mean",
+        "resprate_mean",
+        "tempc_mean",
+        "wbc_mean",
+        "platelet_min",
+        "creatinine_max",
+        "lactate_mean"
+      ) 
+  )
+
+
+
+mimic_data_summary
+```
 ### Patient Demographics
 
 #### Patient Age

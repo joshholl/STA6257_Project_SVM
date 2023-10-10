@@ -12,7 +12,8 @@ packages <- c("tidyverse",
     "dataMaid", 
     "DataExplorer",
     "SmartEDA",
-    "pander"
+    "pander",
+    "gtsummary"
 
 )
 
