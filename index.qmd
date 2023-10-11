@@ -33,8 +33,10 @@ libraries( c("tidyverse",
     "data.table",
     "extrafont",
     "dataMaid",
-    "gtsummary"
+    "gtsummary",
+    "gtExtras"
 ))
+
 
 mimic_data <- fread("./MIMIC_ICU_DATA/mimic_icu_data.csv")
 ```
@@ -91,28 +93,40 @@ To build our model for predicting patient survivability, we are using data from 
 ```{r, dev = "png", dev.args=list(bg="transparent"), fig.align="left"}
 library(gtsummary)
 
-mimic_data_summary <- mimic_data %>% select(age, 
-gender, 
-hospital_expire_flag, 
-heartrate_mean,
-sysbp_mean,
-resprate_mean,
-tempc_mean,
-wbc_mean,
-platelet_min,
-creatinine_max,
-lactate_mean) %>%
+mimic_data %>%
 mutate(
   gender = case_when(gender == "M" ~ "male",
                      gender == "F" ~ "female",
                      TRUE ~ gender),
   survived = case_when(hospital_expire_flag == 1 ~ "Died",
                      hospital_expire_flag == 0 ~ "Survived")
+) %>%  
+select(
+  age, 
+  gender, 
+  survived, 
+  heartrate_mean,
+  sysbp_mean,
+  resprate_mean,
+  tempc_mean,
+  wbc_mean,
+  platelet_min,
+  creatinine_max,
+  lactate_mean
 ) %>%
   tbl_summary(
-    label = list(age ~ "Patient Age", 
-      gender ~ "Patient Sex", 
-      survived ~ "Patient Survived",  
+    type = list(age ~ 'continuous2',
+    gender ~ 'categorical', resprate_mean ~ 'continuous2',
+    heartrate_mean ~ 'continuous2',
+    tempc_mean ~ 'continuous2',
+    wbc_mean ~ 'continuous2',
+    platelet_min ~ 'continuous2',
+    creatinine_max ~ 'continuous2',
+    lactate_mean ~ 'continuous2',
+    sysbp_mean ~ 'continuous2'),
+    label = list(
+      age ~ "Patient Age",
+      gender ~ "Patient Sex",
       heartrate_mean ~ "Heart Rate",
       sysbp_mean ~ "Systolic Blood Pressure",
       resprate_mean ~ "Respiration Rate",
@@ -121,38 +135,20 @@ mutate(
       platelet_min ~"Platelet Count",
       creatinine_max ~"Creatinine Level",
       lactate_mean ~"Lactate Level"
-      ),
-     type = list(age ~ "continuous2", 
-      gender ~ "categorical", 
-      survived ~ "categorical",  
-      heartrate_mean ~ "continuous2",
-      sysbp_mean ~ "continuous2",
-      resprate_mean ~ "continuous2",
-      tempc_mean ~ "continuous2",
-      wbc_mean ~ "continuous2",
-      platelet_min ~"continuous2",
-      creatinine_max ~"continuous2",
-      lactate_mean ~"continuous2"
-      ), 
-      statistic = all_continuous() ~ c("{median} ({p25}, {p75})", "{min}, {max}"),
-      include = c(
-        "age", 
-        "gender", 
-        "heartrate_mean",
-        "survived",
-        "sysbp_mean",
-        "resprate_mean",
-        "tempc_mean",
-        "wbc_mean",
-        "platelet_min",
-        "creatinine_max",
-        "lactate_mean"
-      ) 
+       ),
+      statistic = all_continuous() ~ c("{median}({p25}, {p75})", "{min}, {max}"),
+      by = survived 
+  ) %>%
+  add_overall(last = TRUE) %>%
+  bold_labels() %>%
+  italicize_levels() %>%   as_gt() %>%
+  gt_theme_dark() %>%
+  tab_options(
+    table.background.color = "#d8e4ea",
+    column_labels.background.color="#5092c2",
+    table.align = "left"
   )
 
-
-
-mimic_data_summary
 ```
 ### Patient Demographics
 
