@@ -209,6 +209,11 @@ ggplot(mimic_data, aes(x = survived, fill=survived)) +
 
 ### Vital Signs
 
+```{r}
+View(MIMIC_table_)
+
+```
+
 ####	Heart rate
 ```{r}
 ggplot(mimic_data, aes(x=heartrate_mean)) + 
