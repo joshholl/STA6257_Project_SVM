@@ -34,7 +34,12 @@ libraries( c("tidyverse",
     "extrafont",
     "dataMaid",
     "gtsummary",
-    "gtExtras"
+    "gtExtras",
+    "mlr",
+    "e1071",
+    "caret",
+    "caTools"
+
 ))
 
 
