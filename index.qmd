@@ -38,7 +38,8 @@ libraries( c("tidyverse",
     "mlr",
     "e1071",
     "caret",
-    "caTools"
+    "caTools",
+    "mlMetrics"
 
 ))
 
@@ -331,6 +332,55 @@ and
 $$
 H_2: W_0 + W_{1}X_{1} + W_{2}X_{2} + \dots + W_{n}X_{n} \le -1
 $$
+# Model 
+
+```{r}
+
+data = mimic_data
+
+data1 <- subset( data, select = -c(3,4,5,6,8,10,11,14,16 ))
+
+
+# Splitting the dataset into the Training set and Test set 
+
+set.seed(123) 
+
+split = sample.split(data1$hospital_expire_flag, SplitRatio = 0.80) 
+
+training_set = subset(data1, split == TRUE) 
+test_set = subset(data1, split == FALSE) 
+
+
+# Fitting SVM to the Training set 
+
+classifier = svm(as.factor(hospital_expire_flag) ~ ., 
+                 data = training_set[,3:15], 
+                 type = 'C-classification', 
+                 kernel = 'linear') 
+
+print(classifier)
+
+# Predicting the Test set results 
+y_pred = predict(classifier, type = 'r', newdata = test_set[,3:15]) 
+
+print(y_pred)
+
+
+# F1 Score 
+
+F1_Score(y_pred,test_set$hospital_expire_flag)
+
+#Confusion Matrix
+
+test_set1 <- test_set$hospital_expire_flag
+
+cm= confusionMatrix(factor(test_set1)['actual labels'],y_pred['predicted labels'])
+
+print(cm)
+
+```
+
+
 # Conlusion
 
 # References
