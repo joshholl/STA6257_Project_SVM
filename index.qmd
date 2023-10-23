@@ -24,7 +24,7 @@ nocite: |
 
 ```{r, echo=FALSE}
 library(easypackages)
-libraries( c("tidyverse", 
+dep_packages = c("tidyverse", 
     "ggthemes",
     "ggrepel",
     "dslabs", 
@@ -39,9 +39,10 @@ libraries( c("tidyverse",
     "e1071",
     "caret",
     "caTools",
-    "mlMetrics"
+    "MLmetrics"
 
-))
+)
+easypackages::libraries(dep_packages)
 
 
 mimic_data <- fread("./MIMIC_ICU_DATA/mimic_icu_data.csv")
@@ -214,11 +215,6 @@ ggplot(mimic_data, aes(x = survived, fill=survived)) +
 ```
 
 ### Vital Signs
-
-```{r}
-View(MIMIC_table_)
-
-```
 
 ####	Heart rate
 ```{r}

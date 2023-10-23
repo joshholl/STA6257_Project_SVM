@@ -1,6 +1,13 @@
 
+# depending on where this is being ran, the default repo may or may not be set.
+# since everything is from CRAN, this sets the repo to cran if one is not already configured
 
-packages <- c("tidyverse", 
+local({r <- getOption("repos")
+       r["CRAN"] <- "http://cran.r-project.org"
+       options(repos=r)})
+
+# This is the list of packages our project uses.
+project_dependencies <- c("tidyverse", 
     "ggthemes",
     "ggrepel",
     "dslabs", 
@@ -13,13 +20,17 @@ packages <- c("tidyverse",
     "DataExplorer",
     "SmartEDA",
     "pander",
-    "gtsummary"
-
+    "gtsummary",
+    "mlr",
+    "e1071",
+    "caret",
+    "caTools",
+    "MLmetrics"
 )
 
-install.packages("easypackages", repos = "http://cran.us.r-project.org")
+#install and run easypackages to setup our dependencies
+install.packages("easypackages")
 library(easypackages)
-libraries(packages)
 
-
-
+#install all dependencies
+easypackages::packages(project_dependencies, prompt = FALSE)
