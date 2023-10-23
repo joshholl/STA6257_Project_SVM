@@ -13,7 +13,12 @@ packages <- c("tidyverse",
     "DataExplorer",
     "SmartEDA",
     "pander",
-    "gtsummary"
+    "gtsummary",    
+    "mlr",
+    "e1071",
+    "caret",
+    "caTools",
+    "mlMetrics"
 
 )
 
