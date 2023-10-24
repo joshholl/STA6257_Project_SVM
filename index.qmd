@@ -39,7 +39,8 @@ dep_packages = c("tidyverse",
     "e1071",
     "caret",
     "caTools",
-    "MLmetrics"
+    "MLmetrics",
+    "pROC"
 
 )
 easypackages::libraries(dep_packages)
@@ -332,47 +333,91 @@ $$
 
 ```{r}
 
-data = mimic_data
+mimic_data$gender <- ifelse(mimic_data$gender == "M", 1, 0)
 
-data1 <- subset( data, select = -c(3,4,5,6,8,10,11,14,16 ))
+mimic_data <- na.omit(mimic_data)
+
+train1 <- mimic_data[c('age', 
+                  'gender', 
+                  'hospital_expire_flag', 
+                  'heartrate_mean',
+                  'sysbp_mean',
+                  'resprate_mean',
+                  'tempc_mean',
+                  'wbc_mean',
+                  'platelet_min',
+                  'creatinine_max',
+                  'lactate_mean')]
+
+Test <- mimic_data[c( 'age', 
+              'gender', 
+              'heartrate_mean',
+              'sysbp_mean',
+              'resprate_mean',
+              'tempc_mean',
+              'wbc_mean',
+              'platelet_min',
+              'creatinine_max',
+              'lactate_mean')]
+
+X <- train1
+y <- train1$hospital_expire_flag
+X <- X[, !(names(X) %in% c("hospital_expire_flag"))]
+Xtest <- Test
+
+set.seed(1)
+
+trainIndex <- createDataPartition(y, p = 0.8, list = FALSE)
+
+X_train <- X[trainIndex, ]
+X_test <- X[-trainIndex, ]
+y_train <- y[trainIndex]
+y_test <- y[-trainIndex]
+
+##svm <- svm(X_train, y_train, kernel = "linear", cost = 1, gamma = "auto", random.seed = 1)
+
+svm <- svm(hospital_expire_flag ~ ., 
+        data = train1 ,
+        type = 'C-classification', 
+        kernel = 'linear')
+
+y_pred <- predict(svm, X_test)
+preds <- predict(svm, X)
+targs <- y
+accuracy <- sum(preds == targs) / length(targs)
+precision <- sum(preds == 1 & targs == 1) / sum(preds == 1)
+recall <- sum(preds == 1 & targs == 1) / sum(targs == 1)
+f1 <- 2 * precision * recall / (precision + recall)
+auc <- roc(preds, targs)
+train_preds <- preds
+
+print(paste("accuracy: ", accuracy))
+print(paste("precision: ", precision))
+print(paste("recall: ", recall))
+print(paste("f1: ", f1))
+print(paste("area under curve (auc): ", auc))
+
+cf_matrix <- table(y_test, y_pred)
+print(cf_matrix)
+
+y_train_pred <- predict(svm, X_train, decision.values = TRUE)
+y_test_pred <- predict(svm, X_test, decision.values = TRUE)
+
+##train_roc <- roc(y_train, y_train_pred)
+##test_roc <- roc(y_test, y_test_pred)
 
 
-# Splitting the dataset into the Training set and Test set 
-
-set.seed(123) 
-
-split = sample.split(data1$hospital_expire_flag, SplitRatio = 0.80) 
-
-training_set = subset(data1, split == TRUE) 
-test_set = subset(data1, split == FALSE) 
 
 
-# Fitting SVM to the Training set 
+plot(y_train, col = "blue", main = "AUC(ROC curve)")
+lines(y_test, col = "red")
+abline(0, 1, lty = 2, col = "green")
+legend("bottomright", legend = c("AUC TRAIN =", auc(y_train_pred), "AUC TEST =", auc(y_test_pred)), col = c("blue", "red"), lty = 1)
+xlabel("False Positive Rate")
+ylabel("True Positive Rate")
+title("AUC(ROC curve)")
+grid(color = "black", linestyle = "-", linewidth = 0.5)
 
-classifier = svm(as.factor(hospital_expire_flag) ~ ., 
-                 data = training_set[,3:15], 
-                 type = 'C-classification', 
-                 kernel = 'linear') 
-
-print(classifier)
-
-# Predicting the Test set results 
-y_pred = predict(classifier, type = 'r', newdata = test_set[,3:15]) 
-
-print(y_pred)
-
-
-# F1 Score 
-
-F1_Score(y_pred,test_set$hospital_expire_flag)
-
-#Confusion Matrix
-
-test_set1 <- test_set$hospital_expire_flag
-
-cm= confusionMatrix(factor(test_set1)['actual labels'],y_pred['predicted labels'])
-
-print(cm)
 
 ```
 
