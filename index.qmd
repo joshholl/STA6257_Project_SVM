@@ -334,6 +334,10 @@ H_2: W_0 + W_{1}X_{1} + W_{2}X_{2} + \dots + W_{n}X_{n} \le -1
 $$
 # Model 
 
+A two-step approach was used to estimate tuning parameters and evaluate operational characteristics of the SVM models using the best combination of tuning parameters: in the first step, for each combination of parameters, 10 training datasets were fitted and each of them was validated using 10 different validation datasets. The combination of parameters with largest accuracy was used to measure the performance of the models in the second step. In the second step, new 10 datasets were simulated for estimation of models given the best combination of tuning parameters found in the first step and for each of those, 10 testing datasets were simulated to compare the performance of the SVM models based on the following metrics: accuracy (proportion of correctly classified), area under the ROC curve (AUC-ROC), sensitivity, specificity and F1 score. Therefore, 100 datasets have been tested and used to compute the mean and the standard deviation of the metrics used as a summary performance of each method.
+
+We applied this to our dataset from the e1071 package available in the R software repository. Parameters were tuned and the accuracy, AUC-ROC, sensitivity, specificity and F1 score was estimated through a 10-fold nested-cross validation repeating the process in 10 resampled datasets.
+
 ```{r}
 
 data = mimic_data
