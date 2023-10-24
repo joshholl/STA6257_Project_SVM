@@ -3,6 +3,9 @@ project:
   output-dir: docs
   pre-render:
     - pkgs.r
+  render:
+    - "*.qmd"
+    - "!*.ipynb"
 website:
   title: Stats 6257 Fall 2023 - Support Vector Machines
   navbar:
