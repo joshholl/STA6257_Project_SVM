@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2023-10-04">
+<meta name="dcterms.date" content="2023-10-24">
 
 <title>Stats 6257 Fall 2023 - Support Vector Machines - Predicting Survival of Intensive Care Unit Paitents with Support Vector Machines</title>
 <style>
@@ -105,6 +105,10 @@ div.csl-indent {
     <a class="nav-link" href="./index.html" rel="" target="">
  <span class="menu-text">Home</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./slides.html" rel="" target="">
+ <span class="menu-text">Presentation</span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-journal-entries" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
  <span class="menu-text">Journal Entries</span>
@@ -154,7 +158,11 @@ div.csl-indent {
   <li><a href="#eric-miller" id="toc-eric-miller" class="nav-link" data-scroll-target="#eric-miller">Eric Miller</a></li>
   <li><a href="#josh-hollandsworth" id="toc-josh-hollandsworth" class="nav-link" data-scroll-target="#josh-hollandsworth">Josh Hollandsworth</a></li>
   </ul></li>
-  <li><a href="#guide-to-running" id="toc-guide-to-running" class="nav-link" data-scroll-target="#guide-to-running">Guide to running</a></li>
+  <li><a href="#guide-to-running" id="toc-guide-to-running" class="nav-link" data-scroll-target="#guide-to-running">Guide to running</a>
+  <ul class="collapse">
+  <li><a href="#warnings-and-caveats" id="toc-warnings-and-caveats" class="nav-link" data-scroll-target="#warnings-and-caveats">Warnings and Caveats</a></li>
+  <li><a href="#rendering-the-page" id="toc-rendering-the-page" class="nav-link" data-scroll-target="#rendering-the-page">Rendering the page</a></li>
+  </ul></li>
   <li><a href="#complete-references" id="toc-complete-references" class="nav-link" data-scroll-target="#complete-references">Complete References</a></li>
   </ul>
 </nav>
@@ -175,7 +183,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 4, 2023</p>
+      <p class="date">October 24, 2023</p>
     </div>
   </div>
   
@@ -199,10 +207,18 @@ div.csl-indent {
 </section>
 <section id="guide-to-running" class="level1">
 <h1>Guide to running</h1>
+<section id="warnings-and-caveats" class="level2">
+<h2 class="anchored" data-anchor-id="warnings-and-caveats">Warnings and Caveats</h2>
+<p>We used <code>easy packages</code> to install packages. as part of this it will run the install from everything in <code>pkgs.r</code>. As such, running a render or a preview will attempt to install any packages without prompting you to agree to installing them. We have hardcoded the repo for cran in the package installer but if thats compremised the auto install could cause security concerns.</p>
+</section>
+<section id="rendering-the-page" class="level2">
+<h2 class="anchored" data-anchor-id="rendering-the-page">Rendering the page</h2>
+<p>For best results, run <code>quarto render --cache</code> as this takes a long time to render the visualizations and build and tune the model.</p>
 <p>You will need to install the following <strong><em>system</em></strong> libraries in order for the r code to work properly</p>
 <ul>
 <li>libgit2</li>
 </ul>
+</section>
 </section>
 <section id="complete-references" class="level1">
 <h1>Complete References</h1>

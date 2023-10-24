@@ -45,7 +45,6 @@ dep_packages = c("tidyverse",
 )
 easypackages::libraries(dep_packages)
 
-
 mimic_data <- fread("./MIMIC_ICU_DATA/mimic_icu_data.csv")
 ```
 
@@ -93,6 +92,190 @@ kernel function or kernel trick allows data to be mapped from one space to anoth
 Data Source 
 
 To build our model for predicting patient survivability, we are using data from the [Medical Information Mart for Intensive Care (MIMIC)](https://mimic.mit.edu). We are specifically targeting the MIMIC III data set. You can find more information about the MIMIC III dataset at [https://mimic.mit.edu/docs/iii/](https://mimic.mit.edu/docs/iii/)  The data set itself is rather large so we have pre-processed the data slightly in order to generate a file of comma separated values rather than consume directly from their highly normalized format.
+
+## Statistical Modeling
+
+Given that Support Vector Machines operate on both linear and non-linear data, we must look at how a Support Vector Machine manipulates non-linear data to a linear space to perform classification. This operation id done via a kernel function or "kernel trick". The general formula for a kernel function is as follows. 
+
+$$
+K(X_i, X_j) = \Phi(X_i)\Phi(X_j)  
+$$
+
+Where $X_i, X_j$ is a tuple.
+
+
+Once the data linear (and therfore linearly separable), we can define our maximally marginal hyperplane. A general formual for the hyperplane is as follows
+$$
+W \times X + b = 0
+$$
+
+This formual has 2 components of import. The first is a $W$, a weight vector and $b$ a scalar bias
+
+Since $W$ is a simple weighting vector it would be in the form of 
+
+$$
+W = \{w_1, w_2, \dots, w_n \}
+$$
+
+The tuples that lie the closest to the margins of the maximal marginal hyperplane are the actual support vectors.
+
+Using the formulas above, if our support vectors where at $y_i = 1$ and $y_i = -1$ our hyperplane margines would be defined as 
+
+$$
+H_1: W_0 + W_{1}X_{1} + W_{2}X_{2} + \dots + W_{n}X_{n} \ge 1
+$$
+
+and 
+
+$$
+H_2: W_0 + W_{1}X_{1} + W_{2}X_{2} + \dots + W_{n}X_{n} \le -1
+$$
+
+
+
+## Model 
+
+A two-step approach was used to estimate tuning parameters and evaluate operational characteristics of the SVM models using the best combination of tuning parameters: in the first step, for each combination of parameters, 10 training datasets were fitted and each of them was validated using 10 different validation datasets. The combination of parameters with largest accuracy was used to measure the performance of the models in the second step. In the second step, new 10 datasets were simulated for estimation of models given the best combination of tuning parameters found in the first step and for each of those, 10 testing datasets were simulated to compare the performance of the SVM models based on the following metrics: accuracy (proportion of correctly classified), area under the ROC curve (AUC-ROC), sensitivity, specificity and F1 score. Therefore, 100 datasets have been tested and used to compute the mean and the standard deviation of the metrics used as a summary performance of each method.
+
+We applied this to our dataset from the e1071 package available in the R software repository. Parameters were tuned and the accuracy, AUC-ROC, sensitivity, specificity and F1 score was estimated through a 10-fold nested-cross validation repeating the process in 10 resampled datasets.
+
+```{r}
+# a random number based on keyboard bashing the number row to ensure that our random data set is repeatable 
+# while we are reporting on it
+set.seed(01923904)
+
+# Create a subset of the entire dataset to just include the rows we have determined are of interest
+# conbverty the gender field to an `is_male` flag
+model_data <- mimic_data %>%
+    select(
+        age,
+        gender,
+        hospital_expire_flag,
+        heartrate_mean,
+        sysbp_mean,
+        resprate_mean,
+        tempc_mean,
+        wbc_mean,
+        platelet_min,
+        creatinine_max,
+        lactate_mean
+    ) %>%
+    mutate(is_male = case_when(gender == "M" ~ 1, TRUE ~ 0))
+
+# drop all observations with an NA for any value
+model_data <- na.omit(model_data)
+
+# ensure that hospital expire flag is a factor
+model_data$hospital_expire_flag <- as.factor(model_data$hospital_expire_flag)
+
+# assign an id for each element in the row
+model_data$id <- 1:nrow(model_data)
+
+# Divide our dataset into a training and test set with 80% of data going to training and 20% to test
+train <- model_data %>% dplyr::sample_frac(0.8)
+test  <- dplyr::anti_join(model_data, train, by = 'id')
+
+#Tune the model based on a list of costs ranging from 0.001 -> 100 by 10x steps 
+modelTuning.out <- tune(svm, 
+  hospital_expire_flag ~ ., data = train, 
+  kernel = "linear", 
+  ranges = list(cost = c(0.001, 0.01, 0.1, 1, 10, 100)), 
+  scale = TRUE)
+
+# take the best model from the tuning and use it
+model <- modelTuning.out$best.model
+summary(model)
+
+# run predictions based on our model against the test set
+predictions <- predict(model, test)
+
+# Construct a confusion matrix and print it out
+confusionMatrix(table(actual=test$hospital_expire_flag, prediction=predictions), positive="1")
+
+
+
+# train1 <- mimic_data[c('age',
+#                   'gender',
+#                   'hospital_expire_flag',
+#                   'heartrate_mean',
+#                   'sysbp_mean',
+#                   'resprate_mean',
+#                   'tempc_mean',
+#                   'wbc_mean',
+#                   'platelet_min',
+#                   'creatinine_max',
+#                   'lactate_mean')]
+
+# Test <- mimic_data[c( 'age',
+#               'gender',
+#               'heartrate_mean',
+#               'sysbp_mean',
+#               'resprate_mean',
+#               'tempc_mean',
+#               'wbc_mean',
+#               'platelet_min',
+#               'creatinine_max',
+#               'lactate_mean')]
+
+# X <- train1
+# y <- train1$hospital_expire_flag
+# X <- X[, !(names(X) %in% c("hospital_expire_flag"))]
+# Xtest <- Test
+
+# set.seed(1)
+
+# trainIndex <- createDataPartition(y, p = 0.8, list = FALSE)
+
+# X_train <- X[trainIndex, ]
+# X_test <- X[-trainIndex, ]
+# y_train <- y[trainIndex]
+# y_test <- y[-trainIndex]
+
+# ##svm <- svm(X_train, y_train, kernel = "linear", cost = 1, gamma = "auto", random.seed = 1)
+
+# svm <- svm(hospital_expire_flag ~ .,
+#         data = train1 ,
+#         type = 'C-classification',
+#         kernel = 'linear')
+
+# y_pred <- predict(svm, X_test)
+# preds <- predict(svm, X)
+# targs <- y
+# accuracy <- sum(preds == targs) / length(targs)
+# precision <- sum(preds == 1 & targs == 1) / sum(preds == 1)
+# recall <- sum(preds == 1 & targs == 1) / sum(targs == 1)
+# f1 <- 2 * precision * recall / (precision + recall)
+# auc <- roc(preds, targs)
+# train_preds <- preds
+
+# print(paste("accuracy: ", accuracy))
+# print(paste("precision: ", precision))
+# print(paste("recall: ", recall))
+# print(paste("f1: ", f1))
+# print(paste("area under curve (auc): ", auc))
+
+# cf_matrix <- table(y_test, y_pred)
+# print(cf_matrix)
+
+# y_train_pred <- predict(svm, X_train, decision.values = TRUE)
+# y_test_pred <- predict(svm, X_test, decision.values = TRUE)
+
+# ##train_roc <- roc(y_train, y_train_pred)
+# ##test_roc <- roc(y_test, y_test_pred)
+
+
+
+
+# plot(y_train, col = "blue", main = "AUC(ROC curve)")
+# lines(y_test, col = "red")
+# abline(0, 1, lty = 2, col = "green")
+# legend("bottomright", legend = c("AUC TRAIN =", auc(y_train_pred), "AUC TEST =", auc(y_test_pred)), col = c("blue", "red"), lty = 1)
+# xlabel("False Positive Rate")
+# ylabel("True Positive Rate")
+# title("AUC(ROC curve)")
+# grid(color = "black", linestyle = "-", linewidth = 0.5)
+
+```
 
 
 # Analysis and Results
@@ -290,168 +473,6 @@ ggplot(mimic_data, aes(x=creatinine_max)) +
 ggplot(mimic_data, aes(x=lactate_mean)) + 
   geom_histogram( color="#e9ecef", fill="#188bc2", alpha=0.9, position = 'identity') +
   theme_economist(base_family="ITC Officina Sans")
-```
-
-## Statistical Modeling
-
-Given that Support Vector Machines operate on both linear and non-linear data, we must look at how a Support Vector Machine manipulates non-linear data to a linear space to perform classification. This operation id done via a kernel function or "kernel trick". The general formula for a kernel function is as follows. 
-
-$$
-K(X_i, X_j) = \Phi(X_i)\Phi(X_j)  
-$$
-
-Where $X_i, X_j$ is a tuple.
-
-
-Once the data linear (and therfore linearly separable), we can define our maximally marginal hyperplane. A general formual for the hyperplane is as follows
-$$
-W \times X + b = 0
-$$
-
-This formual has 2 components of import. The first is a $W$, a weight vector and $b$ a scalar bias
-
-Since $W$ is a simple weighting vector it would be in the form of 
-
-$$
-W = \{w_1, w_2, \dots, w_n \}
-$$
-
-The tuples that lie the closest to the margins of the maximal marginal hyperplane are the actual support vectors.
-
-Using the formulas above, if our support vectors where at $y_i = 1$ and $y_i = -1$ our hyperplane margines would be defined as 
-
-$$
-H_1: W_0 + W_{1}X_{1} + W_{2}X_{2} + \dots + W_{n}X_{n} \ge 1
-$$
-
-and 
-
-$$
-H_2: W_0 + W_{1}X_{1} + W_{2}X_{2} + \dots + W_{n}X_{n} \le -1
-$$
-# Model 
-
-A two-step approach was used to estimate tuning parameters and evaluate operational characteristics of the SVM models using the best combination of tuning parameters: in the first step, for each combination of parameters, 10 training datasets were fitted and each of them was validated using 10 different validation datasets. The combination of parameters with largest accuracy was used to measure the performance of the models in the second step. In the second step, new 10 datasets were simulated for estimation of models given the best combination of tuning parameters found in the first step and for each of those, 10 testing datasets were simulated to compare the performance of the SVM models based on the following metrics: accuracy (proportion of correctly classified), area under the ROC curve (AUC-ROC), sensitivity, specificity and F1 score. Therefore, 100 datasets have been tested and used to compute the mean and the standard deviation of the metrics used as a summary performance of each method.
-
-We applied this to our dataset from the e1071 package available in the R software repository. Parameters were tuned and the accuracy, AUC-ROC, sensitivity, specificity and F1 score was estimated through a 10-fold nested-cross validation repeating the process in 10 resampled datasets.
-
-```{r}
-model_data <- mimic_data %>%
-    select(
-        age,
-        gender,
-        hospital_expire_flag,
-        heartrate_mean,
-        sysbp_mean,
-        resprate_mean,
-        tempc_mean,
-        wbc_mean,
-        platelet_min,
-        creatinine_max,
-        lactate_mean
-    ) %>%
-    mutate(is_male = case_when(gender == "M" ~ 1, TRUE ~ 0))
-
-model_data <- na.omit(model_data)
-
-model_data$hospital_expire_flag <- as.factor(model_data$hospital_expire_flag)
-
-model_data$id <- 1:nrow(model_data)
-
-train <- model_data %>% dplyr::sample_frac(0.8)
-test  <- dplyr::anti_join(model_data, train, by = 'id')
-
-modelTuning.out <- tune(svm, hospital_expire_flag ~ ., data = train, kernel = "linear", ranges = list(cost = c(0.001, 0.01, 0.1, 1, 5, 10, 50, 100)), scale = TRUE)
-model <- modelTuning.out$best.model
-summary(model)
-
-
-predictions <- predict(model, test)
-confusionMatrix(table(actual=test$hospital_expire_flag, prediction=predictions), positive="1")
-
-
-
-# train1 <- mimic_data[c('age',
-#                   'gender',
-#                   'hospital_expire_flag',
-#                   'heartrate_mean',
-#                   'sysbp_mean',
-#                   'resprate_mean',
-#                   'tempc_mean',
-#                   'wbc_mean',
-#                   'platelet_min',
-#                   'creatinine_max',
-#                   'lactate_mean')]
-
-# Test <- mimic_data[c( 'age',
-#               'gender',
-#               'heartrate_mean',
-#               'sysbp_mean',
-#               'resprate_mean',
-#               'tempc_mean',
-#               'wbc_mean',
-#               'platelet_min',
-#               'creatinine_max',
-#               'lactate_mean')]
-
-# X <- train1
-# y <- train1$hospital_expire_flag
-# X <- X[, !(names(X) %in% c("hospital_expire_flag"))]
-# Xtest <- Test
-
-# set.seed(1)
-
-# trainIndex <- createDataPartition(y, p = 0.8, list = FALSE)
-
-# X_train <- X[trainIndex, ]
-# X_test <- X[-trainIndex, ]
-# y_train <- y[trainIndex]
-# y_test <- y[-trainIndex]
-
-# ##svm <- svm(X_train, y_train, kernel = "linear", cost = 1, gamma = "auto", random.seed = 1)
-
-# svm <- svm(hospital_expire_flag ~ .,
-#         data = train1 ,
-#         type = 'C-classification',
-#         kernel = 'linear')
-
-# y_pred <- predict(svm, X_test)
-# preds <- predict(svm, X)
-# targs <- y
-# accuracy <- sum(preds == targs) / length(targs)
-# precision <- sum(preds == 1 & targs == 1) / sum(preds == 1)
-# recall <- sum(preds == 1 & targs == 1) / sum(targs == 1)
-# f1 <- 2 * precision * recall / (precision + recall)
-# auc <- roc(preds, targs)
-# train_preds <- preds
-
-# print(paste("accuracy: ", accuracy))
-# print(paste("precision: ", precision))
-# print(paste("recall: ", recall))
-# print(paste("f1: ", f1))
-# print(paste("area under curve (auc): ", auc))
-
-# cf_matrix <- table(y_test, y_pred)
-# print(cf_matrix)
-
-# y_train_pred <- predict(svm, X_train, decision.values = TRUE)
-# y_test_pred <- predict(svm, X_test, decision.values = TRUE)
-
-# ##train_roc <- roc(y_train, y_train_pred)
-# ##test_roc <- roc(y_test, y_test_pred)
-
-
-
-
-# plot(y_train, col = "blue", main = "AUC(ROC curve)")
-# lines(y_test, col = "red")
-# abline(0, 1, lty = 2, col = "green")
-# legend("bottomright", legend = c("AUC TRAIN =", auc(y_train_pred), "AUC TEST =", auc(y_test_pred)), col = c("blue", "red"), lty = 1)
-# xlabel("False Positive Rate")
-# ylabel("True Positive Rate")
-# title("AUC(ROC curve)")
-# grid(color = "black", linestyle = "-", linewidth = 0.5)
-
 ```
 
 

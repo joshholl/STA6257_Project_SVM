@@ -12,6 +12,8 @@ website:
     right:
       - text: "Home"
         file: index.qmd
+      - text: "Presentation"
+        file: slides.qmd
       - text: "Journal Entries"
         menu:
           - text: "Brad's Journal"

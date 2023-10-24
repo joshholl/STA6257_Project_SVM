@@ -1,0 +1,18 @@
+---
+title: "Predicting Survival of Intensive Care Unit Patients with Support Vector Machines"
+format: 
+    revealjs:
+        theme: moon
+editor: visual
+authors: 
+  - name: Josh Hollandsworth
+  - name: Brad Lipson
+  - name: Eric Miller
+date: last-modified
+---
+
+# This is the first slide
+
+::: {.notes}
+Speaker notes go here.
+:::

@@ -18,6 +18,12 @@ nocite: |
 ## Josh Hollandsworth
 
 # Guide to running
+## Warnings and Caveats
+
+We used `easy packages` to install packages. as part of this it will run the install from everything in `pkgs.r`. As such, running a render or a preview will attempt to install any packages without prompting you to agree to installing them. We have hardcoded the repo for cran in the package installer but if thats compremised the auto install could cause security concerns.
+
+## Rendering the page
+For best results, run `quarto render --cache` as this takes a long time to render the visualizations and build and tune the model.
 
 You will need to install the following ***system*** libraries in order for the r code to work properly
 
