@@ -17,9 +17,21 @@ data = mimic_icu_data
 
 str(data)
 
-data1 <- subset( data, select = -c(3,4,5,6,8,10,11,14,16 ))
 
 
+data1 <- data[c('age', 
+                'gender', 
+                'heartrate_mean',
+                'sysbp_mean',
+                'resprate_mean',
+                'tempc_mean',
+                'wbc_mean',
+                'platelet_min',
+                'creatinine_max',
+                'lactate_mean',
+                'hospital_expire_flag')]
+
+head(data1)
 
 
 # Splitting the dataset into the Training set and Test set 
@@ -38,14 +50,14 @@ str(test_set)
 # Fitting SVM to the Training set 
 
 classifier = svm(as.factor(hospital_expire_flag) ~ ., 
-                 data = training_set[,3:15], 
+                 data = training_set, 
                  type = 'C-classification', 
                  kernel = 'linear') 
 
 print(classifier)
 
 # Predicting the Test set results 
-y_pred = predict(classifier, type = 'r', newdata = test_set[,3:15]) 
+y_pred = predict(classifier, type = 'r', newdata = test_set) 
 
 print(y_pred)
 
