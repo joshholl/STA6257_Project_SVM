@@ -13,10 +13,7 @@ model_data <- mimic_data %>%
     sysbp_mean,
     resprate_mean,
     tempc_mean,
-    wbc_mean,
     platelet_min,
-    creatinine_max,
-    lactate_mean
   ) %>%
   mutate(is_male = case_when(gender == "M" ~ 1, TRUE ~ 0))
 
