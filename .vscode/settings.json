@@ -1,0 +1,35 @@
+{
+    "cSpell.words": [
+        "dplyr",
+        "dslabs",
+        "easypackages",
+        "extrafont",
+        "ggplot",
+        "ggrepel",
+        "ggthemes",
+        "gtsummary",
+        "tidyverse"
+    ],
+    "[r]": {
+        "editor.wordBasedSuggestions": false,
+        "editor.tabSize": 2
+    },
+    "[rmd]": {
+        "editor.tabSize": 2
+    },
+    "[quarto]": {
+        "editor.wordWrap": "on",
+        "editor.quickSuggestions": {
+            "comments": "on",
+            "other": "on",
+            "strings": "on"
+        },
+        "editor.quickSuggestionsDelay": 250,
+        "editor.snippetSuggestions": "none",
+        "editor.wordBasedSuggestions": false,
+        "editor.suggestOnTriggerCharacters": true,
+        "editor.unicodeHighlight.ambiguousCharacters": false,
+        "editor.unicodeHighlight.invisibleCharacters": false,
+        "editor.tabSize": 2
+    }
+}

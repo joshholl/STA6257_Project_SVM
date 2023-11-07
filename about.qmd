@@ -27,8 +27,19 @@ For best results, run `quarto render --cache` as this takes a long time to rende
 
 You will need to install the following ***system*** libraries in order for the r code to work properly
 
-* libgit2
 
+
+* libgit2
+* libharfbuzz-dev (debian, ubuntu, etc)
+  * harfbuzz-devel(fedora, EPEL)
+* libfribidi-dev (debian, ubuntu, etc)
+  * fribidi-devl (fedora, EPEL)
+libv8  or libnode-dev
+
+sudo apt-get install libcurl4-openssl-dev
+
+sudo apt-get install libcurl4-openssl-dev
+sudo apt-get install libcurl4-openssl-dev
 # Complete References
 ::: {#refs}
 :::

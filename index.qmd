@@ -33,6 +33,7 @@ dep_packages = c("tidyverse",
     "data.table",
     "extrafont",
     "dataMaid",
+    "gt",
     "gtsummary",
     "gtExtras",
     "mlr",
@@ -45,7 +46,7 @@ dep_packages = c("tidyverse",
 )
 easypackages::libraries(dep_packages)
 
-mimic_data <- fread("./MIMIC_ICU_DATA/mimic_icu_data.csv")
+mimic_data <- fread("./MIMIC_ICU_Data/mimic_icu_data.csv")
 ```
 
 
