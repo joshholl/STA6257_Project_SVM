@@ -295,10 +295,6 @@ plot(challenger_perf, colorize = TRUE)
 ```
 
 
-
-
-
-
 # Analysis and Results
 
 The findings indicate that our support vector machine (SVM) model had a test set accuracy of 85.47%. The model exhibited a sensitivity rate of 66.67% and a specificity rate of 86.13%. The study yielded a positive predictive value of 14.39% and a negative predictive value of 98.67%. The area under the receiver operating characteristic (ROC) curve was determined to be 0.764.
