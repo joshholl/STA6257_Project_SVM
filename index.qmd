@@ -303,15 +303,7 @@ plot(challenger_perf, colorize = TRUE)
 
 The findings indicate that our support vector machine (SVM) model had a test set accuracy of 85.47%. The model exhibited a sensitivity rate of 66.67% and a specificity rate of 86.13%. The study yielded a positive predictive value of 14.39% and a negative predictive value of 98.67%. The area under the receiver operating characteristic (ROC) curve was determined to be 0.764.
 
-In conclusion, it can be inferred that our support vector machine (SVM) model demonstrated moderate accuracy in predicting hospital mortality. The predictive accuracy of the model was higher for patients who survived compared to those who did not. According to the Area Under the Curve (AUC) of the Receiver Operating Characteristic (ROC) curve, the model can tell the difference between patients who will die and those who will not.
 
-The findings of this study indicate that Support Vector Machines (SVMs) have the potential to serve as a valuable tool for forecasting patient mortality in hospital settings. Nevertheless, additional investigation is required to substantiate these results among a broader and more heterogeneous sample.
-
-The study has certain limitations that should be acknowledged. The present investigation is subject to various constraints. Initially, the investigation was carried out on a limited cohort of individuals. Furthermore, the research was carried out exclusively inside the confines of a solitary medical facility, potentially limiting the applicability of the findings to other healthcare institutions. Furthermore, the study failed to account for other potential confounders of the ICU patients.
-
- Areas for Future Exploration
-
-Subsequent investigations should examine the outcomes of this study among a broader and more heterogeneous sample. Further investigation is warranted to explore the application of Support Vector Machines (SVMs) in predicting additional clinical outcomes, including the duration of hospitalization and rates of patient readmission
 
 ## Data and Visualization
 ```{r, dev = "png", dev.args=list(bg="transparent")}
@@ -514,6 +506,16 @@ ggplot(mimic_data, aes(x=lactate_mean)) +
 
 
 # Conlusion
+
+In conclusion, it can be inferred that our support vector machine (SVM) model demonstrated moderate accuracy in predicting hospital mortality. The predictive accuracy of the model was higher for patients who survived compared to those who did not. According to the Area Under the Curve (AUC) of the Receiver Operating Characteristic (ROC) curve, the model can tell the difference between patients who will die and those who will not.
+
+The findings of this study indicate that Support Vector Machines (SVMs) have the potential to serve as a valuable tool for forecasting patient mortality in hospital settings. Nevertheless, additional investigation is required to substantiate these results among a broader and more heterogeneous sample.
+
+The study has certain limitations that should be acknowledged. The present investigation is subject to various constraints. Initially, the investigation was carried out on a limited cohort of individuals. Furthermore, the research was carried out exclusively inside the confines of a solitary medical facility, potentially limiting the applicability of the findings to other healthcare institutions. Furthermore, the study failed to account for other potential confounders of the ICU patients.
+
+ Areas for Future Exploration
+
+Subsequent investigations should examine the outcomes of this study among a broader and more heterogeneous sample. Further investigation is warranted to explore the application of Support Vector Machines (SVMs) in predicting additional clinical outcomes, including the duration of hospitalization and rates of patient readmission
 
 # References
 

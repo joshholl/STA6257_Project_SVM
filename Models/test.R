@@ -1,6 +1,6 @@
 # a random number based on keyboard bashing the number row to ensure that our random data set is repeatable 
 # while we are reporting on it
-set.seed(01923904)
+set.seed(123)
 
 # Create a subset of the entire dataset to just include the rows we have determined are of interest
 # convert the gender field to an `is_male` flag
