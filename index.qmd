@@ -26,7 +26,7 @@ nocite: |
 #| label: package-install
 #| echo: false
 library(easypackages)
-dep_packages = c("tidyverse", 
+dep_packages = c("tidyverse",
     "ggthemes",
     "ggrepel",
     "dslabs", 
@@ -215,7 +215,7 @@ This support vector machine (SVM) model shows a great deal of promise as a usefu
 set.seed(01923904)
 
 # Create a subset of the entire dataset to just include the rows we have determined are of interest
-# convert the gender field to an `is_male` flag
+# convert the gender field to an `is_male` flag. Also discretize the heart rate and age
 model_data <- mimic_data %>%
   select(
     age,
@@ -247,69 +247,80 @@ model_data <- mimic_data %>%
   ) %>%
   select(-gender, -heartrate_mean, -age)
 
-# ensure that hospital expire flag is a factor
+model_data$id <- 1:nrow(model_data)
 model_data$hospital_expire_flag <- as.factor(model_data$hospital_expire_flag)
 model_data <- na.omit(model_data)
 
-# assign an id for each element in the row
-model_data$id <- 1:nrow(model_data)
+
+# use z score standardization on our features to see what we get
+scaled_model_data <- model_data %>%  
+  select(-id) %>%
+  mutate_if(is.numeric, scale) %>%
+  cbind(id = model_data$id)
+
 
 # our data are skewed such that the patients tend to survive (hospital expire flag = 0), to resolve this issue we will downsample the surviving pateints and construct a training set based on an 80% selection of all of the hospital_expire_flag = 1, then randomly select and equal number of observations where hosptial expre flag=1
 
-amount_to_sample = floor(sum(model_data$hospital_expire_flag == 1) * 0.8)
+amount_to_sample = floor(sum(scaled_model_data$hospital_expire_flag == 1) * 0.95)
 
 
-train <- model_data %>% group_by(hospital_expire_flag) %>% sample_n(size = amount_to_sample) %>% ungroup()
-test <- model_data %>% anti_join(train, by="id") %>% select(-id)
+train <- scaled_model_data %>% group_by(hospital_expire_flag) %>% sample_n(size = amount_to_sample) %>% ungroup()
+test <- scaled_model_data %>% anti_join(train, by="id") %>% select(-id)
 
 train <- train %>% select(-id)
 
+## Things to do
+## possibliy do some weights
+## Down or 
+## bootstrapping with multiple data sets
 
-
-
-
-
-# 
-# 
-# 
-# 
-# train_survive <- train[train$hospital_expire_flag == 0] %>% select(-id)
-# train_expire <- train[train$hospital_expire_flag == 1] %>% select(-id)
-# 
-# train_expire <- sample_n(train_expire, (nrow(train_survive) * 0.7), replace = FALSE)
-# 
-# 
-# train_oversampled <- bind_rows(train_survive, train_expire_oversample)
 
 # build the model
+# nu and gamas will need to be set for tuning, they have a single value for now
+# so we have something to show
+kernels <- c("linear", "radial")
+costs <- c(250,500,750,1000,1250)
+gammas <- c(0.66)
+nus <- c(0.25)
+ranges <- list(cost=costs, gamma = gammas, kernel = kernels, nu=nus)
 
 
 modelTuning <- tune(svm,
               hospital_expire_flag ~ ., 
+              type="nu-classification",
               data= train, 
               probability=TRUE,
-              ranges = list(cost = c(100,200,300,400,500,750,1000)), 
+              ranges = ranges,
               scale = TRUE)
 
-
-challengerTuning <- tune(svm,
-                   hospital_expire_flag ~ age_range + heart_rate + sysbp_mean + resprate_mean + tempc_mean + platelet_min + is_male, 
-              data= train, 
-              probability=TRUE,
-              ranges = list(cost = c(100,200,300,400,500,750,1000)), 
-              scale = TRUE)
 model <- modelTuning$best.model
 
-summary(model)
-challenger <- challengerTuning$best.model
-
+print('---------- Primary Model --------------')
 model_predict <- predict(model, test, probability = TRUE)
 confusionMatrix(model_predict, test$hospital_expire_flag)
+
 model_probabilities <- attr(model_predict, "probabilities")[, 1]
+
 model_predictions <- ROCR::prediction(model_probabilities, test$hospital_expire_flag, label.ordering = c(0,1))
 model_perf <- ROCR::performance(model_predictions, "tpr", "fpr")
 plot(model_perf, colorize = TRUE)
 abline(a=0, b=1)
+
+summary(model)
+
+
+print('---------- CHALLENGER --------------')
+challengerTuning <- tune(svm,
+                   hospital_expire_flag ~ age_range + heart_rate + sysbp_mean + resprate_mean + tempc_mean + platelet_min + is_male, 
+              data= train, 
+              type = "nu-classification",
+              probability=TRUE,
+              ranges = ranges,
+              scale = TRUE)
+
+challenger <- challengerTuning$best.model
+summary(challenger)
+
 
 challenger_predict <- predict(challenger, test, probability = TRUE)
 confusionMatrix(challenger_predict, test$hospital_expire_flag)
@@ -318,7 +329,6 @@ challenger_predictions <- ROCR::prediction(challenger_probabilities, test$hospit
 challenger_perf <- ROCR::performance(challenger_predictions, "tpr", "fpr")
 plot(challenger_perf, colorize = TRUE)
 abline(a=0,b=1)
-
 ```
 
 
