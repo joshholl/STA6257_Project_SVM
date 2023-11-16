@@ -1,14 +1,24 @@
 {
     "cSpell.words": [
+        "downsample",
         "dplyr",
         "dslabs",
         "easypackages",
         "extrafont",
+        "fread",
         "ggplot",
         "ggrepel",
         "ggthemes",
         "gtsummary",
-        "tidyverse"
+        "heartrate",
+        "icustay",
+        "nolint",
+        "resprate",
+        "rlecuyer",
+        "sysbp",
+        "tempc",
+        "tidyverse",
+        "ungroup"
     ],
     "[r]": {
         "editor.wordBasedSuggestions": false,

@@ -29,7 +29,11 @@ project_dependencies <- c(
   "caTools",
   "MLmetrics",
   "gtExtras",
-  "pROC"
+  "pROC",
+  "doSNOW",
+  "doParallel",
+  "foreach",
+  "graphics"
 )
 
 # install and run easypackages to setup our dependencies
