@@ -48,6 +48,7 @@ model_data <- mimic_data %>%
     lactate_mean
   ) %>%
   mutate(
+    surviving = factor(case_when(hospital_expire_flag == 0 ~ "YES", TRUE ~ "NO")),
     is_male = factor(case_when(gender == "M" ~ 1, TRUE ~ 0)),
     age_range = factor(case_when(
       age <= 18 ~ "<=18",
@@ -62,10 +63,9 @@ model_data <- mimic_data %>%
       heartrate_mean > 100 ~ "above 100"
     )),
   ) %>%
-  select(-gender, -heartrate_mean, -age)
+  select(-gender, -heartrate_mean, -age, -hospital_expire_flag)
 
 model_data$id <- 1:nrow(model_data)
-model_data$hospital_expire_flag <- as.factor(model_data$hospital_expire_flag)
 model_data <- na.omit(model_data)
 
 
@@ -78,10 +78,10 @@ scaled_model_data <- model_data %>%
 
 # our data are skewed such that the patients tend to survive (hospital expire flag = 0), to resolve this issue we will downsample the surviving pateints and construct a training set based on an 80% selection of all of the hospital_expire_flag = 1, then randomly select and equal number of observations where hosptial expre flag=1
 
-amount_to_sample = floor(sum(scaled_model_data$hospital_expire_flag == 1) * 0.95)
+amount_to_sample = floor(sum(scaled_model_data$surviving == "NO") * 0.95)
 
 
-train <- scaled_model_data %>% group_by(hospital_expire_flag) %>% sample_n(size = amount_to_sample) %>% ungroup()
+train <- scaled_model_data %>% group_by(surviving) %>% sample_n(size = amount_to_sample) %>% ungroup()
 test <- scaled_model_data %>% anti_join(train, by="id") %>% select(-id)
 
 train <- train %>% select(-id)
@@ -95,15 +95,15 @@ train <- train %>% select(-id)
 # build the model
 # nu and gamas will need to be set for tuning, they have a single value for now
 # so we have something to show
-kernels <- c("linear", "radial")
-costs <- c(250,500,750,1000,1250)
-gammas <- c(0.66)
-nus <- c(0.25)
+kernels <- c("radial")
+costs <- c(250)
+gammas <- c(0.1) #seq(0.05, 1, 0.05)
+nus <- c(0.55) #seq(0.05, 1, 0.02)
 ranges <- list(cost=costs, gamma = gammas, kernel = kernels, nu=nus)
 
 
 modelTuning <- tune(svm,
-                    hospital_expire_flag ~ ., 
+                    surviving ~ ., 
                     type="nu-classification",
                     data= train, 
                     probability=TRUE,
@@ -114,12 +114,16 @@ model <- modelTuning$best.model
 
 print('---------- Primary Model --------------')
 model_predict <- predict(model, test, probability = TRUE)
-confusionMatrix(model_predict, test$hospital_expire_flag)
+confusionMatrix(model_predict, test$surviving)
 
-model_probabilities <- attr(model_predict, "probabilities")[, 1]
+model_probabilities <- attr(model_predict, "probabilities")[,1]
 
-model_predictions <- ROCR::prediction(model_probabilities, test$hospital_expire_flag, label.ordering = c(0,1))
+
+
+model_predictions <- ROCR::prediction(model_probabilities, test$surviving, label.ordering = c("YES","NO"))
 model_perf <- ROCR::performance(model_predictions, "tpr", "fpr")
+
+
 plot(model_perf, colorize = TRUE)
 abline(a=0, b=1)
 
@@ -142,7 +146,7 @@ summary(challenger)
 challenger_predict <- predict(challenger, test, probability = TRUE)
 confusionMatrix(challenger_predict, test$hospital_expire_flag)
 challenger_probabilities <- attr(challenger_predict, "probabilities")[, 1]
-challenger_predictions <- ROCR::prediction(challenger_probabilities, test$hospital_expire_flag, label.ordering = c(0,1))
+challenger_predictions <- ROCR::prediction(challenger_probabilities, test$hospital_expire_flag, label.ordering = c(1,0))
 challenger_perf <- ROCR::performance(challenger_predictions, "tpr", "fpr")
 plot(challenger_perf, colorize = TRUE)
 abline(a=0,b=1)

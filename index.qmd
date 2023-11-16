@@ -278,10 +278,10 @@ train <- train %>% select(-id)
 # build the model
 # nu and gamas will need to be set for tuning, they have a single value for now
 # so we have something to show
-kernels <- c("linear", "radial")
-costs <- c(250,500,750,1000,1250)
-gammas <- c(0.66)
-nus <- c(0.25)
+kernels <- c("radial")
+costs <- c(250)
+gammas <- c(0.1) #seq(0.05, 1, 0.05)
+nus <- c(0.55) #seq(0.05, 1, 0.02)
 ranges <- list(cost=costs, gamma = gammas, kernel = kernels, nu=nus)
 
 
@@ -325,7 +325,7 @@ summary(challenger)
 challenger_predict <- predict(challenger, test, probability = TRUE)
 confusionMatrix(challenger_predict, test$hospital_expire_flag)
 challenger_probabilities <- attr(challenger_predict, "probabilities")[, 1]
-challenger_predictions <- ROCR::prediction(challenger_probabilities, test$hospital_expire_flag, label.ordering = c(0,1))
+challenger_predictions <- ROCR::prediction(challenger_probabilities, test$hospital_expire_flag, label.ordering = c(1,0))
 challenger_perf <- ROCR::performance(challenger_predictions, "tpr", "fpr")
 plot(challenger_perf, colorize = TRUE)
 abline(a=0,b=1)
