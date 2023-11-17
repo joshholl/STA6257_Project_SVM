@@ -18,8 +18,12 @@ execute:
 params:
   nu_gamma: 0.02
   nu_nu: 0.75
+  nu_challenger_gamma: 0.17
+  nu_challenger_nu: 0.87
   c_gamma: 0.01
   c_cost: 0.01
+  c_challenger_gamma: 0.14
+  c_challenger_cost: 0.1
   rand_seed: 1923904
 editor: 
   markdown: 
@@ -290,6 +294,8 @@ test <- scaled_model_data %>% anti_join(train, by = "icustay_id")
 
 ```{r}
 #| label: nu-model
+
+set.seed(params$rand_seed)
 nuModel <- e1071::svm(survival ~ . - icustay_id,
                       type="nu-classification",
                       kernel="radial",
@@ -319,6 +325,8 @@ mtext(paste("AUC =", round(as.numeric(nuROC$auc), 4)))
 ### C Classification
 ```{r}
 #| label: c-model
+set.seed(params$rand_seed)
+
 cModel <- e1071::svm(survival ~ . - icustay_id,
                       type="C-classification",
                       kernel="radial",
@@ -345,6 +353,81 @@ plot(cPerformance, colorize = FALSE, main="ROC Curve for C-Classification")
 abline(a=0,b=1)
 mtext(paste("AUC =", round(as.numeric(cROC$auc), 4)))
 ```
+
+### Challenger Modelling
+
+For a challenger model we're going to trim down the features to a smaller set and re-model
+
+```{r}
+set.seed(params$rand_seed)
+challnger_test <- test %>% select(sysbp_mean, resprate_mean, tempc_mean, platelet_min, is_male, age_range, heart_rate, survival, icustay_id)
+challnger_train <- train %>% select(sysbp_mean, resprate_mean, tempc_mean, platelet_min, is_male, age_range, heart_rate, survival, icustay_id)
+```
+#### Nu Classification
+
+```{r}
+#| label: nu-model-challenger
+
+set.seed(params$rand_seed)
+nuChallengerModel <- e1071::svm(survival ~ . - icustay_id,
+                      type="nu-classification",
+                      kernel="radial",
+                      data=challnger_train,
+                      probability=TRUE,
+                      gamma=params$nu_challenger_gamma,
+                      nu=params$nu_challenger_nu,
+                      scale=TRUE)
+
+nuChallengerPredictions <- predict(nuChallengerModel, challnger_test, probability=TRUE)
+nuChallengerProbabilities <- attr(nuChallengerPredictions, "probabilities")[,1]
+nuChallengerROC <- pROC::roc(as.factor(challnger_test$survival), nuChallengerProbabilities)
+nuChallengerConfusionMatrix <- confusionMatrix(nuChallengerPredictions, challnger_test$survival)
+
+#to appropriately build the roc graph, buid a label order based on survivalLevels and the positive case from the confusion matrix
+nuChallengerOrdering <- c(survivalLevels[which(survivalLevels != nuChallengerConfusionMatrix$positive)], nuChallengerConfusionMatrix$positive)
+
+nuChallengerROCRPredictions <- ROCR::prediction(nuChallengerProbabilities, challnger_test$survival, label.ordering = nuOrdering)
+nuChallengerPerformance <- ROCR::performance(nuChallengerROCRPredictions, "tpr", "fpr")
+
+fourfoldplot(as.table(nuChallengerConfusionMatrix), color=c("navy", "lightblue"), main="nu-classification Challenger Confusion Matrix")
+
+plot(nuChallengerPerformance, colorize = FALSE, main="ROC Curve for nu-classification (Challenger)")
+abline(a=0,b=1)
+mtext(paste("AUC =", round(as.numeric(nuChallengerROC$auc), 4)))
+```
+### C Classification
+```{r}
+#| label: c-model-challenger
+
+set.seed(params$rand_seed)
+cChallengerModel <- e1071::svm(survival ~ . - icustay_id,
+                      type="C-classification",
+                      kernel="radial",
+                      data=challnger_train,
+                      probability=TRUE,
+                      cost=params$c_challenger_cost,
+                      gamma=params$c_challenger_gamma,
+                      scale=TRUE)
+
+cChallengerPredictions <- predict(cChallengerModel, challnger_test, probability=TRUE)
+cChallengerProbabillities <- attr(cChallengerPredictions, "probabilities")[,1]
+cChallengerROC <- pROC::roc(as.factor(challnger_test$survival), cChallengerProbabillities)
+cChallengerConfusionMatrix <- confusionMatrix(cChallengerPredictions, challnger_test$survival)
+
+#to appropriately build the roc graph, buid a label order based on survivalLevels and the positive case from the confusion matrix
+cChallengerOrdering <- c(survivalLevels[which(survivalLevels != cChallengerConfusionMatrix$positive)], cChallengerConfusionMatrix$positive)
+
+cChallengerROCRPredictions <- ROCR::prediction(cChallengerProbabillities, challnger_test$survival, label.ordering = cChallengerOrdering)
+cChallengerPerformance <- ROCR::performance(cChallengerROCRPredictions, "tpr", "fpr")
+
+fourfoldplot(as.table(cChallengerConfusionMatrix), color=c("navy", "lightblue"), main="C-classification Confusion Matrix (Challenger)")
+
+plot(cChallengerPerformance, colorize = FALSE, main="ROC Curve for C-Classification (Challenger)")
+abline(a=0,b=1)
+mtext(paste("AUC =", round(as.numeric(cChallengerROC$auc), 4)))
+```
+
+
 
 # Analysis and Results
 
