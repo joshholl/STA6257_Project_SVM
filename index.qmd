@@ -121,7 +121,7 @@ $$
 Where $X_i, X_j$ is a tuple.
 
 
-Once the data linear (and therefore linearly separable), we can define our maximally marginal hyperplane. A general formual for the hyperplane is as follows
+Once the data linear (and therefore linearly separable), we can define our maximally marginal hyperplane. A general formula for the hyperplane is as follows
 $$
 W \times X + b = 0
 $$
