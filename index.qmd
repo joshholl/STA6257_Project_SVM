@@ -159,7 +159,7 @@ In order to forecast the possibility of patient death during their hospital stay
 
  
 
-The dataset included 4,591 ICU patients from a single center. The outcome was binary - died or survived during hospitalization. 741 patients (16%) died while 3,850 (84%) survived. The model aimed to predict this binary mortality outcome using demographics, vital signs, and lab results as predictors. An SVM with linear kernel was chosen due to its ability to handle binary classification problems.
+The dataset included 4,591 ICU patients from a single center. The outcome was binary - died or survived during hospitalization. 741 patients (16%) died while 3,850 (84%) survived. The model aimed to predict this binary mortality outcome using demographics, vital signs, and lab results as predictors. An SVM with radial kernel was chosen due to its ability to handle binary classification problems.
 
  
 
@@ -180,7 +180,7 @@ Furthermore, we calculated the following metrics for the model using the test da
 Hyperparameter tuning was performed on the training set over a range of cost values from 0.001 to 100. The optimal cost of 0.1 was selected based on maximizing accuracy.
 
 
-The model aimed to predict this binary mortality outcome using demographics, vital signs, and lab results as predictors. An SVM with linear kernel was chosen due to its ability to handle binary classification problems.
+The model aimed to predict this binary mortality outcome using demographics, vital signs, and lab results as predictors. An SVM with radial kernel was chosen due to its ability to handle binary classification problems.
 
  
 
@@ -349,11 +349,11 @@ abline(a=0,b=1)
 mtext(paste("AUC =", round(as.numeric(cROC$auc), 4)))
 ```
 
-### Challenger Modelling
+### Challenger Modeling
 
 A challenger variant was constructed by reducing the number of features. The objective was to assess whether a more modest model could attain comparable performance.
 
-Age, gender, heart rate, systolic blood pressure, respiratory rate, and lactate level were utilized as predictors by the challenger. Once more, an SVM with a linear kernel was implemented for classification.
+Age, gender, heart rate, systolic blood pressure, respiratory rate, and lactate level were utilized as predictors by the challenger. Once more, an SVM with a radial kernel was implemented for classification.
 
 The evaluation and selection of models adhered to the identical procedure as the initial model. The hyperparameters were adjusted across a range of cost values using 10-fold cross-validation on the training set. On the test set, the model whose validation performance was the strongest was chosen and assessed.
 
