@@ -121,12 +121,12 @@ $$
 Where $X_i, X_j$ is a tuple.
 
 
-Once the data linear (and therfore linearly separable), we can define our maximally marginal hyperplane. A general formual for the hyperplane is as follows
+Once the data linear (and therefore linearly separable), we can define our maximally marginal hyperplane. A general formual for the hyperplane is as follows
 $$
 W \times X + b = 0
 $$
 
-This formual has 2 components of import. The first is a $W$, a weight vector and $b$ a scalar bias
+This formula has 2 components of import. The first is a $W$, a weight vector and $b$ a scalar bias.
 
 Since $W$ is a simple weighting vector it would be in the form of 
 
@@ -136,7 +136,7 @@ $$
 
 The tuples that lie the closest to the margins of the maximal marginal hyperplane are the actual support vectors.
 
-Using the formulas above, if our support vectors where at $y_i = 1$ and $y_i = -1$ our hyperplane margines would be defined as 
+Using the formulas above, if our support vectors where at $y_i = 1$ and $y_i = -1$ our hyperplane margins would be defined as 
 
 $$
 H_1: W_0 + W_{1}X_{1} + W_{2}X_{2} + \dots + W_{n}X_{n} \ge 1
@@ -179,11 +179,6 @@ Furthermore, we calculated the following metrics for the model using the test da
 
 Hyperparameter tuning was performed on the training set over a range of cost values from 0.001 to 100. The optimal cost of 0.1 was selected based on maximizing accuracy.
 
- 
-
-The final SVM model utilized a linear kernel and cost of 0.1. It had 1,156 support vectors. On the test set, the model achieved 85.47% accuracy, 86.13% specificity, and 98.67% negative predictive value. The area under the ROC curve was 0.764.
-
- 
 
 The model aimed to predict this binary mortality outcome using demographics, vital signs, and lab results as predictors. An SVM with linear kernel was chosen due to its ability to handle binary classification problems.
 
@@ -642,7 +637,7 @@ ggplot(mimic_data, aes(x=lactate_mean)) +
 ```
 
 
-# Conlusion
+# Conclusion
 
 In conclusion, it can be inferred that our support vector machine (SVM) model demonstrated moderate accuracy in predicting hospital mortality. The predictive accuracy of the model was higher for patients who survived compared to those who did not. According to the Area Under the Curve (AUC) of the Receiver Operating Characteristic (ROC) curve, the model can tell the difference between patients who will die and those who will not.
 
