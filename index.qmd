@@ -159,7 +159,7 @@ In order to forecast the possibility of patient death during their hospital stay
 
  
 
-The dataset included 4,591 ICU patients from a single center. The outcome was binary - died or survived during hospitalization. 7411 patients (16%) died while 3,8181 (84%) survived. The model aimed to predict this binary mortality outcome using demographics, vital signs, and lab results as predictors. An SVM with linear kernel was chosen due to its ability to handle binary classification problems.
+The dataset included 4,591 ICU patients from a single center. The outcome was binary - died or survived during hospitalization. 741 patients (16%) died while 3,850 (84%) survived. The model aimed to predict this binary mortality outcome using demographics, vital signs, and lab results as predictors. An SVM with linear kernel was chosen due to its ability to handle binary classification problems.
 
  
 
@@ -171,7 +171,7 @@ The SVM model was optimized using a 10-fold cross-validation method, and its per
 
 
 
-On the test dataset, the model showed an accuracy rate of 83.45% and a specificity rate of 83.45%. This shows that the model successfully identified patients who would survive their hospital stay in 83.45% of the cases, and it also obtained an accuracy rate of 83.45% in predicting patient mortality during their hospitalization.
+On the test dataset, the model showed an accuracy rate of 85.47% and a specificity rate of 86.13%. This shows that the model successfully identified patients who would survive their hospital stay in 86.13% of the cases, and it also obtained an accuracy rate of 85.47% in predicting patient mortality during their hospitalization.
 
 Furthermore, we calculated the following metrics for the model using the test dataset. It is found that the measurement's sensitivity is 0.8187 and that the positive predictive value (PPV) is 0.8187 with a negative predictive value of 0.8345.
 
@@ -204,7 +204,7 @@ The study's conclusions suggest that the support vector machine (SVM) model has 
 
  
 
-In conclusion, it can be inferred that our support vector machine (SVM) model demonstrated moderate accuracy in predicting hospital mortality. The predictive accuracy of the model was higher for patients who survived compared to those who did not. According to the Area Under the Curve (AUC) of the Receiver Operating Characteristic (ROC) curve, the model can tell the difference between patients who will die and those who will not. The area under the receiver operating characteristic (ROC) curve was determined to be 0.764.
+It can be inferred that our support vector machine (SVM) model demonstrated moderate accuracy in predicting hospital mortality. The predictive accuracy of the model was higher for patients who survived compared to those who did not. According to the Area Under the Curve (AUC) of the Receiver Operating Characteristic (ROC) curve, the model can tell the difference between patients who will die and those who will not. The area under the receiver operating characteristic (ROC) curve was determined to be 0.764.
 
 
 
@@ -356,7 +356,14 @@ mtext(paste("AUC =", round(as.numeric(cROC$auc), 4)))
 
 ### Challenger Modelling
 
-For a challenger model we're going to trim down the features to a smaller set and re-model
+A challenger variant was constructed by reducing the number of features. The objective was to assess whether a more modest model could attain comparable performance.
+
+Age, gender, heart rate, systolic blood pressure, respiratory rate, and lactate level were utilized as predictors by the challenger. Once more, an SVM with a linear kernel was implemented for classification.
+
+The evaluation and selection of models adhered to the identical procedure as the initial model. The hyperparameters were adjusted across a range of cost values using 10-fold cross-validation on the training set. On the test set, the model whose validation performance was the strongest was chosen and assessed.
+
+The challenger model achieved marginally inferior accuracy and specificity scores of 83.45%. Nevertheless, its reduced feature count enhances interpretability. The comparable performance achieved with fewer inputs gives us the minimum number of predictors required.
+
 
 ```{r}
 set.seed(params$rand_seed)

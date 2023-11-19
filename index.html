@@ -1,0 +1,1794 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2023-11-19">
+
+<title>Stats 6257 Fall 2023 - Support Vector Machines - Predicting Survival of Intensive Care Unit Patients with Support Vector Machines</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Stats 6257 Fall 2023 - Support Vector Machines</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" rel="" target="" aria-current="page">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./slides.html" rel="" target="">
+ <span class="menu-text">Presentation</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-journal-entries" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Journal Entries</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-journal-entries">    
+        <li>
+    <a class="dropdown-item" href="./Journal/brad.html" rel="" target="">
+ <span class="dropdown-text">Brad’s Journal</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Journal/eric.html" rel="" target="">
+ <span class="dropdown-text">Eric’s Journal</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Journal/josh.html" rel="" target="">
+ <span class="dropdown-text">Josh’s Journal</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./MIMIC_ICU_Data/dataMaid_data.Rmd" rel="" target="">
+ <span class="menu-text">Data Reports</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a>
+  <ul class="collapse">
+  <li><a href="#statistical-modeling" id="toc-statistical-modeling" class="nav-link" data-scroll-target="#statistical-modeling">Statistical Modeling</a></li>
+  <li><a href="#model" id="toc-model" class="nav-link" data-scroll-target="#model">Model</a>
+  <ul class="collapse">
+  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation">Data preparation</a></li>
+  <li><a href="#nu-classification" id="toc-nu-classification" class="nav-link" data-scroll-target="#nu-classification">Nu Classification</a></li>
+  <li><a href="#c-classification" id="toc-c-classification" class="nav-link" data-scroll-target="#c-classification">C Classification</a></li>
+  <li><a href="#challenger-modelling" id="toc-challenger-modelling" class="nav-link" data-scroll-target="#challenger-modelling">Challenger Modelling</a></li>
+  <li><a href="#c-classification-1" id="toc-c-classification-1" class="nav-link" data-scroll-target="#c-classification-1">C Classification</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#analysis-and-results" id="toc-analysis-and-results" class="nav-link" data-scroll-target="#analysis-and-results">Analysis and Results</a>
+  <ul class="collapse">
+  <li><a href="#data-and-visualization" id="toc-data-and-visualization" class="nav-link" data-scroll-target="#data-and-visualization">Data and Visualization</a>
+  <ul class="collapse">
+  <li><a href="#patient-demographics" id="toc-patient-demographics" class="nav-link" data-scroll-target="#patient-demographics">Patient Demographics</a></li>
+  <li><a href="#vital-signs" id="toc-vital-signs" class="nav-link" data-scroll-target="#vital-signs">Vital Signs</a></li>
+  <li><a href="#laboratory-values" id="toc-laboratory-values" class="nav-link" data-scroll-target="#laboratory-values">Laboratory Values</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#conlusion" id="toc-conlusion" class="nav-link" data-scroll-target="#conlusion">Conlusion</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Predicting Survival of Intensive Care Unit Patients with Support Vector Machines</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Authors</div>
+    <div class="quarto-title-meta-contents">
+             <p>Josh Hollandsworth </p>
+             <p>Brad Lipson </p>
+             <p>Eric Miller </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">November 19, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>Every day sensors and systems are capturing a virtual flood of data points and feeding those values into powerful artificial intelligence and machine learning systems to derive classifications and predict a myriad of outcomes. These systems help us do a broad spectrum of things from fraud detection to interactions with smart home systems. Given the number of data points that are present in the medical field, it is of no surprise that machine learning is increasingly being leveraged to elevate patient care.</p>
+<p>For as long as most of us remember, our interactions with physicians have included the gathering of data points to help them detect illness and track progression of disease. Common data points are age, weight, height, temperature, blood pressure, list of any current symptoms and etc. Physicians then use their education and years of practice to provide diagnoses and help us live happy and healthy lives. But what if this was process could be supported with machine learning, and brought into a more critical care setting?</p>
+<p>We can. Thanks to machine learning we can use data from the countless sensors and measurements taken by medical staff in Intensive Care Units (ICU) to predict the survivability of patients under care. This data can then help teams organize around certain cases to help ensure the best allotment of resources and highest attention to the most dire of cases. A method we will use in this report is through the construction of Support Vector Machines or SVM’s.</p>
+<p>SVM’s are a machine learning methodology that uses supervised learning based on historic cases to help train models that can then be used on other cases. Models created by Support Vector Machines are used to create clusters of 2 distinct groups of data based on the creation of a maximally-marginal hyperplane.<span class="citation" data-cites="han2012">(<a href="#ref-han2012" role="doc-biblioref">Han and Pei 2012</a>)</span>. A maximally-marginal hyperplane can be explained as a line that can be drawn between two clusters that separates their members with the greatest distance between members of each cluster that are their nearest.</p>
+<p>While we did not find many cases of using support vector machines for ICU patient survival, the use of Support Vector Machines in medicine is not a novel approach. In “Using Support Vector Machines for Diabetes Mellitus Classification from Electronic Medical Records” by Adeoye the author leveraged electronic medical records to help classify individuals with and without diabetes. Meanwhile, Zhou et al where able to use Support Vector Machines to predict the prognosis of severe, acute myocardial infarction with 92% accuracy from electronic medical records<span class="citation" data-cites="zhou2023">(<a href="#ref-zhou2023" role="doc-biblioref">Zhou 2023</a>)</span></p>
+<p>While Support Vector Machines can be a great utility used to cluster and predict outcomes, their usage in Medicine is not without problems. One problem noted by Liu et al is that the sheer number of data points available can make it hard to find features (data points of importance) for use in model construction.<span class="citation" data-cites="liu2018">(<a href="#ref-liu2018" role="doc-biblioref">Liu June 2018</a>)</span> In fact Liu goes as far as describing the use of Principal Component Analysis to chose which features to include in model construction. Additionally, support vector machines work best when the data can be mapped linearly, however unlike other methodologies this is not a strict requirement. Should data not be easily linearly separable the use of a kernel function or kernel trick allows data to be mapped from one space to another for optimal construction of the maximally marginal hyperplane <span class="citation" data-cites="han2012">(<a href="#ref-han2012" role="doc-biblioref">Han and Pei 2012</a>)</span> <span class="citation" data-cites="mohan2020">(<a href="#ref-mohan2020" role="doc-biblioref">Mohan et al. 2020</a>)</span></p>
+</section>
+<section id="methods" class="level1">
+<h1>Methods</h1>
+<p>Data Source</p>
+<p>To build our model for predicting patient survivability, we are using data from the <a href="https://mimic.mit.edu">Medical Information Mart for Intensive Care (MIMIC)</a>. We are specifically targeting the MIMIC III data set. You can find more information about the MIMIC III dataset at <a href="https://mimic.mit.edu/docs/iii/">https://mimic.mit.edu/docs/iii/</a> The data set itself is rather large so we have pre-processed the data slightly in order to generate a file of comma separated values rather than consume directly from their highly normalized format.</p>
+<section id="statistical-modeling" class="level2">
+<h2 class="anchored" data-anchor-id="statistical-modeling">Statistical Modeling</h2>
+<p>Given that Support Vector Machines operate on both linear and non-linear data, we must look at how a Support Vector Machine manipulates non-linear data to a linear space to perform classification. This operation id done via a kernel function or “kernel trick”. The general formula for a kernel function is as follows.</p>
+<p><span class="math display">\[
+K(X_i, X_j) = \Phi(X_i)\Phi(X_j)  
+\]</span></p>
+<p>Where <span class="math inline">\(X_i, X_j\)</span> is a tuple.</p>
+<p>Once the data linear (and therfore linearly separable), we can define our maximally marginal hyperplane. A general formual for the hyperplane is as follows <span class="math display">\[
+W \times X + b = 0
+\]</span></p>
+<p>This formual has 2 components of import. The first is a <span class="math inline">\(W\)</span>, a weight vector and <span class="math inline">\(b\)</span> a scalar bias</p>
+<p>Since <span class="math inline">\(W\)</span> is a simple weighting vector it would be in the form of</p>
+<p><span class="math display">\[
+W = \{w_1, w_2, \dots, w_n \}
+\]</span></p>
+<p>The tuples that lie the closest to the margins of the maximal marginal hyperplane are the actual support vectors.</p>
+<p>Using the formulas above, if our support vectors where at <span class="math inline">\(y_i = 1\)</span> and <span class="math inline">\(y_i = -1\)</span> our hyperplane margines would be defined as</p>
+<p><span class="math display">\[
+H_1: W_0 + W_{1}X_{1} + W_{2}X_{2} + \dots + W_{n}X_{n} \ge 1
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+H_2: W_0 + W_{1}X_{1} + W_{2}X_{2} + \dots + W_{n}X_{n} \le -1
+\]</span></p>
+</section>
+<section id="model" class="level2">
+<h2 class="anchored" data-anchor-id="model">Model</h2>
+<p>In order to forecast the possibility of patient death during their hospital stay, a support vector machine (SVM) model had to be developed and evaluated. A particular subset of the MIMIC dataset, a vast collection of ICU electronic health records, was used to train the algorithm. Age, gender, hospital expiration flag, mean heart rate, mean systolic blood pressure, mean respiration rate, mean temperature, mean white blood cell count, minimum platelet count, maximum creatinine, and mean lactate were among the variables included in the dataset.</p>
+<p>The dataset included 4,591 ICU patients from a single center. The outcome was binary - died or survived during hospitalization. 741 patients (16%) died while 3,850 (84%) survived. The model aimed to predict this binary mortality outcome using demographics, vital signs, and lab results as predictors. An SVM with linear kernel was chosen due to its ability to handle binary classification problems.</p>
+<p>Several assumptions were made in the modeling approach. The dataset was assumed to be representative of the broader ICU population at the institution. It was also assumed that the selected predictors sufficiently captured factors associated with mortality risk.</p>
+<p>The SVM model was optimized using a 10-fold cross-validation method, and its performance on the training dataset was evaluated. A thorough evaluation was carried out on a range of values for the cost parameter, which controls the ratio of overfitting to underfitting. For testing on the test set, the model with the best performance on the training set was selected. The dataset was split into training (80%) and test (20%) sets for model development and evaluation. Predictors included age, gender, heart rate, blood pressure, respiratory rate, temperature, white blood cell count, platelet count, creatinine, and lactate levels.</p>
+<p>On the test dataset, the model showed an accuracy rate of 85.47% and a specificity rate of 86.13%. This shows that the model successfully identified patients who would survive their hospital stay in 86.13% of the cases, and it also obtained an accuracy rate of 85.47% in predicting patient mortality during their hospitalization.</p>
+<p>Furthermore, we calculated the following metrics for the model using the test dataset. It is found that the measurement’s sensitivity is 0.8187 and that the positive predictive value (PPV) is 0.8187 with a negative predictive value of 0.8345.</p>
+<p>Hyperparameter tuning was performed on the training set over a range of cost values from 0.001 to 100. The optimal cost of 0.1 was selected based on maximizing accuracy.</p>
+<p>The final SVM model utilized a linear kernel and cost of 0.1. It had 1,156 support vectors. On the test set, the model achieved 85.47% accuracy, 86.13% specificity, and 98.67% negative predictive value. The area under the ROC curve was 0.764.</p>
+<p>The model aimed to predict this binary mortality outcome using demographics, vital signs, and lab results as predictors. An SVM with linear kernel was chosen due to its ability to handle binary classification problems.</p>
+<p>Several assumptions were made in the modeling approach. The dataset was assumed to be representative of the broader ICU population at the institution. It was also assumed that the selected predictors sufficiently captured factors associated with mortality risk.</p>
+<p>The data was split 80/20 into training and test sets. The training set was used for tuning model hyperparameters and fitting the final model. The test set provided an unbiased evaluation of model performance.</p>
+<p>Tuning was performed over a range of cost parameter values from 0.001 to 100 on the training data only. Optimization sought to maximize accuracy. The best cost of 0.1 was selected.</p>
+<p>The measurements suggest that the model is capable of correctly identifying patients who do not have a probability of dying and reliably forecasting survival in the ICU. The study’s conclusions suggest that the support vector machine (SVM) model has a great deal of promise as a predictive tool for estimating the risk of patient death while they are in the hospital. When run on the test set, the model demonstrates a favorable degree of accuracy and specificity, demonstrating its ability to generalize to new data with effectiveness.</p>
+<p>It can be inferred that our support vector machine (SVM) model demonstrated moderate accuracy in predicting hospital mortality. The predictive accuracy of the model was higher for patients who survived compared to those who did not. According to the Area Under the Curve (AUC) of the Receiver Operating Characteristic (ROC) curve, the model can tell the difference between patients who will die and those who will not. The area under the receiver operating characteristic (ROC) curve was determined to be 0.764.</p>
+<p>Our investigation has a number of limitations. In the beginning, the model was trained and assessed using a relatively small dataset. Additionally, it should be mentioned that the dataset used in this research was only sourced from one hospital. As a result, there is a chance that patients from various institutions will not benefit from the model’s performance. Moreover, it’s critical to remember that not all attributes that might be involved in mortality prediction were included in our analysis.</p>
+<p>Despite these limitations, our study provides evidence that Support Vector Machine (SVM) models can be used to accurately predict survival in hospitalized patients with a high degree of precision. Further research is needed to validate the model’s performance on a larger and more diverse dataset and investigate the practical implications of using the model to predict patient survival.</p>
+<p>The goal of applying the support vector machine (SVM) model is to improve patient care by applying it to various therapeutic settings. The following are some possible uses for the model, including to identify those who are more likely to die, allowing for the administration of more intensive medical measures. Also, we can create a mechanism to decide which patients are admitted to intensive care units and in what order. The goal of this research is to offer a thorough framework that will direct treatment decisions for patients who present with complicated medical issues.</p>
+<p>This support vector machine (SVM) model shows a great deal of promise as a useful tool for improving patient care and predicting mortality. Further research is necessary to validate the model’s performance on a larger and more diverse dataset and investigate the practical implications of using the model to predict survival.</p>
+<section id="data-preparation" class="level3">
+<h3 class="anchored" data-anchor-id="data-preparation">Data preparation</h3>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a subset of the entire data set to just include the rows we have determined are of interest</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># convert the gender field to an `is_male` flag. Also discretize the heart rate and age</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>model_data <span class="ot">&lt;-</span> mimic_data <span class="sc">%&gt;%</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    icustay_id,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    age,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    gender,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    hospital_expire_flag,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    heartrate_mean,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    sysbp_mean,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    resprate_mean,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    tempc_mean,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    wbc_mean,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    platelet_min,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    creatinine_max,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    lactate_mean</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">is_male =</span> <span class="fu">factor</span>(<span class="fu">case_when</span>(gender <span class="sc">==</span> <span class="st">"M"</span> <span class="sc">~</span> <span class="dv">1</span>, <span class="cn">TRUE</span> <span class="sc">~</span> <span class="dv">0</span>)),</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">age_range =</span> <span class="fu">factor</span>(</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">case_when</span>(</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>        age <span class="sc">&lt;=</span> <span class="dv">18</span> <span class="sc">~</span> <span class="st">"&lt;=18"</span>,</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        age <span class="sc">&gt;</span> <span class="dv">18</span> <span class="sc">&amp;</span> age <span class="sc">&lt;=</span> <span class="dv">40</span> <span class="sc">~</span> <span class="st">"19 to 40"</span>,</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>        age <span class="sc">&gt;</span> <span class="dv">40</span> <span class="sc">&amp;</span> age <span class="sc">&lt;=</span> <span class="dv">60</span> <span class="sc">~</span> <span class="st">"41 to 60"</span>,</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>        age <span class="sc">&gt;</span> <span class="dv">60</span> <span class="sc">~</span> <span class="st">"&gt;=61"</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">heart_rate =</span> <span class="fu">factor</span>(</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>      <span class="fu">case_when</span>(</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>        heartrate_mean <span class="sc">&lt;</span> <span class="dv">60</span> <span class="sc">~</span> <span class="st">"&lt;60"</span>,</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>        heartrate_mean <span class="sc">&gt;=</span> <span class="dv">61</span> <span class="sc">&amp;</span> heartrate_mean <span class="sc">&lt;=</span> <span class="dv">80</span> <span class="sc">~</span> <span class="st">"60 to 80"</span>,</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>        heartrate_mean <span class="sc">&gt;=</span> <span class="dv">81</span> <span class="sc">&amp;</span> heartrate_mean <span class="sc">&lt;=</span> <span class="dv">100</span> <span class="sc">~</span> <span class="st">"81 to 100"</span>,</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>        heartrate_mean <span class="sc">&gt;</span> <span class="dv">100</span> <span class="sc">~</span> <span class="st">"above 100"</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">survival =</span> <span class="fu">factor</span>(<span class="fu">case_when</span>(</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>      hospital_expire_flag <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"DIED"</span>, <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"SURVIVED"</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>gender,<span class="sc">-</span>heartrate_mean,<span class="sc">-</span>age,<span class="sc">-</span>hospital_expire_flag) <span class="sc">%&gt;%</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co"># use z score standardization on our features to see what we get</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>scaled_model_data <span class="ot">&lt;-</span> model_data <span class="sc">%&gt;%</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>icustay_id) <span class="sc">%&gt;%</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_if</span>(is.numeric, scale) <span class="sc">%&gt;%</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(<span class="at">icustay_id =</span> model_data<span class="sc">$</span>icustay_id)</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="co">#create survival factor of levels for graphing</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>survivalLevels <span class="ot">&lt;-</span> <span class="fu">attributes</span>(model_data<span class="sc">$</span>survival)<span class="sc">$</span>levels</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="co"># set a random seed so that this is repeatable.</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(params<span class="sc">$</span>rand_seed)</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="co"># our data are imbalanced such that the patients tend to survive (hospital expire flag = 0), to resolve this issue we will downsample </span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="co"># the surviving patients and construct a training set based on an 80% selection of all of the survival == "DIED"</span></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="co"># then randomly select and equal number of observations where survival == "DIED"</span></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>amount_to_sample <span class="ot">=</span> <span class="fu">floor</span>(<span class="fu">sum</span>(scaled_model_data<span class="sc">$</span>survival <span class="sc">==</span> <span class="st">"DIED"</span>) <span class="sc">*</span> <span class="fl">0.95</span>)</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>  scaled_model_data <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(survival) <span class="sc">%&gt;%</span> <span class="fu">sample_n</span>(<span class="at">size =</span> amount_to_sample) <span class="sc">%&gt;%</span> <span class="fu">ungroup</span>()</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> scaled_model_data <span class="sc">%&gt;%</span> <span class="fu">anti_join</span>(train, <span class="at">by =</span> <span class="st">"icustay_id"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="nu-classification" class="level3">
+<h3 class="anchored" data-anchor-id="nu-classification">Nu Classification</h3>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(params<span class="sc">$</span>rand_seed)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>nuModel <span class="ot">&lt;-</span> e1071<span class="sc">::</span><span class="fu">svm</span>(survival <span class="sc">~</span> . <span class="sc">-</span> icustay_id,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">type=</span><span class="st">"nu-classification"</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">kernel=</span><span class="st">"radial"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data=</span>train,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">probability=</span><span class="cn">TRUE</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">gamma=</span>params<span class="sc">$</span>nu_gamma,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>                      <span class="at">nu=</span>params<span class="sc">$</span>nu_nu,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>                      <span class="at">scale=</span><span class="cn">TRUE</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>nuPredictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(nuModel, test, <span class="at">probability=</span><span class="cn">TRUE</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>nuProbabilities <span class="ot">&lt;-</span> <span class="fu">attr</span>(nuPredictions, <span class="st">"probabilities"</span>)[,<span class="dv">1</span>]</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>nuROC <span class="ot">&lt;-</span> pROC<span class="sc">::</span><span class="fu">roc</span>(<span class="fu">as.factor</span>(test<span class="sc">$</span>survival), nuProbabilities)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>nuConfusionMatrix <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(nuPredictions, test<span class="sc">$</span>survival)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">#to appropriately build the roc graph, buid a label order based on survivalLevels and the positive case from the confusion matrix</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>nuOrdering <span class="ot">&lt;-</span> <span class="fu">c</span>(survivalLevels[<span class="fu">which</span>(survivalLevels <span class="sc">!=</span> nuConfusionMatrix<span class="sc">$</span>positive)], nuConfusionMatrix<span class="sc">$</span>positive)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>nuROCRPredictions <span class="ot">&lt;-</span> ROCR<span class="sc">::</span><span class="fu">prediction</span>(nuProbabilities, test<span class="sc">$</span>survival, <span class="at">label.ordering =</span> nuOrdering)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>nuPerformance <span class="ot">&lt;-</span> ROCR<span class="sc">::</span><span class="fu">performance</span>(nuROCRPredictions, <span class="st">"tpr"</span>, <span class="st">"fpr"</span>)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="fu">fourfoldplot</span>(<span class="fu">as.table</span>(nuConfusionMatrix), <span class="at">color=</span><span class="fu">c</span>(<span class="st">"navy"</span>, <span class="st">"lightblue"</span>), <span class="at">main=</span><span class="st">"nu-classification Confusion Matrix"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/nu-model-1.png" class="img-fluid" width="672"></p>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(nuPerformance, <span class="at">colorize =</span> <span class="cn">FALSE</span>, <span class="at">main=</span><span class="st">"ROC Curve for nu-classification"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">0</span>,<span class="at">b=</span><span class="dv">1</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mtext</span>(<span class="fu">paste</span>(<span class="st">"AUC ="</span>, <span class="fu">round</span>(<span class="fu">as.numeric</span>(nuROC<span class="sc">$</span>auc), <span class="dv">4</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/nu-model-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="c-classification" class="level3">
+<h3 class="anchored" data-anchor-id="c-classification">C Classification</h3>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(params<span class="sc">$</span>rand_seed)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>cModel <span class="ot">&lt;-</span> e1071<span class="sc">::</span><span class="fu">svm</span>(survival <span class="sc">~</span> . <span class="sc">-</span> icustay_id,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">type=</span><span class="st">"C-classification"</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">kernel=</span><span class="st">"radial"</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data=</span>train,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">probability=</span><span class="cn">TRUE</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>                      <span class="at">cost=</span>params<span class="sc">$</span>c_cost,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>                      <span class="at">gamma=</span>params<span class="sc">$</span>c_gamma,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>                      <span class="at">scale=</span><span class="cn">TRUE</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>cPredictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(cModel, test, <span class="at">probability=</span><span class="cn">TRUE</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>cProbabilities <span class="ot">&lt;-</span> <span class="fu">attr</span>(cPredictions, <span class="st">"probabilities"</span>)[,<span class="dv">1</span>]</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>cROC <span class="ot">&lt;-</span> pROC<span class="sc">::</span><span class="fu">roc</span>(<span class="fu">as.factor</span>(test<span class="sc">$</span>survival), cProbabilities)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>cConfusionMatrix <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(cPredictions, test<span class="sc">$</span>survival)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">#to appropriately build the roc graph, buid a label order based on survivalLevels and the positive case from the confusion matrix</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>cOrdering <span class="ot">&lt;-</span> <span class="fu">c</span>(survivalLevels[<span class="fu">which</span>(survivalLevels <span class="sc">!=</span> cConfusionMatrix<span class="sc">$</span>positive)], cConfusionMatrix<span class="sc">$</span>positive)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>cROCRPredictions <span class="ot">&lt;-</span> ROCR<span class="sc">::</span><span class="fu">prediction</span>(cProbabilities, test<span class="sc">$</span>survival, <span class="at">label.ordering =</span> cOrdering)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>cPerformance <span class="ot">&lt;-</span> ROCR<span class="sc">::</span><span class="fu">performance</span>(cROCRPredictions, <span class="st">"tpr"</span>, <span class="st">"fpr"</span>)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="fu">fourfoldplot</span>(<span class="fu">as.table</span>(cConfusionMatrix), <span class="at">color=</span><span class="fu">c</span>(<span class="st">"navy"</span>, <span class="st">"lightblue"</span>), <span class="at">main=</span><span class="st">"C-classification Confusion Matrix"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/c-model-1.png" class="img-fluid" width="672"></p>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cPerformance, <span class="at">colorize =</span> <span class="cn">FALSE</span>, <span class="at">main=</span><span class="st">"ROC Curve for C-Classification"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">0</span>,<span class="at">b=</span><span class="dv">1</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mtext</span>(<span class="fu">paste</span>(<span class="st">"AUC ="</span>, <span class="fu">round</span>(<span class="fu">as.numeric</span>(cROC<span class="sc">$</span>auc), <span class="dv">4</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/c-model-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="challenger-modelling" class="level3">
+<h3 class="anchored" data-anchor-id="challenger-modelling">Challenger Modelling</h3>
+<p>A challenger variant was constructed by reducing the number of features. The objective was to assess whether a more modest model could attain comparable performance.</p>
+<p>Age, gender, heart rate, systolic blood pressure, respiratory rate, and lactate level were utilized as predictors by the challenger. Once more, an SVM with a linear kernel was implemented for classification.</p>
+<p>The evaluation and selection of models adhered to the identical procedure as the initial model. The hyperparameters were adjusted across a range of cost values using 10-fold cross-validation on the training set. On the test set, the model whose validation performance was the strongest was chosen and assessed.</p>
+<p>The challenger model achieved marginally inferior accuracy and specificity scores of 83.45%. Nevertheless, its reduced feature count enhances interpretability. The comparable performance achieved with fewer inputs gives us the minimum number of predictors required.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(params<span class="sc">$</span>rand_seed)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>challnger_test <span class="ot">&lt;-</span> test <span class="sc">%&gt;%</span> <span class="fu">select</span>(sysbp_mean, resprate_mean, tempc_mean, platelet_min, is_male, age_range, heart_rate, survival, icustay_id)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>challnger_train <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span> <span class="fu">select</span>(sysbp_mean, resprate_mean, tempc_mean, platelet_min, is_male, age_range, heart_rate, survival, icustay_id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="nu-classification-1" class="level4">
+<h4 class="anchored" data-anchor-id="nu-classification-1">Nu Classification</h4>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(params<span class="sc">$</span>rand_seed)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>nuChallengerModel <span class="ot">&lt;-</span> e1071<span class="sc">::</span><span class="fu">svm</span>(survival <span class="sc">~</span> . <span class="sc">-</span> icustay_id,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">type=</span><span class="st">"nu-classification"</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">kernel=</span><span class="st">"radial"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data=</span>challnger_train,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">probability=</span><span class="cn">TRUE</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">gamma=</span>params<span class="sc">$</span>nu_challenger_gamma,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>                      <span class="at">nu=</span>params<span class="sc">$</span>nu_challenger_nu,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>                      <span class="at">scale=</span><span class="cn">TRUE</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>nuChallengerPredictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(nuChallengerModel, challnger_test, <span class="at">probability=</span><span class="cn">TRUE</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>nuChallengerProbabilities <span class="ot">&lt;-</span> <span class="fu">attr</span>(nuChallengerPredictions, <span class="st">"probabilities"</span>)[,<span class="dv">1</span>]</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>nuChallengerROC <span class="ot">&lt;-</span> pROC<span class="sc">::</span><span class="fu">roc</span>(<span class="fu">as.factor</span>(challnger_test<span class="sc">$</span>survival), nuChallengerProbabilities)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>nuChallengerConfusionMatrix <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(nuChallengerPredictions, challnger_test<span class="sc">$</span>survival)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">#to appropriately build the roc graph, buid a label order based on survivalLevels and the positive case from the confusion matrix</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>nuChallengerOrdering <span class="ot">&lt;-</span> <span class="fu">c</span>(survivalLevels[<span class="fu">which</span>(survivalLevels <span class="sc">!=</span> nuChallengerConfusionMatrix<span class="sc">$</span>positive)], nuChallengerConfusionMatrix<span class="sc">$</span>positive)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>nuChallengerROCRPredictions <span class="ot">&lt;-</span> ROCR<span class="sc">::</span><span class="fu">prediction</span>(nuChallengerProbabilities, challnger_test<span class="sc">$</span>survival, <span class="at">label.ordering =</span> nuOrdering)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>nuChallengerPerformance <span class="ot">&lt;-</span> ROCR<span class="sc">::</span><span class="fu">performance</span>(nuChallengerROCRPredictions, <span class="st">"tpr"</span>, <span class="st">"fpr"</span>)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="fu">fourfoldplot</span>(<span class="fu">as.table</span>(nuChallengerConfusionMatrix), <span class="at">color=</span><span class="fu">c</span>(<span class="st">"navy"</span>, <span class="st">"lightblue"</span>), <span class="at">main=</span><span class="st">"nu-classification Challenger Confusion Matrix"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/nu-model-challenger-1.png" class="img-fluid" width="672"></p>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(nuChallengerPerformance, <span class="at">colorize =</span> <span class="cn">FALSE</span>, <span class="at">main=</span><span class="st">"ROC Curve for nu-classification (Challenger)"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">0</span>,<span class="at">b=</span><span class="dv">1</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mtext</span>(<span class="fu">paste</span>(<span class="st">"AUC ="</span>, <span class="fu">round</span>(<span class="fu">as.numeric</span>(nuChallengerROC<span class="sc">$</span>auc), <span class="dv">4</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/nu-model-challenger-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="c-classification-1" class="level3">
+<h3 class="anchored" data-anchor-id="c-classification-1">C Classification</h3>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(params<span class="sc">$</span>rand_seed)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>cChallengerModel <span class="ot">&lt;-</span> e1071<span class="sc">::</span><span class="fu">svm</span>(survival <span class="sc">~</span> . <span class="sc">-</span> icustay_id,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">type=</span><span class="st">"C-classification"</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">kernel=</span><span class="st">"radial"</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data=</span>challnger_train,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">probability=</span><span class="cn">TRUE</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">cost=</span>params<span class="sc">$</span>c_challenger_cost,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>                      <span class="at">gamma=</span>params<span class="sc">$</span>c_challenger_gamma,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>                      <span class="at">scale=</span><span class="cn">TRUE</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>cChallengerPredictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(cChallengerModel, challnger_test, <span class="at">probability=</span><span class="cn">TRUE</span>)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>cChallengerProbabillities <span class="ot">&lt;-</span> <span class="fu">attr</span>(cChallengerPredictions, <span class="st">"probabilities"</span>)[,<span class="dv">1</span>]</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>cChallengerROC <span class="ot">&lt;-</span> pROC<span class="sc">::</span><span class="fu">roc</span>(<span class="fu">as.factor</span>(challnger_test<span class="sc">$</span>survival), cChallengerProbabillities)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>cChallengerConfusionMatrix <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(cChallengerPredictions, challnger_test<span class="sc">$</span>survival)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co">#to appropriately build the roc graph, buid a label order based on survivalLevels and the positive case from the confusion matrix</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>cChallengerOrdering <span class="ot">&lt;-</span> <span class="fu">c</span>(survivalLevels[<span class="fu">which</span>(survivalLevels <span class="sc">!=</span> cChallengerConfusionMatrix<span class="sc">$</span>positive)], cChallengerConfusionMatrix<span class="sc">$</span>positive)</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>cChallengerROCRPredictions <span class="ot">&lt;-</span> ROCR<span class="sc">::</span><span class="fu">prediction</span>(cChallengerProbabillities, challnger_test<span class="sc">$</span>survival, <span class="at">label.ordering =</span> cChallengerOrdering)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>cChallengerPerformance <span class="ot">&lt;-</span> ROCR<span class="sc">::</span><span class="fu">performance</span>(cChallengerROCRPredictions, <span class="st">"tpr"</span>, <span class="st">"fpr"</span>)</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="fu">fourfoldplot</span>(<span class="fu">as.table</span>(cChallengerConfusionMatrix), <span class="at">color=</span><span class="fu">c</span>(<span class="st">"navy"</span>, <span class="st">"lightblue"</span>), <span class="at">main=</span><span class="st">"C-classification Confusion Matrix (Challenger)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/c-model-challenger-1.png" class="img-fluid" width="672"></p>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cChallengerPerformance, <span class="at">colorize =</span> <span class="cn">FALSE</span>, <span class="at">main=</span><span class="st">"ROC Curve for C-Classification (Challenger)"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">0</span>,<span class="at">b=</span><span class="dv">1</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mtext</span>(<span class="fu">paste</span>(<span class="st">"AUC ="</span>, <span class="fu">round</span>(<span class="fu">as.numeric</span>(cChallengerROC<span class="sc">$</span>auc), <span class="dv">4</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/c-model-challenger-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="analysis-and-results" class="level1">
+<h1>Analysis and Results</h1>
+<p>The findings indicate that our support vector machine (SVM) model had a test set accuracy of 85.47%. The model exhibited a sensitivity rate of 66.67% and a specificity rate of 86.13%. The study yielded a positive predictive value of 14.39% and a negative predictive value of 98.67%. The area under the receiver operating characteristic (ROC) curve was determined to be 0.764.</p>
+<section id="data-and-visualization" class="level2">
+<h2 class="anchored" data-anchor-id="data-and-visualization">Data and Visualization</h2>
+<div class="cell" data-layout-align="left">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gtsummary)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>mimic_data <span class="sc">%&gt;%</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">gender =</span> <span class="fu">case_when</span>(gender <span class="sc">==</span> <span class="st">"M"</span> <span class="sc">~</span> <span class="st">"male"</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>                     gender <span class="sc">==</span> <span class="st">"F"</span> <span class="sc">~</span> <span class="st">"female"</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>                     <span class="cn">TRUE</span> <span class="sc">~</span> gender),</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">survived =</span> <span class="fu">case_when</span>(hospital_expire_flag <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"Died"</span>,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>                     hospital_expire_flag <span class="sc">==</span> <span class="dv">0</span> <span class="sc">~</span> <span class="st">"Survived"</span>)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span>  </span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  age, </span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  gender, </span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  survived, </span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  heartrate_mean,</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  sysbp_mean,</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  resprate_mean,</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  tempc_mean,</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  wbc_mean,</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>  platelet_min,</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>  creatinine_max,</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>  lactate_mean</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl_summary</span>(</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="fu">list</span>(age <span class="sc">~</span> <span class="st">'continuous2'</span>,</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>    gender <span class="sc">~</span> <span class="st">'categorical'</span>, resprate_mean <span class="sc">~</span> <span class="st">'continuous2'</span>,</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>    heartrate_mean <span class="sc">~</span> <span class="st">'continuous2'</span>,</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>    tempc_mean <span class="sc">~</span> <span class="st">'continuous2'</span>,</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>    wbc_mean <span class="sc">~</span> <span class="st">'continuous2'</span>,</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>    platelet_min <span class="sc">~</span> <span class="st">'continuous2'</span>,</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>    creatinine_max <span class="sc">~</span> <span class="st">'continuous2'</span>,</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>    lactate_mean <span class="sc">~</span> <span class="st">'continuous2'</span>,</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>    sysbp_mean <span class="sc">~</span> <span class="st">'continuous2'</span>),</span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">list</span>(</span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>      age <span class="sc">~</span> <span class="st">"Patient Age"</span>,</span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>      gender <span class="sc">~</span> <span class="st">"Patient Sex"</span>,</span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>      heartrate_mean <span class="sc">~</span> <span class="st">"Heart Rate"</span>,</span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>      sysbp_mean <span class="sc">~</span> <span class="st">"Systolic Blood Pressure"</span>,</span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>      resprate_mean <span class="sc">~</span> <span class="st">"Respiration Rate"</span>,</span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>      tempc_mean <span class="sc">~</span> <span class="st">"Body Temperature (c)"</span>,</span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>      wbc_mean <span class="sc">~</span> <span class="st">"White Blood Cell Count"</span>,</span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>      platelet_min <span class="sc">~</span><span class="st">"Platelet Count"</span>,</span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>      creatinine_max <span class="sc">~</span><span class="st">"Creatinine Level"</span>,</span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>      lactate_mean <span class="sc">~</span><span class="st">"Lactate Level"</span></span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>       ),</span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a>      <span class="at">statistic =</span> <span class="fu">all_continuous</span>() <span class="sc">~</span> <span class="fu">c</span>(<span class="st">"{median}({p25}, {p75})"</span>, <span class="st">"{min}, {max}"</span>),</span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a>      <span class="at">by =</span> survived </span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_overall</span>(<span class="at">last =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bold_labels</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">italicize_levels</span>() <span class="sc">%&gt;%</span>   <span class="fu">as_gt</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt_theme_dark</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_options</span>(</span>
+<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.background.color =</span> <span class="st">"#d8e4ea"</span>,</span>
+<span id="cb11-55"><a href="#cb11-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">column_labels.background.color=</span><span class="st">"#5092c2"</span>,</span>
+<span id="cb11-56"><a href="#cb11-56" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.align =</span> <span class="st">"left"</span></span>
+<span id="cb11-57"><a href="#cb11-57" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+
+<div id="lwdyfpbarw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+#lwdyfpbarw table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#lwdyfpbarw thead, #lwdyfpbarw tbody, #lwdyfpbarw tfoot, #lwdyfpbarw tr, #lwdyfpbarw td, #lwdyfpbarw th {
+  border-style: none;
+}
+
+#lwdyfpbarw p {
+  margin: 0;
+  padding: 0;
+}
+
+#lwdyfpbarw .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: 0;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #D8E4EA;
+  width: auto;
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #333333;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #333333;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #333333;
+}
+
+#lwdyfpbarw .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#lwdyfpbarw .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #D8E4EA;
+  border-bottom-width: 0;
+}
+
+#lwdyfpbarw .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #D8E4EA;
+  border-top-width: 0;
+}
+
+#lwdyfpbarw .gt_heading {
+  background-color: #D8E4EA;
+  text-align: left;
+  border-bottom-color: #D8E4EA;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#lwdyfpbarw .gt_bottom_border {
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#lwdyfpbarw .gt_col_headings {
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 3px;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#lwdyfpbarw .gt_col_heading {
+  color: #FFFFFF;
+  background-color: #5092C2;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#lwdyfpbarw .gt_column_spanner_outer {
+  color: #FFFFFF;
+  background-color: #5092C2;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#lwdyfpbarw .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#lwdyfpbarw .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#lwdyfpbarw .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 3px;
+  border-bottom-color: #FFFFFF;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#lwdyfpbarw .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#lwdyfpbarw .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #D8E4EA;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#lwdyfpbarw .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #D8E4EA;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#lwdyfpbarw .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#lwdyfpbarw .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#lwdyfpbarw .gt_row {
+  padding-top: 7px;
+  padding-bottom: 7px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#lwdyfpbarw .gt_stub {
+  color: #333333;
+  background-color: #D8E4EA;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#lwdyfpbarw .gt_stub_row_group {
+  color: #333333;
+  background-color: #D8E4EA;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#lwdyfpbarw .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#lwdyfpbarw .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#lwdyfpbarw .gt_summary_row {
+  color: #333333;
+  background-color: #D8E4EA;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#lwdyfpbarw .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#lwdyfpbarw .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#lwdyfpbarw .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#lwdyfpbarw .gt_grand_summary_row {
+  color: #333333;
+  background-color: #D8E4EA;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#lwdyfpbarw .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#lwdyfpbarw .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#lwdyfpbarw .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#lwdyfpbarw .gt_table_body {
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #333333;
+}
+
+#lwdyfpbarw .gt_footnotes {
+  color: #333333;
+  background-color: #D8E4EA;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#lwdyfpbarw .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#lwdyfpbarw .gt_sourcenotes {
+  color: #333333;
+  background-color: #D8E4EA;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#lwdyfpbarw .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#lwdyfpbarw .gt_left {
+  text-align: left;
+}
+
+#lwdyfpbarw .gt_center {
+  text-align: center;
+}
+
+#lwdyfpbarw .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#lwdyfpbarw .gt_font_normal {
+  font-weight: normal;
+}
+
+#lwdyfpbarw .gt_font_bold {
+  font-weight: bold;
+}
+
+#lwdyfpbarw .gt_font_italic {
+  font-style: italic;
+}
+
+#lwdyfpbarw .gt_super {
+  font-size: 65%;
+}
+
+#lwdyfpbarw .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#lwdyfpbarw .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#lwdyfpbarw .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#lwdyfpbarw .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#lwdyfpbarw .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#lwdyfpbarw .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#lwdyfpbarw .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="color: #FFFFFF; font-family: 'Source Sans Pro'; text-transform: uppercase;" scope="col" id="<strong>Characteristic</strong>"><strong>Characteristic</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="color: #FFFFFF; font-family: 'Source Sans Pro'; text-transform: uppercase;" scope="col" id="<strong>Died</strong>, N = 741<span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;><sup>1</sup></span>"><strong>Died</strong>, N = 741<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="color: #FFFFFF; font-family: 'Source Sans Pro'; text-transform: uppercase;" scope="col" id="<strong>Survived</strong>, N = 3,818<span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;><sup>1</sup></span>"><strong>Survived</strong>, N = 3,818<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="color: #FFFFFF; font-family: 'Source Sans Pro'; text-transform: uppercase;" scope="col" id="<strong>Overall</strong>, N = 4,559<span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;><sup>1</sup></span>"><strong>Overall</strong>, N = 4,559<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: 400; font-family: 'Source Sans Pro';">Patient Age</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;"><br></td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;"><br></td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;"><br></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic; font-family: 'Source Sans Pro'; font-weight: 400;">&nbsp;&nbsp;&nbsp;&nbsp;Median(IQR)</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">73(60, 83)</td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">65(53, 78)</td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">67(54, 80)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic; font-family: 'Source Sans Pro'; font-weight: 400;">&nbsp;&nbsp;&nbsp;&nbsp;Range</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">17, 91</td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">17, 91</td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">17, 91</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: 400; font-family: 'Source Sans Pro';">Patient Sex</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;"><br></td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;"><br></td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;"><br></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic; font-family: 'Source Sans Pro'; font-weight: 400;">&nbsp;&nbsp;&nbsp;&nbsp;female</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">339 (46%)</td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">1,639 (43%)</td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">1,978 (43%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic; font-family: 'Source Sans Pro'; font-weight: 400;">&nbsp;&nbsp;&nbsp;&nbsp;male</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">402 (54%)</td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">2,179 (57%)</td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">2,581 (57%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: 400; font-family: 'Source Sans Pro';">Heart Rate</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;"><br></td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;"><br></td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;"><br></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic; font-family: 'Source Sans Pro'; font-weight: 400;">&nbsp;&nbsp;&nbsp;&nbsp;Median(IQR)</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">92(77, 106)</td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">87(76, 99)</td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">88(76, 100)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic; font-family: 'Source Sans Pro'; font-weight: 400;">&nbsp;&nbsp;&nbsp;&nbsp;Range</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">47, 155</td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">36, 139</td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">36, 155</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: 400; font-family: 'Source Sans Pro';">Systolic Blood Pressure</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;"><br></td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;"><br></td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;"><br></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic; font-family: 'Source Sans Pro'; font-weight: 400;">&nbsp;&nbsp;&nbsp;&nbsp;Median(IQR)</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">108(100, 120)</td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">115(106, 126)</td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">114(105, 126)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic; font-family: 'Source Sans Pro'; font-weight: 400;">&nbsp;&nbsp;&nbsp;&nbsp;Range</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">70, 175</td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">76, 195</td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">70, 195</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic; font-family: 'Source Sans Pro'; font-weight: 400;">&nbsp;&nbsp;&nbsp;&nbsp;Unknown</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">2</td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">6</td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">8</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: 400; font-family: 'Source Sans Pro';">Respiration Rate</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;"><br></td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;"><br></td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;"><br></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic; font-family: 'Source Sans Pro'; font-weight: 400;">&nbsp;&nbsp;&nbsp;&nbsp;Median(IQR)</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">21.5(18.4, 24.9)</td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">18.9(16.6, 21.9)</td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">19.3(16.8, 22.4)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic; font-family: 'Source Sans Pro'; font-weight: 400;">&nbsp;&nbsp;&nbsp;&nbsp;Range</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">11.3, 40.6</td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">9.5, 40.4</td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">9.5, 40.6</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic; font-family: 'Source Sans Pro'; font-weight: 400;">&nbsp;&nbsp;&nbsp;&nbsp;Unknown</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">0</td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">1</td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">1</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: 400; font-family: 'Source Sans Pro';">Body Temperature (c)</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;"><br></td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;"><br></td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;"><br></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic; font-family: 'Source Sans Pro'; font-weight: 400;">&nbsp;&nbsp;&nbsp;&nbsp;Median(IQR)</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">36.62(36.11, 37.19)</td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">36.87(36.47, 37.32)</td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">36.82(36.41, 37.31)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic; font-family: 'Source Sans Pro'; font-weight: 400;">&nbsp;&nbsp;&nbsp;&nbsp;Range</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">31.60, 39.71</td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">32.61, 40.10</td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">31.60, 40.10</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic; font-family: 'Source Sans Pro'; font-weight: 400;">&nbsp;&nbsp;&nbsp;&nbsp;Unknown</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">20</td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">83</td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">103</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: 400; font-family: 'Source Sans Pro';">White Blood Cell Count</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;"><br></td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;"><br></td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;"><br></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic; font-family: 'Source Sans Pro'; font-weight: 400;">&nbsp;&nbsp;&nbsp;&nbsp;Median(IQR)</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">13(9, 18)</td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">12(8, 15)</td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">12(8, 16)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic; font-family: 'Source Sans Pro'; font-weight: 400;">&nbsp;&nbsp;&nbsp;&nbsp;Range</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">0, 404</td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">0, 207</td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">0, 404</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: 400; font-family: 'Source Sans Pro';">Platelet Count</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;"><br></td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;"><br></td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;"><br></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic; font-family: 'Source Sans Pro'; font-weight: 400;">&nbsp;&nbsp;&nbsp;&nbsp;Median(IQR)</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">166(95, 253)</td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">180(126, 245)</td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">178(122, 246)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic; font-family: 'Source Sans Pro'; font-weight: 400;">&nbsp;&nbsp;&nbsp;&nbsp;Range</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">8, 951</td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">5, 1,297</td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">5, 1,297</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic; font-family: 'Source Sans Pro'; font-weight: 400;">&nbsp;&nbsp;&nbsp;&nbsp;Unknown</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">1</td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">5</td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">6</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: 400; font-family: 'Source Sans Pro';">Creatinine Level</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;"><br></td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;"><br></td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;"><br></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic; font-family: 'Source Sans Pro'; font-weight: 400;">&nbsp;&nbsp;&nbsp;&nbsp;Median(IQR)</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">1.60(1.00, 2.60)</td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">1.10(0.80, 1.70)</td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">1.20(0.90, 1.90)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic; font-family: 'Source Sans Pro'; font-weight: 400;">&nbsp;&nbsp;&nbsp;&nbsp;Range</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">0.20, 14.40</td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">0.10, 27.80</td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">0.10, 27.80</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic; font-family: 'Source Sans Pro'; font-weight: 400;">&nbsp;&nbsp;&nbsp;&nbsp;Unknown</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">1</td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">1</td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">2</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: 400; font-family: 'Source Sans Pro';">Lactate Level</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;"><br></td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;"><br></td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;"><br></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic; font-family: 'Source Sans Pro'; font-weight: 400;">&nbsp;&nbsp;&nbsp;&nbsp;Median(IQR)</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">2.55(1.70, 4.50)</td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">1.80(1.30, 2.55)</td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">1.90(1.35, 2.75)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic; font-family: 'Source Sans Pro'; font-weight: 400;">&nbsp;&nbsp;&nbsp;&nbsp;Range</td>
+<td headers="stat_1" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">0.40, 20.85</td>
+<td headers="stat_2" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">0.30, 16.80</td>
+<td headers="stat_0" class="gt_row gt_center" style="font-family: 'Source Sans Pro'; font-weight: 400;">0.30, 20.85</td></tr>
+  </tbody>
+  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="4"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span> n (%)</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+</div>
+</div>
+<section id="patient-demographics" class="level3">
+<h3 class="anchored" data-anchor-id="patient-demographics">Patient Demographics</h3>
+<section id="patient-age" class="level4">
+<h4 class="anchored" data-anchor-id="patient-age">Patient Age</h4>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mimic_data, <span class="fu">aes</span>(<span class="at">x=</span>age))<span class="sc">+</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>( <span class="at">color=</span><span class="st">"#e9ecef"</span>, <span class="at">fill=</span><span class="st">"#188bc2"</span>, <span class="at">alpha=</span><span class="fl">0.9</span>, <span class="at">position =</span> <span class="st">'identity'</span>) <span class="sc">+</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_economist</span>(<span class="at">base_family=</span><span class="st">"ITC Officina Sans"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/pt-age-histogram-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="patient-sex" class="level4">
+<h4 class="anchored" data-anchor-id="patient-sex">Patient Sex</h4>
+<div class="cell" data-layout-align="left">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>mimic_data <span class="ot">&lt;-</span> mimic_data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">gender =</span> <span class="fu">case_when</span>(gender <span class="sc">==</span> <span class="st">"M"</span> <span class="sc">~</span> <span class="st">"male"</span>,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                     gender <span class="sc">==</span> <span class="st">"F"</span> <span class="sc">~</span> <span class="st">"female"</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                     <span class="cn">TRUE</span> <span class="sc">~</span> gender)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>patient_sex_viz <span class="ot">&lt;-</span> mimic_data <span class="sc">%&gt;%</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(gender) <span class="sc">%&gt;%</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">N =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">gender =</span> <span class="fu">as.factor</span>(gender),</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">pos =</span> <span class="fu">cumsum</span>(N) <span class="sc">-</span> N<span class="sc">/</span><span class="dv">2</span>,</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">paste</span>(N,  <span class="st">" "</span>, gender, <span class="st">"</span><span class="sc">\n</span><span class="st">patients</span><span class="sc">\n</span><span class="st">("</span>, <span class="dv">100</span><span class="sc">*</span><span class="fu">round</span>(N<span class="sc">/</span><span class="fu">sum</span>(N), <span class="dv">2</span>), <span class="st">"%)"</span>, <span class="at">sep=</span><span class="st">""</span>)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(patient_sex_viz, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> N, <span class="at">fill =</span> gender)) <span class="sc">+</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">width=</span><span class="dv">1</span>, <span class="at">color=</span><span class="st">"white"</span>, <span class="at">position =</span> <span class="st">"stack"</span>) <span class="sc">+</span>  </span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_polar</span>(<span class="at">theta =</span> <span class="st">"y"</span>, <span class="at">direction =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">clip =</span> <span class="st">"off"</span>) <span class="sc">+</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_economist</span>(<span class="at">base_family=</span><span class="st">"ITC Officina Sans"</span>) <span class="sc">+</span> </span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position=</span><span class="st">"none"</span>,</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">line=</span><span class="fu">element_blank</span>(),</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.x=</span><span class="fu">element_blank</span>(),</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x=</span><span class="fu">element_blank</span>(), <span class="co">#remove x axis labels</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks.x=</span><span class="fu">element_blank</span>(), <span class="co">#remove x axis ticks</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.y=</span><span class="fu">element_blank</span>(),</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y=</span><span class="fu">element_blank</span>(),  <span class="co">#remove y axis labels</span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks.y=</span><span class="fu">element_blank</span>()  <span class="co">#remove y axis ticks</span></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">y =</span> pos, <span class="at">label =</span> label), <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">size=</span><span class="dv">6</span>) <span class="sc">+</span></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_economist</span>(<span class="at">labels=</span><span class="cn">NULL</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="patient-survival" class="level4">
+<h4 class="anchored" data-anchor-id="patient-survival">Patient Survival</h4>
+<div class="cell" data-layout-align="left">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>mimic_data <span class="ot">&lt;-</span> mimic_data <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">survived =</span> <span class="fu">case_when</span>(hospital_expire_flag <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"Died"</span>,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                     hospital_expire_flag <span class="sc">==</span> <span class="dv">0</span> <span class="sc">~</span> <span class="st">"Survived"</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mimic_data, <span class="fu">aes</span>(<span class="at">x =</span> survived, <span class="at">fill=</span>survived)) <span class="sc">+</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">color=</span><span class="st">"white"</span>) <span class="sc">+</span>  </span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_economist</span>(<span class="at">base_family=</span><span class="st">"ITC Officina Sans"</span>) <span class="sc">+</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_economist</span>(<span class="at">labels=</span><span class="cn">NULL</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="vital-signs" class="level3">
+<h3 class="anchored" data-anchor-id="vital-signs">Vital Signs</h3>
+<section id="heart-rate" class="level4">
+<h4 class="anchored" data-anchor-id="heart-rate">Heart rate</h4>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mimic_data, <span class="fu">aes</span>(<span class="at">x=</span>heartrate_mean)) <span class="sc">+</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>( <span class="at">color=</span><span class="st">"#e9ecef"</span>, <span class="at">fill=</span><span class="st">"#188bc2"</span>, <span class="at">alpha=</span><span class="fl">0.9</span>, <span class="at">position =</span> <span class="st">'identity'</span>) <span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_economist</span>(<span class="at">base_family=</span><span class="st">"ITC Officina Sans"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="blood-pressure-median-systolic-blood-pressure-134-mmhg-q1q3-116154-mmhg-median-diastolic-blood-pressure-78-mmhg-q1q3-6690-mmhg" class="level4">
+<h4 class="anchored" data-anchor-id="blood-pressure-median-systolic-blood-pressure-134-mmhg-q1q3-116154-mmhg-median-diastolic-blood-pressure-78-mmhg-q1q3-6690-mmhg">Blood pressure: Median systolic blood pressure 134 mmHg (Q1–Q3: 116–154 mmHg); median diastolic blood pressure 78 mmHg (Q1–Q3: 66–90 mmHg)</h4>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mimic_data, <span class="fu">aes</span>(<span class="at">x=</span>sysbp_mean)) <span class="sc">+</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>( <span class="at">color=</span><span class="st">"#e9ecef"</span>, <span class="at">fill=</span><span class="st">"#188bc2"</span>, <span class="at">alpha=</span><span class="fl">0.9</span>, <span class="at">position =</span> <span class="st">'identity'</span>) <span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_economist</span>(<span class="at">base_family=</span><span class="st">"ITC Officina Sans"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="respiratory-rate" class="level4">
+<h4 class="anchored" data-anchor-id="respiratory-rate">Respiratory rate</h4>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mimic_data, <span class="fu">aes</span>(<span class="at">x=</span>resprate_mean)) <span class="sc">+</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>( <span class="at">color=</span><span class="st">"#e9ecef"</span>, <span class="at">fill=</span><span class="st">"#188bc2"</span>, <span class="at">alpha=</span><span class="fl">0.9</span>, <span class="at">position =</span> <span class="st">'identity'</span>) <span class="sc">+</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_economist</span>(<span class="at">base_family=</span><span class="st">"ITC Officina Sans"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="temperature" class="level4">
+<h4 class="anchored" data-anchor-id="temperature">Temperature</h4>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mimic_data, <span class="fu">aes</span>(<span class="at">x=</span>tempc_mean)) <span class="sc">+</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>( <span class="at">color=</span><span class="st">"#e9ecef"</span>, <span class="at">fill=</span><span class="st">"#188bc2"</span>, <span class="at">alpha=</span><span class="fl">0.9</span>, <span class="at">position =</span> <span class="st">'identity'</span>) <span class="sc">+</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_economist</span>(<span class="at">base_family=</span><span class="st">"ITC Officina Sans"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="oxygen-saturation-median-96-q1q3-9399" class="level4">
+<h4 class="anchored" data-anchor-id="oxygen-saturation-median-96-q1q3-9399">Oxygen saturation: Median 96% (Q1–Q3: 93–99%)</h4>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mimic_data, <span class="fu">aes</span>(<span class="at">x=</span>spo2_mean)) <span class="sc">+</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>( <span class="at">color=</span><span class="st">"#e9ecef"</span>, <span class="at">fill=</span><span class="st">"#188bc2"</span>, <span class="at">alpha=</span><span class="fl">0.9</span>, <span class="at">position =</span> <span class="st">'identity'</span>) <span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_economist</span>(<span class="at">base_family=</span><span class="st">"ITC Officina Sans"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="laboratory-values" class="level3">
+<h3 class="anchored" data-anchor-id="laboratory-values">Laboratory Values</h3>
+<section id="white-blood-cell-count-median-10.5-109-cellsl-q1q3-7.514.5-109-cellsl" class="level4">
+<h4 class="anchored" data-anchor-id="white-blood-cell-count-median-10.5-109-cellsl-q1q3-7.514.5-109-cellsl">White blood cell count: Median 10.5 × 10^9 cells/L (Q1–Q3: 7.5–14.5 × 10^9 cells/L)</h4>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mimic_data, <span class="fu">aes</span>(<span class="at">x=</span>wbc_mean)) <span class="sc">+</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>( <span class="at">color=</span><span class="st">"#e9ecef"</span>, <span class="at">fill=</span><span class="st">"#188bc2"</span>, <span class="at">alpha=</span><span class="fl">0.9</span>, <span class="at">position =</span> <span class="st">'identity'</span>) <span class="sc">+</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_economist</span>(<span class="at">base_family=</span><span class="st">"ITC Officina Sans"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="neutrophil-count-median-7.5-109-cellsl-q1q3-5.411.2-109-cellsl" class="level4">
+<h4 class="anchored" data-anchor-id="neutrophil-count-median-7.5-109-cellsl-q1q3-5.411.2-109-cellsl">Neutrophil count: Median 7.5 × 10^9 cells/L (Q1–Q3: 5.4–11.2 × 10^9 cells/L)</h4>
+<p><em>NOT FOUND IN DATA</em></p>
+</section>
+<section id="lymphocyte-count-median-1.7-109-cellsl-q1q3-1.02.5-109-cellsl" class="level4">
+<h4 class="anchored" data-anchor-id="lymphocyte-count-median-1.7-109-cellsl-q1q3-1.02.5-109-cellsl">Lymphocyte count: Median 1.7 × 10^9 cells/L (Q1–Q3: 1.0–2.5 × 10^9 cells/L)</h4>
+<p><em>NOT FOUND IN DATA</em></p>
+</section>
+<section id="platelet-count-median-178-109-cellsl-q1q3-125240-109-cellsl" class="level4">
+<h4 class="anchored" data-anchor-id="platelet-count-median-178-109-cellsl-q1q3-125240-109-cellsl">Platelet count: Median 178 × 10^9 cells/L (Q1–Q3: 125–240 × 10^9 cells/L)</h4>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mimic_data, <span class="fu">aes</span>(<span class="at">x=</span>platelet_min)) <span class="sc">+</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>( <span class="at">color=</span><span class="st">"#e9ecef"</span>, <span class="at">fill=</span><span class="st">"#188bc2"</span>, <span class="at">alpha=</span><span class="fl">0.9</span>, <span class="at">position =</span> <span class="st">'identity'</span>) <span class="sc">+</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_economist</span>(<span class="at">base_family=</span><span class="st">"ITC Officina Sans"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="creatinine-median-1.0-mgdl-q1q3-0.81.3-mgdl" class="level4">
+<h4 class="anchored" data-anchor-id="creatinine-median-1.0-mgdl-q1q3-0.81.3-mgdl">Creatinine: Median 1.0 mg/dL (Q1–Q3: 0.8–1.3 mg/dL)</h4>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mimic_data, <span class="fu">aes</span>(<span class="at">x=</span>creatinine_max)) <span class="sc">+</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>( <span class="at">color=</span><span class="st">"#e9ecef"</span>, <span class="at">fill=</span><span class="st">"#188bc2"</span>, <span class="at">alpha=</span><span class="fl">0.9</span>, <span class="at">position =</span> <span class="st">'identity'</span>) <span class="sc">+</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_economist</span>(<span class="at">base_family=</span><span class="st">"ITC Officina Sans"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="bilirubin-median-0.8-mgdl-q1q3-0.51.2-mgdl" class="level4">
+<h4 class="anchored" data-anchor-id="bilirubin-median-0.8-mgdl-q1q3-0.51.2-mgdl">Bilirubin: Median 0.8 mg/dL (Q1–Q3: 0.5–1.2 mg/dL)</h4>
+<p><em>NOT FOUND IN DATA</em> #### Lactate dehydrogenase: Median 250 U/L (Q1–Q3: 190–330 U/L)</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mimic_data, <span class="fu">aes</span>(<span class="at">x=</span>lactate_mean)) <span class="sc">+</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>( <span class="at">color=</span><span class="st">"#e9ecef"</span>, <span class="at">fill=</span><span class="st">"#188bc2"</span>, <span class="at">alpha=</span><span class="fl">0.9</span>, <span class="at">position =</span> <span class="st">'identity'</span>) <span class="sc">+</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_economist</span>(<span class="at">base_family=</span><span class="st">"ITC Officina Sans"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+</section>
+</section>
+<section id="conlusion" class="level1">
+<h1>Conlusion</h1>
+<p>In conclusion, it can be inferred that our support vector machine (SVM) model demonstrated moderate accuracy in predicting hospital mortality. The predictive accuracy of the model was higher for patients who survived compared to those who did not. According to the Area Under the Curve (AUC) of the Receiver Operating Characteristic (ROC) curve, the model can tell the difference between patients who will die and those who will not.</p>
+<p>The findings of this study indicate that Support Vector Machines (SVMs) have the potential to serve as a valuable tool for forecasting patient mortality in hospital settings. Nevertheless, additional investigation is required to substantiate these results among a broader and more heterogeneous sample.</p>
+<p>The study has certain limitations that should be acknowledged. The present investigation is subject to various constraints. Initially, the investigation was carried out on a limited cohort of individuals. Furthermore, the research was carried out exclusively inside the confines of a solitary medical facility, potentially limiting the applicability of the findings to other healthcare institutions. Furthermore, the study failed to account for other potential confounders of the ICU patients.</p>
+<p>Areas for Future Exploration</p>
+<p>Subsequent investigations should examine the outcomes of this study among a broader and more heterogeneous sample. Further investigation is warranted to explore the application of Support Vector Machines (SVMs) in predicting additional clinical outcomes, including the duration of hospitalization and rates of patient readmission</p>
+</section>
+<section id="references" class="level1">
+
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-adoye2021" class="csl-entry" role="listitem">
+Adeoye, et al., Abiodun O. 2021. <span>“Utilizing Support Vector Machines for Diabetes Mellitus Classification from Electronic Medical Records,”</span> <em>International Journal of Advanced Computer Science and Information Technology (IJACSIT)</em> 11 (10): 120–14.
+</div>
+<div id="ref-bansal2022" class="csl-entry" role="listitem">
+Bansal, Malti, Apoorva Goyal, and Apoorva Choudhary. 2022. <span>“A Comparative Analysis of k-Nearest Neighbor, Genetic, Support Vector Machine, Decision Tree, and Long Short Term Memory Algorithms in Machine Learning.”</span> <em>Decision Analytics Journal</em> 3: 100071. https://doi.org/<a href="https://doi.org/10.1016/j.dajour.2022.100071">https://doi.org/10.1016/j.dajour.2022.100071</a>.
+</div>
+<div id="ref-gibbons2019" class="csl-entry" role="listitem">
+Chris J. Sidey-Gibbons, Jenni A. M. Sidey-Gibbons &amp;. 2019. <span>“Machine Learning in Medicine: A Practical Introduction.”</span> <em>BMC Medical Research Methodology Volume</em> 19 (64).
+</div>
+<div id="ref-cristianini2002" class="csl-entry" role="listitem">
+Cristianini, Nello, and Bernhard Scholkopf. Fall 2002. <span>“"Support Vector Machines and Kernel Methods: The New Generation of Learning Machines. (Articles).”</span> <em>AI Magazine</em> 23 (3): 31.
+</div>
+<div id="ref-fouodo2022" class="csl-entry" role="listitem">
+Fouodo, et al, Cesaire. 2022. <span>“Support Vector Machines for Survival Analysis with r.”</span> <em>R Journal</em> 14 (2): 92–107.
+</div>
+<div id="ref-greco2020" class="csl-entry" role="listitem">
+Greco, Massimiliano, Pier F Caruso, and Maurizio Cecconi. 2020. <span>“Artificial Intelligence in the Intensive Care Unit.”</span> In <em>Seminars in Respiratory and Critical Care Medicine</em>, 42:002–9. 01. Thieme Medical Publishers, Inc. 333 Seventh Avenue, 18th Floor, New York, NY&nbsp;….
+</div>
+<div id="ref-han2012" class="csl-entry" role="listitem">
+Han, Kamber, J., and J. Pei. 2012. <em>Data Mining: Concepts and Techniques</em>. Morgan Kaufmann.
+</div>
+<div id="ref-houthooft2015" class="csl-entry" role="listitem">
+Houthooft, Rein, Joeri Ruyssinck, Joachim van der Herten, Sean Stijven, Ivo Couckuyt, Bram Gadeyne, Femke Ongenae, et al. 2015. <span>“Predictive Modelling of Survival and Length of Stay in Critically Ill Patients Using Sequential Organ Failure Scores.”</span> <em>Artificial Intelligence in Medicine</em> 63 (3): 191–207.
+</div>
+<div id="ref-hu2016" class="csl-entry" role="listitem">
+Hu, Wei Huang, Xiangfen, and Qiang Wu. n.d. <span>“A New Support Vector Machine Algorithm for Data Mining.”</span> <em>Knowledge-Based Systems</em> 112 (2016): 118–28.
+</div>
+<div id="ref-ismail2020" class="csl-entry" role="listitem">
+Ismail, et al, Gaber A. 2020. <span>“An Approach Using Support Vector Machines to Predict Hospital Readmission.”</span> <em>Journal of Medical Systems</em> 44 (9): 1–10.
+</div>
+<div id="ref-karatzoglou2006" class="csl-entry" role="listitem">
+Karatzoglou, Alexandros, David Meyer, and Kurt Hornik. 2006. <span>“Support Vector Machines in r.”</span> <em>Journal of Statistical Software</em> 15 (9): 1–28. <a href="https://doi.org/10.18637/jss.v015.i09">https://doi.org/10.18637/jss.v015.i09</a>.
+</div>
+<div id="ref-liu2018" class="csl-entry" role="listitem">
+Liu, X. X., Chen. June 2018. <span>“Mortality Prediction Based on Imbalanced High-Dimensional ICU Big Data.”</span> <em>Computers in Industry</em> 98 (June 2018): 218–25.
+</div>
+<div id="ref-mantovani2015" class="csl-entry" role="listitem">
+Mantovani, Rafael G., André L. D. Rossi, Joaquin Vanschoren, Bernd Bischl, and André C. P. L. F. de Carvalho. 2015. <span>“Effectiveness of Random Search in SVM Hyper-Parameter Tuning.”</span> In <em>2015 International Joint Conference on Neural Networks (IJCNN)</em>, 1–8. <a href="https://doi.org/10.1109/IJCNN.2015.7280664">https://doi.org/10.1109/IJCNN.2015.7280664</a>.
+</div>
+<div id="ref-mohan2020" class="csl-entry" role="listitem">
+Mohan, Lalit, Janmejay Pant, Priyanka Suyal, and Arvind Kumar. 2020. <span>“Support Vector Machine Accuracy Improvement with Classification.”</span> In <em>2020 12th International Conference on Computational Intelligence and Communication Networks (CICN)</em>, 477–81. <a href="https://doi.org/10.1109/CICN49253.2020.9242572">https://doi.org/10.1109/CICN49253.2020.9242572</a>.
+</div>
+<div id="ref-polsterl2015" class="csl-entry" role="listitem">
+Pölsterl, Sebastian, Nassir Navab, and Amin Katouzian. 2015. <span>“Fast Training of Support Vector Machines for Survival Analysis.”</span> In <em>Machine Learning and Knowledge Discovery in Databases</em>, edited by Annalisa Appice, Pedro Pereira Rodrigues, Vítor Santos Costa, João Gama, Alípio Jorge, and Carlos Soares, 243–59. Cham: Springer International Publishing.
+</div>
+<div id="ref-sapankevych2009" class="csl-entry" role="listitem">
+Sapankevych, Nicholas I., and Ravi Sankar. 2009. <span>“Time Series Prediction Using Support Vector Machines: A Survey.”</span> <em>IEEE Computational Intelligence Magazine</em> 4 (2): 24–38. <a href="https://doi.org/10.1109/MCI.2009.932254">https://doi.org/10.1109/MCI.2009.932254</a>.
+</div>
+<div id="ref-veropoulos1999" class="csl-entry" role="listitem">
+Veropoulos, Konstantinos, Colin Campbell, Nello Cristianini, et al. 1999. <span>“Controlling the Sensitivity of Support Vector Machines.”</span> In <em>Proceedings of the International Joint Conference on AI</em>, 55:60. Stockholm.
+</div>
+<div id="ref-xu2010" class="csl-entry" role="listitem">
+Xu, Lihong Li, Fei, and Zhihua Zhou. 2010. <span>“SVM Kernels for Data Mining: A Comparative Study.”</span> <em>Proceedings of the 2010 SIAM International Conference on Data Mining (SDM)</em>, 585–96.
+</div>
+<div id="ref-dibike2001" class="csl-entry" role="listitem">
+Yonas B. Dibike, Dimitri Solomatine, Slavco Velickov, and Michael B. Abbott. 2001. <span>“Model Induction with Support Vector Machines: Introduction and Applications.”</span> <em>Journal of Computing in Civil Engineering</em> 15 (3).
+</div>
+<div id="ref-zeng2008" class="csl-entry" role="listitem">
+Zeng, Zhi-Qiang, Hong-Bin Yu, Hua-Rong Xu, Yan-Qi Xie, and Ji Gao. 2008. <span>“Fast Training Support Vector Machines Using Parallel Sequential Minimal Optimization.”</span> In <em>2008 3rd International Conference on Intelligent System and Knowledge Engineering</em>, 1:997–1001. <a href="https://doi.org/10.1109/ISKE.2008.4731075">https://doi.org/10.1109/ISKE.2008.4731075</a>.
+</div>
+<div id="ref-zhou2023" class="csl-entry" role="listitem">
+Zhou, et al, Xingyu. 2023. <span>“Using Support Vector Machines for Deep Mining of Electronic Medical Records in Order to Predict Prognosis of Severe, Acute Myocardial Infarction.”</span> <em>Frontiers in Cardiovascular Medicine</em> 10: 918.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
