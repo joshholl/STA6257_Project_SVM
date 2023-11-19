@@ -218,7 +218,7 @@ div.csl-indent {
   <li><a href="#laboratory-values" id="toc-laboratory-values" class="nav-link" data-scroll-target="#laboratory-values">Laboratory Values</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#conlusion" id="toc-conlusion" class="nav-link" data-scroll-target="#conlusion">Conlusion</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
@@ -277,16 +277,16 @@ div.csl-indent {
 K(X_i, X_j) = \Phi(X_i)\Phi(X_j)  
 \]</span></p>
 <p>Where <span class="math inline">\(X_i, X_j\)</span> is a tuple.</p>
-<p>Once the data linear (and therfore linearly separable), we can define our maximally marginal hyperplane. A general formual for the hyperplane is as follows <span class="math display">\[
+<p>Once the data linear (and therefore linearly separable), we can define our maximally marginal hyperplane. A general formual for the hyperplane is as follows <span class="math display">\[
 W \times X + b = 0
 \]</span></p>
-<p>This formual has 2 components of import. The first is a <span class="math inline">\(W\)</span>, a weight vector and <span class="math inline">\(b\)</span> a scalar bias</p>
+<p>This formula has 2 components of import. The first is a <span class="math inline">\(W\)</span>, a weight vector and <span class="math inline">\(b\)</span> a scalar bias.</p>
 <p>Since <span class="math inline">\(W\)</span> is a simple weighting vector it would be in the form of</p>
 <p><span class="math display">\[
 W = \{w_1, w_2, \dots, w_n \}
 \]</span></p>
 <p>The tuples that lie the closest to the margins of the maximal marginal hyperplane are the actual support vectors.</p>
-<p>Using the formulas above, if our support vectors where at <span class="math inline">\(y_i = 1\)</span> and <span class="math inline">\(y_i = -1\)</span> our hyperplane margines would be defined as</p>
+<p>Using the formulas above, if our support vectors where at <span class="math inline">\(y_i = 1\)</span> and <span class="math inline">\(y_i = -1\)</span> our hyperplane margins would be defined as</p>
 <p><span class="math display">\[
 H_1: W_0 + W_{1}X_{1} + W_{2}X_{2} + \dots + W_{n}X_{n} \ge 1
 \]</span></p>
@@ -304,7 +304,6 @@ H_2: W_0 + W_{1}X_{1} + W_{2}X_{2} + \dots + W_{n}X_{n} \le -1
 <p>On the test dataset, the model showed an accuracy rate of 85.47% and a specificity rate of 86.13%. This shows that the model successfully identified patients who would survive their hospital stay in 86.13% of the cases, and it also obtained an accuracy rate of 85.47% in predicting patient mortality during their hospitalization.</p>
 <p>Furthermore, we calculated the following metrics for the model using the test dataset. It is found that the measurement’s sensitivity is 0.8187 and that the positive predictive value (PPV) is 0.8187 with a negative predictive value of 0.8345.</p>
 <p>Hyperparameter tuning was performed on the training set over a range of cost values from 0.001 to 100. The optimal cost of 0.1 was selected based on maximizing accuracy.</p>
-<p>The final SVM model utilized a linear kernel and cost of 0.1. It had 1,156 support vectors. On the test set, the model achieved 85.47% accuracy, 86.13% specificity, and 98.67% negative predictive value. The area under the ROC curve was 0.764.</p>
 <p>The model aimed to predict this binary mortality outcome using demographics, vital signs, and lab results as predictors. An SVM with linear kernel was chosen due to its ability to handle binary classification problems.</p>
 <p>Several assumptions were made in the modeling approach. The dataset was assumed to be representative of the broader ICU population at the institution. It was also assumed that the selected predictors sufficiently captured factors associated with mortality risk.</p>
 <p>The data was split 80/20 into training and test sets. The training set was used for tuning model hyperparameters and fitting the final model. The test set provided an unbiased evaluation of model performance.</p>
@@ -1474,8 +1473,8 @@ H_2: W_0 + W_{1}X_{1} + W_{2}X_{2} + \dots + W_{n}X_{n} \le -1
 </section>
 </section>
 </section>
-<section id="conlusion" class="level1">
-<h1>Conlusion</h1>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
 <p>In conclusion, it can be inferred that our support vector machine (SVM) model demonstrated moderate accuracy in predicting hospital mortality. The predictive accuracy of the model was higher for patients who survived compared to those who did not. According to the Area Under the Curve (AUC) of the Receiver Operating Characteristic (ROC) curve, the model can tell the difference between patients who will die and those who will not.</p>
 <p>The findings of this study indicate that Support Vector Machines (SVMs) have the potential to serve as a valuable tool for forecasting patient mortality in hospital settings. Nevertheless, additional investigation is required to substantiate these results among a broader and more heterogeneous sample.</p>
 <p>The study has certain limitations that should be acknowledged. The present investigation is subject to various constraints. Initially, the investigation was carried out on a limited cohort of individuals. Furthermore, the research was carried out exclusively inside the confines of a solitary medical facility, potentially limiting the applicability of the findings to other healthcare institutions. Furthermore, the study failed to account for other potential confounders of the ICU patients.</p>
