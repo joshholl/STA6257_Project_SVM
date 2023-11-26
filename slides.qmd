@@ -16,3 +16,44 @@ date: last-modified
 ::: {.notes}
 Speaker notes go here.
 :::
+
+# About our model
+
+Our model has 12 features and leverages a radial kernel. The radial kernel was chosen because of the number of features.
+
+- TODO Add and explain nu value
+- TODO Add and explain gamma value
+- TODO Explain C-Classification vs NU-Classification
+
+# Intial problems with our model.
+
+Initially our model had great a great accuracy rating and a very good ROC AUC value, however it had 1 large problem..
+
+No one. ever. died.
+
+- TODO: insert ROC/ Confusion Matrix for original model
+
+::: {.notes}
+:::
+
+# What was wrong with our model
+
+The crux of the problem with our model is that ~86% of the time, patients survive. When we randomly sampled our data, our minority case would make up a very small portion of the training data set and we could achieve great accuracy with out a model by stating that Patients in ICU never die. 
+
+# Fixing the model
+
+To fix the model we employed a downsampling strategy where we boosted the number of minority cases (death) by sampling a large (95%) of them and then selecting a random but equivalent number of the majority case. This gave us a 50/50 disitribution of out comes
+
+# Results and further tuning
+
+Still not perfect but better! To get the BEST possible model, we employed a grid-search strategy to find the optimal NU and Gamma values. This was a long and lengthy process given the grain at which we wanted to tune the model. 
+
+::: {.notes}
+  Talk about CPU time it took, steps, and outcomes
+:::
+
+# Challenger model
+
+To verify that a model requiring the number of our features was necessary, we built and similarly tuned another model
+with a reduced feature set. In the end, our model with more features performed better than the challenger 
+

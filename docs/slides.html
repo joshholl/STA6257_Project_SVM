@@ -8,9 +8,9 @@
 <link href="site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.353">
+  <meta name="generator" content="quarto-1.3.450">
 
-  <meta name="dcterms.date" content="2023-10-29">
+  <meta name="dcterms.date" content="2023-11-25">
   <title>Stats 6257 Fall 2023 - Support Vector Machines - Predicting Survival of Intensive Care Unit Patients with Support Vector Machines</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -345,7 +345,7 @@ Eric Miller
 </div>
 </div>
 
-  <p class="date">2023-10-29</p>
+  <p class="date">2023-11-25</p>
 </section>
 <section id="this-is-the-first-slide" class="title-slide slide level1 center">
 <h1>This is the first slide</h1>
@@ -362,6 +362,71 @@ Eric Miller
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+</section>
+
+<section id="about-our-model" class="title-slide slide level1 center">
+<h1>About our model</h1>
+<p>Our model has 12 features and leverages a radial kernel. The radial kernel was chosen because of the number of features.</p>
+<ul>
+<li>TODO Add and explain nu value</li>
+<li>TODO Add and explain gamma value</li>
+<li>TODO Explain C-Classification vs NU-Classification</li>
+</ul>
+</section>
+
+<section id="intial-problems-with-our-model." class="title-slide slide level1 center">
+<h1>Intial problems with our model.</h1>
+<p>Initially our model had great a great accuracy rating and a very good ROC AUC value, however it had 1 large problem..</p>
+<p>No one. ever. died.</p>
+<ul>
+<li>TODO: insert ROC/ Confusion Matrix for original model</li>
+</ul>
+<aside class="notes">
+
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+
+<section id="what-was-wrong-with-our-model" class="title-slide slide level1 center">
+<h1>What was wrong with our model</h1>
+<p>The crux of the problem with our model is that ~86% of the time, patients survive. When we randomly sampled our data, our minority case would make up a very small portion of the training data set and we could achieve great accuracy with out a model by stating that Patients in ICU never die.</p>
+</section>
+
+<section id="fixing-the-model" class="title-slide slide level1 center">
+<h1>Fixing the model</h1>
+<p>To fix the model we employed a downsampling strategy where we boosted the number of minority cases (death) by sampling a large (95%) of them and then selecting a random but equivalent number of the majority case. This gave us a 50/50 disitribution of out comes</p>
+</section>
+
+<section id="results-and-further-tuning" class="title-slide slide level1 center">
+<h1>Results and further tuning</h1>
+<p>Still not perfect but better! To get the BEST possible model, we employed a grid-search strategy to find the optimal NU and Gamma values. This was a long and lengthy process given the grain at which we wanted to tune the model.</p>
+<aside class="notes">
+<p>Talk about CPU time it took, steps, and outcomes</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+
+<section id="challenger-model" class="title-slide slide level1 center">
+<h1>Challenger model</h1>
+<p>To verify that a model requiring the number of our features was necessary, we built and similarly tuned another model with a reduced feature set. In the end, our model with more features performed better than the challenger</p>
 
 <div class="footer footer-default">
 
