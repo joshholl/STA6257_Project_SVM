@@ -11,9 +11,66 @@ authors:
 date: last-modified
 ---
 
-# This is the first slide
 
-::: {.notes}
+::: notes
+
+Intro
+
+Every day, sensors and systems are collecting a large amount of data, which is then processed by artificial intelligence and machine learning systems to make predictions and classifications. These systems have a wide range of applications, from detecting fraud to interacting with smart home systems. In the field of medicine, where there is a wealth of data, machine learning is increasingly being used to improve patient care.
+
+Traditionally, when we visit a doctor, they collect various data points such as age, weight, height, temperature, and blood pressure to help with diagnosis and treatment of illness. However, by incorporating machine learning into this process, we can potentially enhance critical care in settings such as Intensive Care Units. By analyzing data from sensors and measurements taken by medical staff, we can predict the chances of a patient's survival. This information can then be used to allocate resources effectively and prioritize the most urgent cases. In this report, we will explore the use of Support Vector Machines (SVMs) for this purpose. 
+
+:::
+
+
+
+
+# Background
+
+- Support Vector Machines (SVM) employs supervised learning using past data to train models for     new cases.
+- SVM models are used to form clusters of two distinct data groups.
+- SVM establishes a hyperplane to maximize the margin between data groups.
+- The hyperplane acts as a line separating the clusters.
+- The goal is to ensure the greatest separation between neighboring members of each cluster.
+
+# Data Source
+
+- Our team is utilizing data from the Medical Information Mart for Intensive Care (MIMIC)
+- We are focusing on the MIMIC III dataset.
+- The dataset has been pre-processed to isolate the most statistically significant features
+
+  
+::: notes
+- Additional information about the MIMIC III dataset can be found at https://mimic.mit.edu/docs/iii/.
+:::
+
+#  Statistics
+
+- Support Vector Machines operate on both linear and non-linear data by using a kernel function or "kernel trick" to manipulate non-linear data into a linear space for classification. The general formula for a kernel function is as follows.
+
+$$
+K(X_i, X_j) = \Phi(X_i)\Phi(X_j)  
+$$
+Where $X_i, X_j$ is a tuple.
+
+# Statistics Cont.
+
+Once the data is (and therefore linearly separable), we can define our maximally marginal hyperplane. A general formula for the hyperplane is as follows
+$$
+W \times X + b = 0
+$$
+This formula has 2 components of import. The first is a $W$, a weight vector and $b$ a scalar bias.
+
+Since $W$ is a simple weighting vector it would be in the form of 
+
+$$
+W = \{w_1, w_2, \dots, w_n \}
+$$
+The tuples that lie the closest to the margins of the maximal marginal hyperplane are the actual support vectors.
+
+
+
+::: notes
 Speaker notes go here.
 :::
 
@@ -21,9 +78,9 @@ Speaker notes go here.
 
 Our model has 12 features and leverages a radial kernel. The radial kernel was chosen because of the number of features.
 
-- TODO Add and explain nu value
-- TODO Add and explain gamma value
-- TODO Explain C-Classification vs NU-Classification
+-   TODO Add and explain nu value
+-   TODO Add and explain gamma value
+-   TODO Explain C-Classification vs NU-Classification
 
 # Intial problems with our model.
 
@@ -31,14 +88,14 @@ Initially our model had great a great accuracy rating and a very good ROC AUC va
 
 No one. ever. died.
 
-- TODO: insert ROC/ Confusion Matrix for original model
+-   TODO: insert ROC/ Confusion Matrix for original model
 
-::: {.notes}
+::: notes
 :::
 
 # What was wrong with our model
 
-The crux of the problem with our model is that ~86% of the time, patients survive. When we randomly sampled our data, our minority case would make up a very small portion of the training data set and we could achieve great accuracy with out a model by stating that Patients in ICU never die. 
+The crux of the problem with our model is that \~86% of the time, patients survive. When we randomly sampled our data, our minority case would make up a very small portion of the training data set and we could achieve great accuracy with out a model by stating that Patients in ICU never die.
 
 # Fixing the model
 
@@ -46,14 +103,12 @@ To fix the model we employed a downsampling strategy where we boosted the number
 
 # Results and further tuning
 
-Still not perfect but better! To get the BEST possible model, we employed a grid-search strategy to find the optimal NU and Gamma values. This was a long and lengthy process given the grain at which we wanted to tune the model. 
+Still not perfect but better! To get the BEST possible model, we employed a grid-search strategy to find the optimal NU and Gamma values. This was a long and lengthy process given the grain at which we wanted to tune the model.
 
-::: {.notes}
-  Talk about CPU time it took, steps, and outcomes
+::: notes
+Talk about CPU time it took, steps, and outcomes
 :::
 
 # Challenger model
 
-To verify that a model requiring the number of our features was necessary, we built and similarly tuned another model
-with a reduced feature set. In the end, our model with more features performed better than the challenger 
-
+To verify that a model requiring the number of our features was necessary, we built and similarly tuned another model with a reduced feature set. In the end, our model with more features performed better than the challenger

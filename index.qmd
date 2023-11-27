@@ -112,7 +112,7 @@ To build our model for predicting patient survivability, we are using data from 
 
 ## Statistical Modeling
 
-Given that Support Vector Machines operate on both linear and non-linear data, we must look at how a Support Vector Machine manipulates non-linear data to a linear space to perform classification. This operation id done via a kernel function or "kernel trick". The general formula for a kernel function is as follows. 
+Given that Support Vector Machines operate on both linear and non-linear data, we must look at how a Support Vector Machine manipulates non-linear data to a linear space to perform classification. This operation is done via a kernel function or "kernel trick". The general formula for a kernel function is as follows. 
 
 $$
 K(X_i, X_j) = \Phi(X_i)\Phi(X_j)  

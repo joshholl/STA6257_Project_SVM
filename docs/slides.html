@@ -8,9 +8,9 @@
 <link href="site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.450">
+  <meta name="generator" content="quarto-1.3.353">
 
-  <meta name="dcterms.date" content="2023-11-25">
+  <meta name="dcterms.date" content="2023-11-26">
   <title>Stats 6257 Fall 2023 - Support Vector Machines - Predicting Survival of Intensive Care Unit Patients with Support Vector Machines</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -345,10 +345,80 @@ Eric Miller
 </div>
 </div>
 
-  <p class="date">2023-11-25</p>
+  <p class="date">2023-11-26</p>
 </section>
-<section id="this-is-the-first-slide" class="title-slide slide level1 center">
-<h1>This is the first slide</h1>
+<section class="slide level2">
+
+<aside class="notes">
+<p>Intro</p>
+<p>Every day, sensors and systems are collecting a large amount of data, which is then processed by artificial intelligence and machine learning systems to make predictions and classifications. These systems have a wide range of applications, from detecting fraud to interacting with smart home systems. In the field of medicine, where there is a wealth of data, machine learning is increasingly being used to improve patient care.</p>
+<p>Traditionally, when we visit a doctor, they collect various data points such as age, weight, height, temperature, and blood pressure to help with diagnosis and treatment of illness. However, by incorporating machine learning into this process, we can potentially enhance critical care in settings such as Intensive Care Units. By analyzing data from sensors and measurements taken by medical staff, we can predict the chances of a patient’s survival. This information can then be used to allocate resources effectively and prioritize the most urgent cases. In this report, we will explore the use of Support Vector Machines (SVMs) for this purpose.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="background" class="title-slide slide level1 center">
+<h1>Background</h1>
+<ul>
+<li>Support Vector Machines (SVM) employs supervised learning using past data to train models for new cases.</li>
+<li>SVM models are used to form clusters of two distinct data groups.</li>
+<li>SVM establishes a hyperplane to maximize the margin between data groups.</li>
+<li>The hyperplane acts as a line separating the clusters.</li>
+<li>The goal is to ensure the greatest separation between neighboring members of each cluster.</li>
+</ul>
+</section>
+
+<section id="data-source" class="title-slide slide level1 center">
+<h1>Data Source</h1>
+<ul>
+<li>Our team is utilizing data from the Medical Information Mart for Intensive Care (MIMIC)</li>
+<li>We are focusing on the MIMIC III dataset.</li>
+<li>The dataset has been pre-processed to isolate the most statistically significant features</li>
+</ul>
+<aside class="notes">
+<ul>
+<li>Additional information about the MIMIC III dataset can be found at https://mimic.mit.edu/docs/iii/.</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+
+<section id="statistics" class="title-slide slide level1 center">
+<h1>Statistics</h1>
+<ul>
+<li>Support Vector Machines operate on both linear and non-linear data by using a kernel function or “kernel trick” to manipulate non-linear data into a linear space for classification. The general formula for a kernel function is as follows.</li>
+</ul>
+<p><span class="math display">\[
+K(X_i, X_j) = \Phi(X_i)\Phi(X_j)  
+\]</span> Where <span class="math inline">\(X_i, X_j\)</span> is a tuple.</p>
+</section>
+
+<section id="statistics-cont." class="title-slide slide level1 center">
+<h1>Statistics Cont.</h1>
+<p>Once the data is (and therefore linearly separable), we can define our maximally marginal hyperplane. A general formula for the hyperplane is as follows <span class="math display">\[
+W \times X + b = 0
+\]</span> This formula has 2 components of import. The first is a <span class="math inline">\(W\)</span>, a weight vector and <span class="math inline">\(b\)</span> a scalar bias.</p>
+<p>Since <span class="math inline">\(W\)</span> is a simple weighting vector it would be in the form of</p>
+<p><span class="math display">\[
+W = \{w_1, w_2, \dots, w_n \}
+\]</span> The tuples that lie the closest to the margins of the maximal marginal hyperplane are the actual support vectors.</p>
 <aside class="notes">
 <p>Speaker notes go here.</p>
 <style type="text/css">
