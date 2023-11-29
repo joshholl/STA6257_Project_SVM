@@ -9,17 +9,29 @@ authors:
   - name: Brad Lipson
   - name: Eric Miller
 date: last-modified
+self-contained: true
+execute: 
+  warning: false
+  message: false
+params:
+  nu_gamma: 0.02
+  nu_nu: 0.75
+  nu_challenger_gamma: 0.17
+  nu_challenger_nu: 0.87
+  c_gamma: 0.01
+  c_cost: 0.01
+  c_challenger_gamma: 0.14
+  c_challenger_cost: 0.1
+  rand_seed: 12341234
+  final_rand_seed: 1923904
 ---
 
-
 ::: notes
-
 Intro
 
 Every day, sensors and systems are collecting a large amount of data, which is then processed by artificial intelligence and machine learning systems to make predictions and classifications. These systems have a wide range of applications, from detecting fraud to interacting with smart home systems. In the field of medicine, where there is a wealth of data, machine learning is increasingly being used to improve patient care.
 
-Traditionally, when we visit a doctor, they collect various data points such as age, weight, height, temperature, and blood pressure to help with diagnosis and treatment of illness. However, by incorporating machine learning into this process, we can potentially enhance critical care in settings such as Intensive Care Units. By analyzing data from sensors and measurements taken by medical staff, we can predict the chances of a patient's survival. This information can then be used to allocate resources effectively and prioritize the most urgent cases. In this report, we will explore the use of Support Vector Machines (SVMs) for this purpose. 
-
+Traditionally, when we visit a doctor, they collect various data points such as age, weight, height, temperature, and blood pressure to help with diagnosis and treatment of illness. However, by incorporating machine learning into this process, we can potentially enhance critical care in settings such as Intensive Care Units. By analyzing data from sensors and measurements taken by medical staff, we can predict the chances of a patient's survival. This information can then be used to allocate resources effectively and prioritize the most urgent cases. In this report, we will explore the use of Support Vector Machines (SVMs) for this purpose.
 :::
 
 
@@ -27,11 +39,11 @@ Traditionally, when we visit a doctor, they collect various data points such as 
 
 # Introduction and Background
 
-- Support Vector Machines (SVM) employs supervised learning using past data to train models for     new cases.
-- SVM models are used to form clusters of two distinct data groups.
-- SVM establishes a hyperplane to maximize the margin between data groups.
-- The hyperplane acts as a line separating the clusters.
-- The goal is to ensure the greatest separation between neighboring members of each cluster.
+-   Support Vector Machines (SVM) employs supervised learning using past data to train models for new cases.
+-   SVM models are used to form clusters of two distinct data groups.
+-   SVM establishes a hyperplane to maximize the margin between data groups.
+-   The hyperplane acts as a line separating the clusters.
+-   The goal is to ensure the greatest separation between neighboring members of each cluster.
 
 # Data Source
 
@@ -40,29 +52,25 @@ Traditionally, when we visit a doctor, they collect various data points such as 
 - The dataset has been pre-processed to isolate the most statistically significant features
   - How did we pre-process? Variables selected? 
 
-  
 ::: notes
-- Additional information about the MIMIC III dataset can be found at https://mimic.mit.edu/docs/iii/.
+-   Additional information about the MIMIC III dataset can be found at https://mimic.mit.edu/docs/iii/.
 :::
 
 #  Methods - Kernal Function 
 
-- Support Vector Machines operate on both linear and non-linear data by using a kernel function or "kernel trick" to manipulate non-linear data into a linear space for classification. The general formula for a kernel function is as follows.
+-   Support Vector Machines operate on both linear and non-linear data by using a kernel function or "kernel trick" to manipulate non-linear data into a linear space for classification. The general formula for a kernel function is as follows.
 
 $$
 K(X_i, X_j) = \Phi(X_i)\Phi(X_j)  
-$$
-Where $X_i, X_j$ is a tuple.
+$$ Where $X_i, X_j$ is a tuple.
 
 # Methods - Hyperplane
 
-Once the data is (and therefore linearly separable), we can define our maximally marginal hyperplane. A general formula for the hyperplane is as follows
-$$
+Once the data is (and therefore linearly separable), we can define our maximally marginal hyperplane. A general formula for the hyperplane is as follows $$
 W \times X + b = 0
-$$
-This formula has 2 components of import. The first is a $W$, a weight vector and $b$ a scalar bias.
+$$ This formula has 2 components of import. The first is a $W$, a weight vector and $b$ a scalar bias.
 
-Since $W$ is a simple weighting vector it would be in the form of 
+Since $W$ is a simple weighting vector it would be in the form of
 
 $$
 W = \{w_1, w_2, \dots, w_n \}
@@ -72,13 +80,13 @@ $$---
 
 The tuples that lie the closest to the margins of the maximal marginal hyperplane are the actual support vectors.
 
-Using the formulas on the previous slide, if our support vectors where at $y_i = 1$ and $y_i = -1$ our hyperplane margins would be defined as 
+Using the formulas on the previous slide, if our support vectors where at $y_i = 1$ and $y_i = -1$ our hyperplane margins would be defined as
 
 $$
 H_1: W_0 + W_{1}X_{1} + W_{2}X_{2} + \dots + W_{n}X_{n} \ge 1
 $$
 
-and 
+and
 
 $$
 H_2: W_0 + W_{1}X_{1} + W_{2}X_{2} + \dots + W_{n}X_{n} \le -1
@@ -88,41 +96,358 @@ $$---
 Speaker notes go here.
 :::
 
-# About our model
-
-Our model has 12 features and leverages a radial kernel. The radial kernel was chosen because of the number of features.
-
--   TODO Add and explain nu value
--   TODO Add and explain gamma value
--   TODO Explain C-Classification vs NU-Classification
-
-# Intial problems with our model.
-
-Initially our model had great a great accuracy rating and a very good ROC AUC value, however it had 1 large problem..
-
-No one. ever. died.
-
--   TODO: insert ROC/ Confusion Matrix for original model
+# Modelling ICU Patient survival from the MIMIC dataset
 
 ::: notes
+Hello all, I'm Josh and im going to walk you through the our journey developing a model to predict ICU Patient Survival
+
+We started with 12 features that we thought would play an important role in predicting patient survival We also wanted to see if the our full feature set was necessary or if we could build a reduced model that trained quicker while supplying siimilar out comes. To facilitate this we built a challenger model
+
+Of course the most important part of modelling was kernel selection and tuning which we will jump into next.
+:::
+
+## Important Concepts
+
+-   used the e1071 r package
+-   leveraged the `tune(svm, ...)` function for tuning our model hyper parameters
+
+::: notes
+However before we go much further lets get some basic terminology out of the way and outline some technological decisions we made.
+
+First we selected the e1071 r package to build, train, and test our model. There are alternatives out there however e1071 appears to be the most popular
+
+Secondly we didn't really know what the best hyper parameters or even kernel where so we leveraged the tune method to try a bunch of tunings to see what produced the best accuracy
+:::
+
+```{r}
+#| label: package-install
+#| echo: false
+library(easypackages)
+dep_packages = c("tidyverse",
+    "ggthemes",
+    "ggrepel",
+    "dslabs", 
+    "ggplot2",
+    "graphics",
+    "dplyr",
+    "data.table",
+    "extrafont",
+    "dataMaid",
+    "gt",
+    "gtsummary",
+    "gtExtras",
+    "mlr",
+    "e1071",
+    "caret",
+    "caTools",
+    "MLmetrics",
+    "pROC",
+    "DMwR",
+    "doParallel",
+    "foreach"
+
+)
+easypackages::libraries(dep_packages)
+
+mimic_data <- fread("./MIMIC_ICU_Data/mimic_icu_data.csv")
+```
+
+## Our intial primary model
+
+::: incremental
+-   was of type "C-Classification"
+-   leveraged a linear kernel
+-   only tuned the cost hyper parameter
+:::
+
+::: notes
+we selected C-classification which is the default because it selects the response variable as a binary classifier we also tested a linear kernel because nothing jumped out at us when doing data exploration that our data would not be easily linearly seperable we tuned cost which is the penalty for an incorrect prediction. we did this by passing a list of cost values from 0.001 to 100 with each step being a factor of 10
+:::
+
+```{r}
+#| label: data-prep-for-intial-model
+# Create a subset of the entire data set to just include the rows we have determined are of interest
+# convert the gender field to an `is_male` flag. Also discretize the heart rate and age
+model_data <- mimic_data %>%
+  select(
+    icustay_id,
+    age,
+    gender,
+    hospital_expire_flag,
+    heartrate_mean,
+    sysbp_mean,
+    resprate_mean,
+    tempc_mean,
+    wbc_mean,
+    platelet_min,
+    creatinine_max,
+    lactate_mean
+  ) %>%
+  mutate(
+    is_male = factor(case_when(gender == "M" ~ 1, TRUE ~ 0)),
+    age_range = factor(
+      case_when(
+        age <= 18 ~ "<=18",
+        age > 18 & age <= 40 ~ "19 to 40",
+        age > 40 & age <= 60 ~ "41 to 60",
+        age > 60 ~ ">=61"
+      )
+    ),
+    heart_rate = factor(
+      case_when(
+        heartrate_mean < 60 ~ "<60",
+        heartrate_mean >= 61 & heartrate_mean <= 80 ~ "60 to 80",
+        heartrate_mean >= 81 & heartrate_mean <= 100 ~ "81 to 100",
+        heartrate_mean > 100 ~ "above 100"
+      )
+    ),
+    survival = factor(case_when(
+      hospital_expire_flag == 1 ~ "DIED", TRUE ~ "SURVIVED"
+    ))
+  ) %>%
+  select(-gender,-heartrate_mean,-age,-hospital_expire_flag) %>%
+  drop_na()
+
+
+#create survival factor of levels for graphing
+survivalLevels <- attributes(model_data$survival)$levels
+
+# set a random seed so that this is repeatable.
+set.seed(params$rand_seed)
+
+train <- model_data %>% dplyr::sample_frac(0.8)
+test  <- dplyr::anti_join(model_data, train, by = 'icustay_id')
+
+# modelTuning.out <- tune(svm, survival ~ . -icustay_id, data = train, kernel = "linear", ranges = list(cost = c(0.001, 0.01, 0.1, 1, 10, 100)), scale = TRUE)
+model <- svm(survival ~ . -icustay_id, data = train, kernel = "linear", cost = 0.01, scale = TRUE, probability=TRUE)
+
+iPredictions <- predict(model, test, probability=TRUE)
+iProbabilities <- attr(iPredictions, "probabilities")[,1]
+iConfusionMatrix <- confusionMatrix(iPredictions, test$survival)
+```
+
+## Initial Model Analysis
+
+::: panel-tabset
+### ROC Cuve with AUC
+
+```{r}
+#| label: initial-model-roc-auc
+
+# #to appropriately build the roc graph, buid a label order based on survivalLevels and the positive case from the confusion matrix
+survivalLevels <- attributes(model_data$survival)$levels
+iOrdering <- c(survivalLevels[which(survivalLevels != iConfusionMatrix$positive)], iConfusionMatrix$positive)
+
+iROC <- pROC::roc(as.factor(test$survival), iProbabilities)
+iROCRPredictions <- ROCR::prediction(iProbabilities, test$survival)
+iPerformance <- ROCR::performance(iROCRPredictions, "tpr", "fpr")
+
+plot(iPerformance, colorize = FALSE, main="ROC Curve for C-Classification")
+abline(a=0,b=1)
+mtext(paste("AUC =", round(as.numeric(iROC$auc), 4)))
+
+```
+
+### Confusion Matrix
+
+```{r}
+#| label: initial-model-confustion-matrix
+set.seed(params$rand_seed)
+
+
+
+
+
+fourfoldplot(as.table(iConfusionMatrix), color=c("navy", "lightblue"), main="C-classification Confusion Matrix")
+```
+:::
+
+::: notes
+On our ROC Curve we can see that our model has roughly a 74% accuracy as that is the area under the ROC Curve. Ideally that number would be higher but it was acceptable as anything above the 50% diagonal line means that our model is more accurate than flipping a coin
+
+<go to confusion matrix>
+
+Our confusion matrix however was a disaster. As you can see, despite having an acceptable accuracy, our model was very optimistic and predicted that everyone who entered ICU would survive. While we would love for this to match reality, we know its not true. Additionally a model that assumes everyone survives is of little value given
 :::
 
 # What was wrong with our model
 
-The crux of the problem with our model is that \~86% of the time, patients survive. When we randomly sampled our data, our minority case would make up a very small portion of the training data set and we could achieve great accuracy with out a model by stating that Patients in ICU never die.
-
-# Fixing the model
-
-To fix the model we employed a downsampling strategy where we boosted the number of minority cases (death) by sampling a large (95%) of them and then selecting a random but equivalent number of the majority case. This gave us a 50/50 disitribution of out comes
-
-# Results and further tuning
-
-Still not perfect but better! To get the BEST possible model, we employed a grid-search strategy to find the optimal NU and Gamma values. This was a long and lengthy process given the grain at which we wanted to tune the model.
+-   Class imbalance !!!
+    -   86% of the time, patients surived
+    -   14% of the time, patients died
+-   Random sampling could exacerbate this problem
 
 ::: notes
-Talk about CPU time it took, steps, and outcomes
+Our problem was that we had class imbalance. It seems to follow reason that a lot of patients who enter ICU will survive, they just need higher levels of monitoring and care. However of course this is not always the case. The end result was that our data set was majorily comprised of patients sruviving.
+
+This problem could be exacerbated by random sampling which could chose an even smaller percentage of the minority case(patient death)
 :::
 
-# Challenger model
+## Fixing the model
 
-To verify that a model requiring the number of our features was necessary, we built and similarly tuned another model with a reduced feature set. In the end, our model with more features performed better than the challenger
+We attempted 2 strategies to fix the
+
+-   Oversampling of minority case
+    -   Ensure that minority case was a larger percentage of the training set via selection with replacement
+-   Downsampling majority case
+    -   Take a large percentage of the minority cases, select and EQUIVALENT number of majority cases for a 50/50 split
+
+::: notes
+First we attempted to oversample our minority case by selecting ensuring that they met a certain precentage of the train data set and allowed random sampling to occur with replacement (meaning we could select the same observation multiple times) This improved the model but not significantly Secondly we downsampled the majority case by selecting 95% of the minority case, then randomly selecting and EQUIVALENT number of the majority cases for a 50/50 split This proved better than oversampling, but still wasnt optimal
+:::
+
+## Tuning the new model
+
+-   tested using a rbf (radial bias kernel)
+-   switched to nu-classification
+-   tuned for nu and gamma
+    -   using grid search strategy and a bunch of packages
+
+::: notes
+when we tuned we decided to try a few other options of the e1071 package. First we switched to a radial basis kernel. R secondly we switched to nu classification. Which according the documentation is the same as C classification but it constrains the nu value between 0 and 1, nu its self is related to the ratio of support vectors and the ratio of the training error we now had to tune for nu and gamma hyperparemeters we had no clue in how to do this and since our model took a large hit in accuracy by downsampling we wanted to try a bunch of things and select the best to do this we leveraged a grid search strategy which is effectively a brute force attemp at finding hyper parameters
+:::
+
+## Tuning the new model...more problems
+
+-   Tune SVM is VERY VERY SLOW
+    -   does not leverage mulitiple cpu cores
+    -   operates sequentially
+-   doParallel and foreach to the rescue
+-   still slow but much quicker at the same time
+
+::: notes
+given we had two hyper parameters to tune and wanted the best accuracy we attempted to use grid search with tune svm. I set this up on my machine, walked away, came back a few hours later and nothing had completed. eventually my machine crashed Discovered do parallel and foreach to allow me to pass the variables in and build and validate models, aggregate results and pick the best parameters
+:::
+
+## Tuning the new model and paying more for it
+
+![](tuning-cpu-usage.jpeg)
+
+::: notes
+This is a fun graph to show the out comes, this is on a an 8 core 10th gen intel cpu. Training took around 45 minutes for the nu classification and 20 minutes c-classification
+
+My CPU ran near 96 degrees celsius \@ 4.8 ghz for the duration of the test
+:::
+
+## Tuning Results
+
+-   nu-classification won out
+-   Primary Model
+    -   Gamma = `r params$nu_gamma`
+    -   Nu = `r params$nu_nu`
+-   Challenger model
+    -   Gamma = `r params$nu_challenger_gamma`
+    -   Nu = `r params$nu_challenger_nu`
+
+## Model results (Primary)
+
+```{r}
+scaled_model_data <- model_data %>%
+  select(-icustay_id) %>%
+  mutate_if(is.numeric, scale) %>%
+  cbind(icustay_id = model_data$icustay_id)
+
+#create survival factor of levels for graphing
+survivalLevels <- attributes(model_data$survival)$levels
+
+# set a random seed so that this is repeatable.
+set.seed(params$final_rand_seed)
+
+# our data are imbalanced such that the patients tend to survive (hospital expire flag = 0), to resolve this issue we will downsample 
+# the surviving patients and construct a training set based on an 80% selection of all of the survival == "DIED"
+# then randomly select and equal number of observations where survival == "DIED"
+amount_to_sample = floor(sum(scaled_model_data$survival == "DIED") * 0.95)
+train <-
+  scaled_model_data %>% group_by(survival) %>% sample_n(size = amount_to_sample) %>% ungroup()
+test <- scaled_model_data %>% anti_join(train, by = "icustay_id")
+
+set.seed(params$final_rand_seed)
+nuModel <- e1071::svm(survival ~ . - icustay_id,
+                      type="nu-classification",
+                      kernel="radial",
+                      data=train,
+                      probability=TRUE,
+                      gamma=params$nu_gamma,
+                      nu=params$nu_nu,
+                      scale=TRUE)
+
+nuPredictions <- predict(nuModel, test, probability=TRUE)
+nuProbabilities <- attr(nuPredictions, "probabilities")[,1]
+nuROC <- pROC::roc(as.factor(test$survival), nuProbabilities)
+nuConfusionMatrix <- confusionMatrix(nuPredictions, test$survival)
+
+#to appropriately build the roc graph, buid a label order based on survivalLevels and the positive case from the confusion matrix
+nuOrdering <- c(survivalLevels[which(survivalLevels != nuConfusionMatrix$positive)], nuConfusionMatrix$positive)
+
+nuROCRPredictions <- ROCR::prediction(nuProbabilities, test$survival, label.ordering = nuOrdering)
+nuPerformance <- ROCR::performance(nuROCRPredictions, "tpr", "fpr")
+
+
+```
+
+::: panel-tabset
+
+### ROC Curve with AUC
+```{R}
+plot(nuPerformance, colorize = FALSE, main="ROC Curve for nu-classification")
+abline(a=0,b=1)
+mtext(paste("AUC =", round(as.numeric(nuROC$auc), 4)))
+
+```
+
+### Confusion Matrix
+```{r}
+fourfoldplot(as.table(nuConfusionMatrix), color=c("navy", "lightblue"), main="nu-classification Confusion Matrix")
+```
+
+:::
+
+## Model Results (Challenger)
+
+```{r}
+#| label: nu-model-challenger
+
+set.seed(params$final_rand_seed)
+challnger_test <- test %>% select(sysbp_mean, resprate_mean, tempc_mean, platelet_min, is_male, age_range, heart_rate, survival, icustay_id)
+challnger_train <- train %>% select(sysbp_mean, resprate_mean, tempc_mean, platelet_min, is_male, age_range, heart_rate, survival, icustay_id)
+nuChallengerModel <- e1071::svm(survival ~ . - icustay_id,
+                      type="nu-classification",
+                      kernel="radial",
+                      data=challnger_train,
+                      probability=TRUE,
+                      gamma=params$nu_challenger_gamma,
+                      nu=params$nu_challenger_nu,
+                      scale=TRUE)
+
+nuChallengerPredictions <- predict(nuChallengerModel, challnger_test, probability=TRUE)
+nuChallengerProbabilities <- attr(nuChallengerPredictions, "probabilities")[,1]
+nuChallengerROC <- pROC::roc(as.factor(challnger_test$survival), nuChallengerProbabilities)
+nuChallengerConfusionMatrix <- confusionMatrix(nuChallengerPredictions, challnger_test$survival)
+
+#to appropriately build the roc graph, buid a label order based on survivalLevels and the positive case from the confusion matrix
+nuChallengerOrdering <- c(survivalLevels[which(survivalLevels != nuChallengerConfusionMatrix$positive)], nuChallengerConfusionMatrix$positive)
+
+nuChallengerROCRPredictions <- ROCR::prediction(nuChallengerProbabilities, challnger_test$survival, label.ordering = nuOrdering)
+nuChallengerPerformance <- ROCR::performance(nuChallengerROCRPredictions, "tpr", "fpr")
+
+
+
+
+```
+
+::: panel-tabset
+
+### ROC Curve with AUC
+```{R}
+plot(nuChallengerPerformance, colorize = FALSE, main="ROC Curve for nu-classification (Challenger)")
+abline(a=0,b=1)
+mtext(paste("AUC =", round(as.numeric(nuChallengerROC$auc), 4)))
+
+```
+
+### Confusion Matrix
+```{r}
+fourfoldplot(as.table(nuChallengerConfusionMatrix), color=c("navy", "lightblue"), main="nu-classification Challenger Confusion Matrix")
+```
+
+:::
