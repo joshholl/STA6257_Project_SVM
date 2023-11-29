@@ -26,7 +26,9 @@ params:
   final_rand_seed: 1923904
 ---
 
+# SVM's and Our Data Source
 
+With Eric Miller
 
 
 # History and Background
@@ -90,6 +92,7 @@ Speaker notes go here.
 :::
 
 # Modelling ICU Patient survival from the MIMIC dataset
+With Josh Hollandsworth
 
 ::: notes
 Hello all, I'm Josh and im going to walk you through the our journey developing a model to predict ICU Patient Survival
