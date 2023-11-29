@@ -30,10 +30,9 @@ params:
 
 With Eric Miller
 
-
 # History and Background
 
--   Developed by Vapnik and Chervonenkis in 1964 then revised in 1992 to incorporate Non-linear classifiers 
+-   Developed by Vapnik and Chervonenkis in 1964 then revised in 1992 to incorporate Non-linear classifiers
 -   Support Vector Machines (SVM) employs supervised learning using past data to train models for new cases
 -   SVM models are used to form clusters of two distinct data groups
 -   SVM establishes a hyperplane to maximize the margin between data groups
@@ -42,22 +41,21 @@ With Eric Miller
 
 # Data Source
 
-- Our team is utilizing data from the Medical Information Mart for Intensive Care (MIMIC)
-- We are focusing on the MIMIC III dataset.
-- The dataset was pre-processed to isolate the most statistically significant features
-   
+-   Our team is utilizing data from the Medical Information Mart for Intensive Care (MIMIC)
+-   We are focusing on the MIMIC III dataset.
+-   The dataset was pre-processed to isolate the most statistically significant features
 
 ::: notes
- Additional information about the MIMIC III dataset can be found online at the Massachusetts Institute of Technologies website linked in the paper. https://mimic.mit.edu/docs/iii/.
+Additional information about the MIMIC III dataset can be found online at the Massachusetts Institute of Technologies website linked in the paper. https://mimic.mit.edu/docs/iii/.
 :::
 
-#  Methods - Kernal Function 
+# Methods - Kernal Function
 
--   Support Vector Machines operate on both linear and non-linear data by using a kernel function or "kernel trick" to manipulate non-linear data into a linear space for classification. The general formula for a kernel function is as follows.
+-   Support Vector Machines operate on both linear and non-linear data by using a kernel function or "kernel trick" to manipulate non-linear data into a linear space for classification. The general formula for a kernel function is as follows, where $X_i, X_j$ is a tuple.
 
 $$
 K(X_i, X_j) = \Phi(X_i)\Phi(X_j)  
-$$ Where $X_i, X_j$ is a tuple.
+$$
 
 # Methods - Hyperplane
 
@@ -92,6 +90,7 @@ Speaker notes go here.
 :::
 
 # Modelling ICU Patient survival from the MIMIC dataset
+
 With Josh Hollandsworth
 
 ::: notes
@@ -382,8 +381,8 @@ nuPerformance <- ROCR::performance(nuROCRPredictions, "tpr", "fpr")
 ```
 
 ::: panel-tabset
-
 ### ROC Curve with AUC
+
 ```{R}
 plot(nuPerformance, colorize = FALSE, main="ROC Curve for nu-classification")
 abline(a=0,b=1)
@@ -392,10 +391,10 @@ mtext(paste("AUC =", round(as.numeric(nuROC$auc), 4)))
 ```
 
 ### Confusion Matrix
+
 ```{r}
 fourfoldplot(as.table(nuConfusionMatrix), color=c("navy", "lightblue"), main="nu-classification Confusion Matrix")
 ```
-
 :::
 
 ## Model Results (Challenger)
@@ -432,8 +431,8 @@ nuChallengerPerformance <- ROCR::performance(nuChallengerROCRPredictions, "tpr",
 ```
 
 ::: panel-tabset
-
 ### ROC Curve with AUC
+
 ```{R}
 plot(nuChallengerPerformance, colorize = FALSE, main="ROC Curve for nu-classification (Challenger)")
 abline(a=0,b=1)
@@ -442,42 +441,48 @@ mtext(paste("AUC =", round(as.numeric(nuChallengerROC$auc), 4)))
 ```
 
 ### Confusion Matrix
+
 ```{r}
 fourfoldplot(as.table(nuChallengerConfusionMatrix), color=c("navy", "lightblue"), main="nu-classification Challenger Confusion Matrix")
 ```
-
 :::
+
 # Results and Conclusions
 
 With Brad Lipson
 
 ## Results
-- The findings indicate that our support vector machine (SVM) model had a test set accuracy of 85.47%. 
-- The model exhibited a sensitivity rate of 66.67% and a specificity rate of 86.13%
-- The study yielded a positive predictive value of 14.39% and a negative predictive value of 98.67%. 
-- The area under the receiver operating characteristic (ROC) curve was determined to be 0.764.
+
+-   The findings indicate that our support vector machine (SVM) model had a test set accuracy of 85.47%.
+-   The model exhibited a sensitivity rate of 66.67% and a specificity rate of 86.13%
+-   The study yielded a positive predictive value of 14.39% and a negative predictive value of 98.67%.
+-   The area under the receiver operating characteristic (ROC) curve was determined to be 0.764.
 
 ## Model Conclusions
-- Our support vector machine (SVM) model demonstrated moderate accuracy in predicting hospital mortality. 
-- The predictive accuracy of the model was higher for patients who survived compared to those who did not. 
-- The model can tell the difference between patients who will die and those who will not.
+
+-   Our support vector machine (SVM) model demonstrated moderate accuracy in predicting hospital mortality.
+-   The predictive accuracy of the model was higher for patients who survived compared to those who did not.
+-   The model can tell the difference between patients who will die and those who will not.
 
 ## Considerations for improvement
-- Potential to serve as a valuable tool for forecasting patient mortality in hospital settings. 
-- Additional investigation is required to substantiate these results among a broader and more heterogeneous sample.
-- Constraints since the investigation was carried out on a limited cohort of individuals.
-- Data from just one hospital, should include globally
+
+-   Potential to serve as a valuable tool for forecasting patient mortality in hospital settings.
+-   Additional investigation is required to substantiate these results among a broader and more heterogeneous sample.
+-   Constraints since the investigation was carried out on a limited cohort of individuals.
+-   Data from just one hospital, should include globally
 
 ## Considerations for improvement (Cont'd)
-- Should improve diversity in future studies
-- Limit the applicability of the findings to other healthcare institutions. 
-- Failed to account for other potential confounders of the ICU patients.
- 
+
+-   Should improve diversity in future studies
+-   Limit the applicability of the findings to other healthcare institutions.
+-   Failed to account for other potential confounders of the ICU patients.
+
 ## Future Studies
-- Examine the outcomes of this study in a bigger, more heterogeneous sample.
-- Further investigation is warranted to explore the application of SVMs in predicting additional clinical outcomes
-- Should study duration of hospitalization and rates of patient readmission
-- Predict length of stay in hospital
-- Predict  length of time patients may live with certain conditions, depending on severity
- 
+
+-   Examine the outcomes of this study in a bigger, more heterogeneous sample.
+-   Further investigation is warranted to explore the application of SVMs in predicting additional clinical outcomes
+-   Should study duration of hospitalization and rates of patient readmission
+-   Predict length of stay in hospital
+-   Predict length of time patients may live with certain conditions, depending on severity
+
 ## Thank you! Any Questions?
