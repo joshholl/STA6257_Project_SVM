@@ -447,7 +447,7 @@ fourfoldplot(as.table(nuChallengerConfusionMatrix), color=c("navy", "lightblue")
 ```
 
 :::
-# Reults and Conclusions
+# Results and Conclusions
 
 With Brad Lipson
 
