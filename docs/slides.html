@@ -10,7 +10,7 @@
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.3.353">
 
-  <meta name="dcterms.date" content="2023-11-27">
+  <meta name="dcterms.date" content="2023-11-28">
   <title>Stats 6257 Fall 2023 - Support Vector Machines - Predicting Survival of Intensive Care Unit Patients with Support Vector Machines</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -345,7 +345,7 @@ Eric Miller
 </div>
 </div>
 
-  <p class="date">2023-11-27</p>
+  <p class="date">2023-11-28</p>
 </section>
 <section class="slide level2">
 
@@ -365,8 +365,8 @@ Eric Miller
           display:block!important;
       }</style></aside>
 </section>
-<section id="background" class="title-slide slide level1 center">
-<h1>Background</h1>
+<section id="introduction-and-background" class="title-slide slide level1 center">
+<h1>Introduction and Background</h1>
 <ul>
 <li>Support Vector Machines (SVM) employs supervised learning using past data to train models for new cases.</li>
 <li>SVM models are used to form clusters of two distinct data groups.</li>
@@ -381,7 +381,10 @@ Eric Miller
 <ul>
 <li>Our team is utilizing data from the Medical Information Mart for Intensive Care (MIMIC)</li>
 <li>We are focusing on the MIMIC III dataset.</li>
-<li>The dataset has been pre-processed to isolate the most statistically significant features</li>
+<li>The dataset has been pre-processed to isolate the most statistically significant features
+<ul>
+<li>How did we pre-process? Variables selected?</li>
+</ul></li>
 </ul>
 <aside class="notes">
 <ul>
@@ -400,8 +403,8 @@ Eric Miller
       }</style></aside>
 </section>
 
-<section id="statistics" class="title-slide slide level1 center">
-<h1>Statistics</h1>
+<section id="methods---kernal-function" class="title-slide slide level1 center">
+<h1>Methods - Kernal Function</h1>
 <ul>
 <li>Support Vector Machines operate on both linear and non-linear data by using a kernel function or “kernel trick” to manipulate non-linear data into a linear space for classification. The general formula for a kernel function is as follows.</li>
 </ul>
@@ -410,8 +413,8 @@ K(X_i, X_j) = \Phi(X_i)\Phi(X_j)
 \]</span> Where <span class="math inline">\(X_i, X_j\)</span> is a tuple.</p>
 </section>
 
-<section id="statistics-cont." class="title-slide slide level1 center">
-<h1>Statistics Cont.</h1>
+<section id="methods---hyperplane" class="title-slide slide level1 center">
+<h1>Methods - Hyperplane</h1>
 <p>Once the data is (and therefore linearly separable), we can define our maximally marginal hyperplane. A general formula for the hyperplane is as follows <span class="math display">\[
 W \times X + b = 0
 \]</span> This formula has 2 components of import. The first is a <span class="math inline">\(W\)</span>, a weight vector and <span class="math inline">\(b\)</span> a scalar bias.</p>
@@ -421,8 +424,8 @@ W = \{w_1, w_2, \dots, w_n \}
 \]</span>—</p>
 </section>
 
-<section id="statistics-cont.-1" class="title-slide slide level1 center">
-<h1>Statistics Cont.</h1>
+<section id="methods---support-vectors" class="title-slide slide level1 center">
+<h1>Methods - Support Vectors</h1>
 <p>The tuples that lie the closest to the margins of the maximal marginal hyperplane are the actual support vectors.</p>
 <p>Using the formulas on the previous slide, if our support vectors where at <span class="math inline">\(y_i = 1\)</span> and <span class="math inline">\(y_i = -1\)</span> our hyperplane margins would be defined as</p>
 <p><span class="math display">\[

@@ -25,7 +25,7 @@ Traditionally, when we visit a doctor, they collect various data points such as 
 
 
 
-# Background
+# Introduction and Background
 
 - Support Vector Machines (SVM) employs supervised learning using past data to train models for     new cases.
 - SVM models are used to form clusters of two distinct data groups.
@@ -38,13 +38,14 @@ Traditionally, when we visit a doctor, they collect various data points such as 
 - Our team is utilizing data from the Medical Information Mart for Intensive Care (MIMIC)
 - We are focusing on the MIMIC III dataset.
 - The dataset has been pre-processed to isolate the most statistically significant features
+  - How did we pre-process? Variables selected? 
 
   
 ::: notes
 - Additional information about the MIMIC III dataset can be found at https://mimic.mit.edu/docs/iii/.
 :::
 
-#  Statistics
+#  Methods - Kernal Function 
 
 - Support Vector Machines operate on both linear and non-linear data by using a kernel function or "kernel trick" to manipulate non-linear data into a linear space for classification. The general formula for a kernel function is as follows.
 
@@ -53,7 +54,7 @@ K(X_i, X_j) = \Phi(X_i)\Phi(X_j)
 $$
 Where $X_i, X_j$ is a tuple.
 
-# Statistics Cont.
+# Methods - Hyperplane
 
 Once the data is (and therefore linearly separable), we can define our maximally marginal hyperplane. A general formula for the hyperplane is as follows
 $$
@@ -67,7 +68,7 @@ $$
 W = \{w_1, w_2, \dots, w_n \}
 $$---
 
-# Statistics Cont.
+# Methods - Support Vectors
 
 The tuples that lie the closest to the margins of the maximal marginal hyperplane are the actual support vectors.
 
