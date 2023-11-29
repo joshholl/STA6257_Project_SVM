@@ -26,34 +26,27 @@ params:
   final_rand_seed: 1923904
 ---
 
-::: notes
-Intro
-
-Every day, sensors and systems are collecting a large amount of data, which is then processed by artificial intelligence and machine learning systems to make predictions and classifications. These systems have a wide range of applications, from detecting fraud to interacting with smart home systems. In the field of medicine, where there is a wealth of data, machine learning is increasingly being used to improve patient care.
-
-Traditionally, when we visit a doctor, they collect various data points such as age, weight, height, temperature, and blood pressure to help with diagnosis and treatment of illness. However, by incorporating machine learning into this process, we can potentially enhance critical care in settings such as Intensive Care Units. By analyzing data from sensors and measurements taken by medical staff, we can predict the chances of a patient's survival. This information can then be used to allocate resources effectively and prioritize the most urgent cases. In this report, we will explore the use of Support Vector Machines (SVMs) for this purpose.
-:::
 
 
 
+# History and Background
 
-# Introduction and Background
-
--   Support Vector Machines (SVM) employs supervised learning using past data to train models for new cases.
--   SVM models are used to form clusters of two distinct data groups.
--   SVM establishes a hyperplane to maximize the margin between data groups.
--   The hyperplane acts as a line separating the clusters.
--   The goal is to ensure the greatest separation between neighboring members of each cluster.
+-   Developed by Vapnik and Chervonenkis in 1964 then revised in 1992 to incorporate Non-linear classifiers 
+-   Support Vector Machines (SVM) employs supervised learning using past data to train models for new cases
+-   SVM models are used to form clusters of two distinct data groups
+-   SVM establishes a hyperplane to maximize the margin between data groups
+-   The hyperplane acts as a line separating the clusters
+-   The goal is to ensure the greatest separation between neighboring members of each cluster
 
 # Data Source
 
 - Our team is utilizing data from the Medical Information Mart for Intensive Care (MIMIC)
 - We are focusing on the MIMIC III dataset.
-- The dataset has been pre-processed to isolate the most statistically significant features
-  - How did we pre-process? Variables selected? 
+- The dataset was pre-processed to isolate the most statistically significant features
+   
 
 ::: notes
--   Additional information about the MIMIC III dataset can be found at https://mimic.mit.edu/docs/iii/.
+ Additional information about the MIMIC III dataset can be found online at the Massachusetts Institute of Technologies website linked in the paper. https://mimic.mit.edu/docs/iii/.
 :::
 
 #  Methods - Kernal Function 
@@ -66,7 +59,7 @@ $$ Where $X_i, X_j$ is a tuple.
 
 # Methods - Hyperplane
 
-Once the data is (and therefore linearly separable), we can define our maximally marginal hyperplane. A general formula for the hyperplane is as follows $$
+Once the data is linearly separable, we can define our maximally marginal hyperplane. A general formula for the hyperplane is as follows $$
 W \times X + b = 0
 $$ This formula has 2 components of import. The first is a $W$, a weight vector and $b$ a scalar bias.
 
