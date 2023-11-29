@@ -444,3 +444,37 @@ fourfoldplot(as.table(nuChallengerConfusionMatrix), color=c("navy", "lightblue")
 ```
 
 :::
+# Reults and Conclusions
+
+With Brad Lipson
+
+## Results
+- The findings indicate that our support vector machine (SVM) model had a test set accuracy of 85.47%. 
+- The model exhibited a sensitivity rate of 66.67% and a specificity rate of 86.13%
+- The study yielded a positive predictive value of 14.39% and a negative predictive value of 98.67%. 
+- The area under the receiver operating characteristic (ROC) curve was determined to be 0.764.
+
+## Model Conclusions
+- Our support vector machine (SVM) model demonstrated moderate accuracy in predicting hospital mortality. 
+- The predictive accuracy of the model was higher for patients who survived compared to those who did not. 
+- The model can tell the difference between patients who will die and those who will not.
+
+## Considerations for improvement
+- Potential to serve as a valuable tool for forecasting patient mortality in hospital settings. 
+- Additional investigation is required to substantiate these results among a broader and more heterogeneous sample.
+- Constraints since the investigation was carried out on a limited cohort of individuals.
+- Data from just one hospital, should include globally
+
+## Considerations for improvement (Cont'd)
+- Should improve diversity in future studies
+- Limit the applicability of the findings to other healthcare institutions. 
+- Failed to account for other potential confounders of the ICU patients.
+ 
+## Future Studies
+- Examine the outcomes of this study in a bigger, more heterogeneous sample.
+- Further investigation is warranted to explore the application of SVMs in predicting additional clinical outcomes
+- Should study duration of hospitalization and rates of patient readmission
+- Predict length of stay in hospital
+- Predict  length of time patients may live with certain conditions, depending on severity
+ 
+## Thank you! Any Questions?
