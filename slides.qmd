@@ -51,7 +51,7 @@ Additional information about the MIMIC III dataset can be found online at the Ma
 
 # Methods - Kernal Function
 
--   Support Vector Machines operate on both linear and non-linear data by using a kernel function or "kernel trick" to manipulate non-linear data into a linear space for classification. The general formula for a kernel function is as follows, where $X_i, X_j$ is a tuple. As noted by [@han2012] [@mohan2020]
+-   Support Vector Machines operate on both linear and non-linear data by using a kernel function or "kernel trick" to manipulate non-linear data into a linear space for classification. The general formula for a kernel function is as follows, where $X_i, X_j$ is a tuple.
 
 $$
 K(X_i, X_j) = \Phi(X_i)\Phi(X_j)  
@@ -83,7 +83,15 @@ and
 
 $$
 H_2: W_0 + W_{1}X_{1} + W_{2}X_{2} + \dots + W_{n}X_{n} \le -1
-$$---
+$$
+
+# SVM Vizualization
+
+![](svm.jpeg)
+
+::: footer
+Source https://towardsdatascience.com/support-vector-machines-svm-clearly-explained-a-python-tutorial-for-classification-problems-29c539f3ad8
+:::
 
 ::: notes
 Speaker notes go here.
@@ -104,14 +112,14 @@ Of course the most important part of modelling was kernel selection and tuning w
 ## Important Concepts
 
 -   used the e1071 r package
--   leveraged the `tune(svm, ...)` function for tuning our model hyper parameters
+-   leveraged the `tune(svm, ...)` function for tuning our model hyperparameters
 
 ::: notes
 However before we go much further lets get some basic terminology out of the way and outline some technological decisions we made.
 
 First we selected the e1071 r package to build, train, and test our model. There are alternatives out there however e1071 appears to be the most popular
 
-Secondly we didn't really know what the best hyper parameters or even kernel where so we leveraged the tune method to try a bunch of tunings to see what produced the best accuracy
+Secondly we didn't really know what the best hyperparameters or even kernel where so we leveraged the tune method to try a bunch of tunings to see what produced the best accuracy
 :::
 
 ```{r}
@@ -151,7 +159,7 @@ mimic_data <- fread("./MIMIC_ICU_Data/mimic_icu_data.csv")
 
 -   was of type "C-Classification"
 -   leveraged a linear kernel
--   only tuned the cost hyper parameter
+-   only tuned the cost hyperparameter
 
 ::: notes
 we selected C-classification which is the default because it selects the response variable as a binary classifier we also tested a linear kernel because nothing jumped out at us when doing data exploration that our data would not be easily linearly seperable we tuned cost which is the penalty for an incorrect prediction. we did this by passing a list of cost values from 0.001 to 100 with each step being a factor of 10
@@ -295,7 +303,7 @@ First we attempted to oversample our minority case by selecting ensuring that th
     -   using grid search strategy and a bunch of packages
 
 ::: notes
-when we tuned we decided to try a few other options of the e1071 package. First we switched to a radial basis kernel. R secondly we switched to nu classification. Which according the documentation is the same as C classification but it constrains the nu value between 0 and 1, nu its self is related to the ratio of support vectors and the ratio of the training error we now had to tune for nu and gamma hyperparemeters we had no clue in how to do this and since our model took a large hit in accuracy by downsampling we wanted to try a bunch of things and select the best to do this we leveraged a grid search strategy which is effectively a brute force attemp at finding hyper parameters
+when we tuned we decided to try a few other options of the e1071 package. First we switched to a radial basis kernel. R secondly we switched to nu classification. Which according the documentation is the same as C classification but it constrains the nu value between 0 and 1, nu its self is related to the ratio of support vectors and the ratio of the training error we now had to tune for nu and gamma hyperparemeters we had no clue in how to do this and since our model took a large hit in accuracy by downsampling we wanted to try a bunch of things and select the best to do this we leveraged a grid search strategy which is effectively a brute force attemp at finding hyperparameters
 :::
 
 ## Tuning the new model...more problems
@@ -307,7 +315,7 @@ when we tuned we decided to try a few other options of the e1071 package. First 
 -   still slow but much quicker at the same time
 
 ::: notes
-given we had two hyper parameters to tune and wanted the best accuracy we attempted to use grid search with tune svm. I set this up on my machine, walked away, came back a few hours later and nothing had completed. eventually my machine crashed Discovered do parallel and foreach to allow me to pass the variables in and build and validate models, aggregate results and pick the best parameters
+given we had two hyperparameters to tune and wanted the best accuracy we attempted to use grid search with tune svm. I set this up on my machine, walked away, came back a few hours later and nothing had completed. eventually my machine crashed Discovered do parallel and foreach to allow me to pass the variables in and build and validate models, aggregate results and pick the best parameters
 :::
 
 ## Tuning the new model and paying more for it
@@ -458,7 +466,7 @@ fourfoldplot(as.table(nuChallengerConfusionMatrix), color=c("navy", "lightblue")
 
 With Brad Lipson
 
-## Data 
+## Data
 
 ```{r}
 #| label: data-set-table
@@ -590,10 +598,11 @@ data_for_display %>%
 
 ## Results
 
--   The findings indicate that our support vector machine (SVM) model had a test set accuracy of 85.47%.
--   The model exhibited a sensitivity rate of 66.67% and a specificity rate of 86.13%
--   The study yielded a positive predictive value of 14.39% and a negative predictive value of 98.67%.
--   The area under the receiver operating characteristic (ROC) curve was determined to be 0.764.
+-   The findings indicate that our support vector machine (SVM) model had a test set accuracy of 74.74%.
+-   The model exhibited a sensitivity rate of 74.87% and a specificity rate of 63.89%
+-   The study yielded a positive predictive value of 99.41% and a negative predictive value of 3%.
+-   The area under the receiver operating characteristic (ROC) curve was determined to be 0.7711
+-   The F1 score was determined to be 0.8541.
 
 ## Model Conclusions
 

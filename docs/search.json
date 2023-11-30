@@ -4,14 +4,14 @@
     "href": "slides.html#important-concepts",
     "title": "Predicting Survival of Intensive Care Unit Patients with Support Vector Machines",
     "section": "Important Concepts",
-    "text": "Important Concepts\n\nused the e1071 r package\nleveraged the tune(svm, ...) function for tuning our model hyper parameters\n\n\nHowever before we go much further lets get some basic terminology out of the way and outline some technological decisions we made.\nFirst we selected the e1071 r package to build, train, and test our model. There are alternatives out there however e1071 appears to be the most popular\nSecondly we didn’t really know what the best hyper parameters or even kernel where so we leveraged the tune method to try a bunch of tunings to see what produced the best accuracy"
+    "text": "Important Concepts\n\nused the e1071 r package\nleveraged the tune(svm, ...) function for tuning our model hyperparameters\n\n\nHowever before we go much further lets get some basic terminology out of the way and outline some technological decisions we made.\nFirst we selected the e1071 r package to build, train, and test our model. There are alternatives out there however e1071 appears to be the most popular\nSecondly we didn’t really know what the best hyperparameters or even kernel where so we leveraged the tune method to try a bunch of tunings to see what produced the best accuracy"
   },
   {
     "objectID": "slides.html#our-intial-primary-model",
     "href": "slides.html#our-intial-primary-model",
     "title": "Predicting Survival of Intensive Care Unit Patients with Support Vector Machines",
     "section": "Our intial primary model",
-    "text": "Our intial primary model\n\nwas of type “C-Classification”\nleveraged a linear kernel\nonly tuned the cost hyper parameter\n\n\nwe selected C-classification which is the default because it selects the response variable as a binary classifier we also tested a linear kernel because nothing jumped out at us when doing data exploration that our data would not be easily linearly seperable we tuned cost which is the penalty for an incorrect prediction. we did this by passing a list of cost values from 0.001 to 100 with each step being a factor of 10"
+    "text": "Our intial primary model\n\nwas of type “C-Classification”\nleveraged a linear kernel\nonly tuned the cost hyperparameter\n\n\nwe selected C-classification which is the default because it selects the response variable as a binary classifier we also tested a linear kernel because nothing jumped out at us when doing data exploration that our data would not be easily linearly seperable we tuned cost which is the penalty for an incorrect prediction. we did this by passing a list of cost values from 0.001 to 100 with each step being a factor of 10"
   },
   {
     "objectID": "slides.html#initial-model-analysis",
@@ -32,14 +32,14 @@
     "href": "slides.html#tuning-the-new-model",
     "title": "Predicting Survival of Intensive Care Unit Patients with Support Vector Machines",
     "section": "Tuning the new model",
-    "text": "Tuning the new model\n\ntested using a rbf (radial bias kernel)\nswitched to nu-classification\ntuned for nu and gamma\n\nusing grid search strategy and a bunch of packages\n\n\n\nwhen we tuned we decided to try a few other options of the e1071 package. First we switched to a radial basis kernel. R secondly we switched to nu classification. Which according the documentation is the same as C classification but it constrains the nu value between 0 and 1, nu its self is related to the ratio of support vectors and the ratio of the training error we now had to tune for nu and gamma hyperparemeters we had no clue in how to do this and since our model took a large hit in accuracy by downsampling we wanted to try a bunch of things and select the best to do this we leveraged a grid search strategy which is effectively a brute force attemp at finding hyper parameters"
+    "text": "Tuning the new model\n\ntested using a rbf (radial bias kernel)\nswitched to nu-classification\ntuned for nu and gamma\n\nusing grid search strategy and a bunch of packages\n\n\n\nwhen we tuned we decided to try a few other options of the e1071 package. First we switched to a radial basis kernel. R secondly we switched to nu classification. Which according the documentation is the same as C classification but it constrains the nu value between 0 and 1, nu its self is related to the ratio of support vectors and the ratio of the training error we now had to tune for nu and gamma hyperparemeters we had no clue in how to do this and since our model took a large hit in accuracy by downsampling we wanted to try a bunch of things and select the best to do this we leveraged a grid search strategy which is effectively a brute force attemp at finding hyperparameters"
   },
   {
     "objectID": "slides.html#tuning-the-new-modelmore-problems",
     "href": "slides.html#tuning-the-new-modelmore-problems",
     "title": "Predicting Survival of Intensive Care Unit Patients with Support Vector Machines",
     "section": "Tuning the new model…more problems",
-    "text": "Tuning the new model…more problems\n\nTune SVM is VERY VERY SLOW\n\ndoes not leverage mulitiple cpu cores\noperates sequentially\n\ndoParallel and foreach to the rescue\nstill slow but much quicker at the same time\n\n\ngiven we had two hyper parameters to tune and wanted the best accuracy we attempted to use grid search with tune svm. I set this up on my machine, walked away, came back a few hours later and nothing had completed. eventually my machine crashed Discovered do parallel and foreach to allow me to pass the variables in and build and validate models, aggregate results and pick the best parameters"
+    "text": "Tuning the new model…more problems\n\nTune SVM is VERY VERY SLOW\n\ndoes not leverage mulitiple cpu cores\noperates sequentially\n\ndoParallel and foreach to the rescue\nstill slow but much quicker at the same time\n\n\ngiven we had two hyperparameters to tune and wanted the best accuracy we attempted to use grid search with tune svm. I set this up on my machine, walked away, came back a few hours later and nothing had completed. eventually my machine crashed Discovered do parallel and foreach to allow me to pass the variables in and build and validate models, aggregate results and pick the best parameters"
   },
   {
     "objectID": "slides.html#tuning-the-new-model-and-paying-more-for-it",
@@ -95,7 +95,7 @@
     "href": "slides.html#results",
     "title": "Predicting Survival of Intensive Care Unit Patients with Support Vector Machines",
     "section": "Results",
-    "text": "Results\n\nThe findings indicate that our support vector machine (SVM) model had a test set accuracy of 85.47%.\nThe model exhibited a sensitivity rate of 66.67% and a specificity rate of 86.13%\nThe study yielded a positive predictive value of 14.39% and a negative predictive value of 98.67%.\nThe area under the receiver operating characteristic (ROC) curve was determined to be 0.764."
+    "text": "Results\n\nThe findings indicate that our support vector machine (SVM) model had a test set accuracy of 74.74%.\nThe model exhibited a sensitivity rate of 74.87% and a specificity rate of 63.89%\nThe study yielded a positive predictive value of 99.41% and a negative predictive value of 3%.\nThe area under the receiver operating characteristic (ROC) curve was determined to be 0.7711\nThe F1 score was determined to be 0.8541."
   },
   {
     "objectID": "slides.html#model-conclusions",
