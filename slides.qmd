@@ -51,7 +51,7 @@ Additional information about the MIMIC III dataset can be found online at the Ma
 
 # Methods - Kernal Function
 
--   Support Vector Machines operate on both linear and non-linear data by using a kernel function or "kernel trick" to manipulate non-linear data into a linear space for classification. The general formula for a kernel function is as follows, where $X_i, X_j$ is a tuple.
+-   Support Vector Machines operate on both linear and non-linear data by using a kernel function or "kernel trick" to manipulate non-linear data into a linear space for classification. The general formula for a kernel function is as follows, where $X_i, X_j$ is a tuple. As noted by [@han2012] [@mohan2020]
 
 $$
 K(X_i, X_j) = \Phi(X_i)\Phi(X_j)  
@@ -63,7 +63,7 @@ Once the data is linearly separable, we can define our maximally marginal hyperp
 W \times X + b = 0
 $$ This formula has 2 components of import. The first is a $W$, a weight vector and $b$ a scalar bias.
 
-Since $W$ is a simple weighting vector it would be in the form of
+Since $W$ is a simple weighting vector it would be in the form of the below
 
 $$
 W = \{w_1, w_2, \dots, w_n \}
