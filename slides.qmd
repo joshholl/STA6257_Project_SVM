@@ -218,7 +218,7 @@ model <- svm(survival ~ . -icustay_id, data = train, kernel = "linear", cost = 0
 
 iPredictions <- predict(model, test, probability=TRUE)
 iProbabilities <- attr(iPredictions, "probabilities")[,1]
-iConfusionMatrix <- confusionMatrix(iPredictions, test$survival)
+iConfusionMatrix <- confusionMatrix(iPredictions, test$survival, mode = "everything", positive="SURVIVED")
 ```
 
 ## Initial Model Analysis
@@ -230,8 +230,6 @@ iConfusionMatrix <- confusionMatrix(iPredictions, test$survival)
 #| label: initial-model-roc-auc
 
 # #to appropriately build the roc graph, buid a label order based on survivalLevels and the positive case from the confusion matrix
-survivalLevels <- attributes(model_data$survival)$levels
-iOrdering <- c(survivalLevels[which(survivalLevels != iConfusionMatrix$positive)], iConfusionMatrix$positive)
 
 iROC <- pROC::roc(as.factor(test$survival), iProbabilities)
 iROCRPredictions <- ROCR::prediction(iProbabilities, test$survival)
@@ -239,7 +237,7 @@ iPerformance <- ROCR::performance(iROCRPredictions, "tpr", "fpr")
 
 plot(iPerformance, colorize = FALSE, main="ROC Curve for C-Classification")
 abline(a=0,b=1)
-mtext(paste("AUC =", round(as.numeric(iROC$auc), 4)))
+mtext(paste("AUC =",round(as.numeric(iROC$auc), 4), " F1 Score = ", round(as.numeric( iConfusionMatrix$byClass["F1"]),4)))
 
 ```
 
@@ -369,12 +367,12 @@ nuModel <- e1071::svm(survival ~ . - icustay_id,
 nuPredictions <- predict(nuModel, test, probability=TRUE)
 nuProbabilities <- attr(nuPredictions, "probabilities")[,1]
 nuROC <- pROC::roc(as.factor(test$survival), nuProbabilities)
-nuConfusionMatrix <- confusionMatrix(nuPredictions, test$survival)
+nuConfusionMatrix <- confusionMatrix(nuPredictions, test$survival, mode="everything", positive = "SURVIVED")
 
 #to appropriately build the roc graph, buid a label order based on survivalLevels and the positive case from the confusion matrix
-nuOrdering <- c(survivalLevels[which(survivalLevels != nuConfusionMatrix$positive)], nuConfusionMatrix$positive)
+nuInverse <- c( nuConfusionMatrix$positive, survivalLevels[which(survivalLevels != nuConfusionMatrix$positive)])
 
-nuROCRPredictions <- ROCR::prediction(nuProbabilities, test$survival, label.ordering = nuOrdering)
+nuROCRPredictions <- ROCR::prediction(nuProbabilities, test$survival, label.ordering = nuInverse)
 nuPerformance <- ROCR::performance(nuROCRPredictions, "tpr", "fpr")
 
 
@@ -386,8 +384,7 @@ nuPerformance <- ROCR::performance(nuROCRPredictions, "tpr", "fpr")
 ```{R}
 plot(nuPerformance, colorize = FALSE, main="ROC Curve for nu-classification")
 abline(a=0,b=1)
-mtext(paste("AUC =", round(as.numeric(nuROC$auc), 4)))
-
+mtext(paste("AUC =",round(as.numeric(nuROC$auc), 4), " F1 Score = ", round(as.numeric( nuConfusionMatrix$byClass["F1"]),4)))
 ```
 
 ### Confusion Matrix
@@ -417,12 +414,14 @@ nuChallengerModel <- e1071::svm(survival ~ . - icustay_id,
 nuChallengerPredictions <- predict(nuChallengerModel, challnger_test, probability=TRUE)
 nuChallengerProbabilities <- attr(nuChallengerPredictions, "probabilities")[,1]
 nuChallengerROC <- pROC::roc(as.factor(challnger_test$survival), nuChallengerProbabilities)
-nuChallengerConfusionMatrix <- confusionMatrix(nuChallengerPredictions, challnger_test$survival)
+nuChallengerConfusionMatrix <- confusionMatrix(nuChallengerPredictions, challnger_test$survival, mode="everything", positive="SURVIVED")
 
 #to appropriately build the roc graph, buid a label order based on survivalLevels and the positive case from the confusion matrix
-nuChallengerOrdering <- c(survivalLevels[which(survivalLevels != nuChallengerConfusionMatrix$positive)], nuChallengerConfusionMatrix$positive)
 
-nuChallengerROCRPredictions <- ROCR::prediction(nuChallengerProbabilities, challnger_test$survival, label.ordering = nuOrdering)
+
+nuChallengerOrdering <- c( nuConfusionMatrix$positive, survivalLevels[which(survivalLevels != nuConfusionMatrix$positive)])
+
+nuChallengerROCRPredictions <- ROCR::prediction(nuChallengerProbabilities, challnger_test$survival, label.ordering = nuChallengerOrdering)
 nuChallengerPerformance <- ROCR::performance(nuChallengerROCRPredictions, "tpr", "fpr")
 
 
@@ -436,7 +435,7 @@ nuChallengerPerformance <- ROCR::performance(nuChallengerROCRPredictions, "tpr",
 ```{R}
 plot(nuChallengerPerformance, colorize = FALSE, main="ROC Curve for nu-classification (Challenger)")
 abline(a=0,b=1)
-mtext(paste("AUC =", round(as.numeric(nuChallengerROC$auc), 4)))
+mtext(paste("AUC =",round(as.numeric(nuChallengerROC$auc), 4), " F1 Score = ", round(as.numeric( nuChallengerConfusionMatrix$byClass["F1"]),4)))
 
 ```
 
