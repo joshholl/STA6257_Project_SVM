@@ -149,11 +149,9 @@ mimic_data <- fread("./MIMIC_ICU_Data/mimic_icu_data.csv")
 
 ## Our intial primary model
 
-::: incremental
 -   was of type "C-Classification"
 -   leveraged a linear kernel
 -   only tuned the cost hyper parameter
-:::
 
 ::: notes
 we selected C-classification which is the default because it selects the response variable as a binary classifier we also tested a linear kernel because nothing jumped out at us when doing data exploration that our data would not be easily linearly seperable we tuned cost which is the penalty for an incorrect prediction. we did this by passing a list of cost values from 0.001 to 100 with each step being a factor of 10
@@ -335,6 +333,8 @@ My CPU ran near 96 degrees celsius \@ 4.8 ghz for the duration of the test
 ## Model results (Primary)
 
 ```{r}
+#| label: primary-model-results
+#| echo: false
 scaled_model_data <- model_data %>%
   select(-icustay_id) %>%
   mutate_if(is.numeric, scale) %>%
@@ -381,7 +381,9 @@ nuPerformance <- ROCR::performance(nuROCRPredictions, "tpr", "fpr")
 ::: panel-tabset
 ### ROC Curve with AUC
 
-```{R}
+```{r}
+#| label: primary-model-roc-auc
+#| echo: false
 plot(nuPerformance, colorize = FALSE, main="ROC Curve for nu-classification")
 abline(a=0,b=1)
 mtext(paste("AUC =",round(as.numeric(nuROC$auc), 4), " F1 Score = ", round(as.numeric( nuConfusionMatrix$byClass["F1"]),4)))
@@ -390,6 +392,8 @@ mtext(paste("AUC =",round(as.numeric(nuROC$auc), 4), " F1 Score = ", round(as.nu
 ### Confusion Matrix
 
 ```{r}
+#| label: primary-model-confusion-matrix
+#| echo: false
 fourfoldplot(as.table(nuConfusionMatrix), color=c("navy", "lightblue"), main="nu-classification Confusion Matrix")
 ```
 :::
@@ -432,7 +436,9 @@ nuChallengerPerformance <- ROCR::performance(nuChallengerROCRPredictions, "tpr",
 ::: panel-tabset
 ### ROC Curve with AUC
 
-```{R}
+```{r}
+#| label: challenger-model-roc-auc
+#| echo: false
 plot(nuChallengerPerformance, colorize = FALSE, main="ROC Curve for nu-classification (Challenger)")
 abline(a=0,b=1)
 mtext(paste("AUC =",round(as.numeric(nuChallengerROC$auc), 4), " F1 Score = ", round(as.numeric( nuChallengerConfusionMatrix$byClass["F1"]),4)))
@@ -442,6 +448,8 @@ mtext(paste("AUC =",round(as.numeric(nuChallengerROC$auc), 4), " F1 Score = ", r
 ### Confusion Matrix
 
 ```{r}
+#| label: challenger-model-confusion-matrix
+#| echo: false
 fourfoldplot(as.table(nuChallengerConfusionMatrix), color=c("navy", "lightblue"), main="nu-classification Challenger Confusion Matrix")
 ```
 :::
@@ -449,6 +457,136 @@ fourfoldplot(as.table(nuChallengerConfusionMatrix), color=c("navy", "lightblue")
 # Results and Conclusions
 
 With Brad Lipson
+
+## Data 
+
+```{r}
+#| label: data-set-table
+#| echo: false
+
+library(gtsummary)
+
+data_for_display <- mimic_data %>%
+mutate(
+  gender = case_when(gender == "M" ~ "male",
+                     gender == "F" ~ "female",
+                     TRUE ~ gender),
+  survived = case_when(hospital_expire_flag == 1 ~ "Died",
+                     hospital_expire_flag == 0 ~ "Survived")
+) %>%  
+select(
+  age, 
+  gender, 
+  survived, 
+  heartrate_mean,
+  sysbp_mean,
+  resprate_mean,
+  tempc_mean,
+  wbc_mean,
+  platelet_min,
+  creatinine_max,
+  lactate_mean
+) 
+```
+
+```{r}
+#| label: data-set-table-first
+#| echo: false
+
+  data_for_display %>% 
+  select(age, gender, heartrate_mean, sysbp_mean, survived)  %>% 
+  tbl_summary(
+    type = list(age ~ 'continuous2',
+    gender ~ 'categorical',
+    heartrate_mean ~ 'continuous2',
+    sysbp_mean ~ 'continuous2'),
+    label = list(
+      age ~ "Patient Age",
+      gender ~ "Patient Sex",
+      heartrate_mean ~ "Heart Rate",
+      sysbp_mean ~ "Systolic Blood Pressure"
+       ),
+      statistic = all_continuous() ~ c("{median}({p25}, {p75})",
+      "{min}, {max}"),
+      by = survived 
+  ) %>%
+  add_overall(last = TRUE) %>%
+  bold_labels() %>%
+  italicize_levels() %>%   as_gt() %>%
+  gt_theme_dark() %>%
+  tab_options(
+    table.background.color = "#d8e4ea",
+    column_labels.background.color="#5092c2",
+    table.align = "left"
+  )
+```
+
+## Data Continued
+
+```{r}
+#| label: data-set-table-second
+#| echo: false
+
+data_for_display %>% 
+  select(resprate_mean, tempc_mean, wbc_mean, survived)  %>% 
+    tbl_summary(
+    type = list(resprate_mean ~ 'continuous2',
+    tempc_mean ~ 'continuous2',
+    wbc_mean ~ 'continuous2'
+    ),
+    label = list(
+      resprate_mean ~ "Respiration Rate",
+      tempc_mean ~ "Body Temperature (c)",
+      wbc_mean ~ "White Blood Cell Count"
+       ),
+      statistic = all_continuous() ~ c("{median}({p25}, {p75})",
+      "{min}, {max}"),
+      by = survived 
+  ) %>%
+  add_overall(last = TRUE) %>%
+  bold_labels() %>%
+  italicize_levels() %>%   as_gt() %>%
+  gt_theme_dark() %>%
+  tab_options(
+    table.background.color = "#d8e4ea",
+    column_labels.background.color="#5092c2",
+    table.align = "left"
+  )
+```
+
+## Data Continued again
+
+```{r}
+#| label: data-set-table-three
+#| echo: false
+  data_for_display %>% 
+  select(platelet_min,creatinine_max,lactate_mean, survived)  %>% 
+    tbl_summary(
+    type = list(
+    platelet_min ~ 'continuous2',
+    creatinine_max ~ 'continuous2',
+    lactate_mean ~ 'continuous2'
+    ),
+    label = list(
+      platelet_min ~"Platelet Count",
+      creatinine_max ~"Creatinine Level",
+      lactate_mean ~"Lactate Level"
+       ),
+      statistic = all_continuous() ~ c("{median}({p25}, {p75})",
+      "{min}, {max}"),
+      by = survived 
+  ) %>%
+  add_overall(last = TRUE) %>%
+  bold_labels() %>%
+  italicize_levels() %>%   as_gt() %>%
+  gt_theme_dark() %>%
+  tab_options(
+    table.background.color = "#d8e4ea",
+    column_labels.background.color="#5092c2",
+    table.align = "left"
+  )
+
+```
 
 ## Results
 

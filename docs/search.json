@@ -11,7 +11,7 @@
     "href": "slides.html#our-intial-primary-model",
     "title": "Predicting Survival of Intensive Care Unit Patients with Support Vector Machines",
     "section": "Our intial primary model",
-    "text": "Our intial primary model\n\n\nwas of type “C-Classification”\nleveraged a linear kernel\nonly tuned the cost hyper parameter\n\n\n\nwe selected C-classification which is the default because it selects the response variable as a binary classifier we also tested a linear kernel because nothing jumped out at us when doing data exploration that our data would not be easily linearly seperable we tuned cost which is the penalty for an incorrect prediction. we did this by passing a list of cost values from 0.001 to 100 with each step being a factor of 10"
+    "text": "Our intial primary model\n\nwas of type “C-Classification”\nleveraged a linear kernel\nonly tuned the cost hyper parameter\n\n\nwe selected C-classification which is the default because it selects the response variable as a binary classifier we also tested a linear kernel because nothing jumped out at us when doing data exploration that our data would not be easily linearly seperable we tuned cost which is the penalty for an incorrect prediction. we did this by passing a list of cost values from 0.001 to 100 with each step being a factor of 10"
   },
   {
     "objectID": "slides.html#initial-model-analysis",
@@ -68,6 +68,27 @@
     "title": "Predicting Survival of Intensive Care Unit Patients with Support Vector Machines",
     "section": "Model Results (Challenger)",
     "text": "Model Results (Challenger)\n\nROC Curve with AUCConfusion Matrix"
+  },
+  {
+    "objectID": "slides.html#data",
+    "href": "slides.html#data",
+    "title": "Predicting Survival of Intensive Care Unit Patients with Support Vector Machines",
+    "section": "Data",
+    "text": "Data\n\n\n\n\n\n\n  \n    \n    \n      Characteristic\n      Died, N = 7411\n      Survived, N = 3,8181\n      Overall, N = 4,5591\n    \n  \n  \n    Patient Age\n\n\n\n        Median(IQR)\n73(60, 83)\n65(53, 78)\n67(54, 80)\n        Range\n17, 91\n17, 91\n17, 91\n    Patient Sex\n\n\n\n        female\n339 (46%)\n1,639 (43%)\n1,978 (43%)\n        male\n402 (54%)\n2,179 (57%)\n2,581 (57%)\n    Heart Rate\n\n\n\n        Median(IQR)\n92(77, 106)\n87(76, 99)\n88(76, 100)\n        Range\n47, 155\n36, 139\n36, 155\n    Systolic Blood Pressure\n\n\n\n        Median(IQR)\n108(100, 120)\n115(106, 126)\n114(105, 126)\n        Range\n70, 175\n76, 195\n70, 195\n        Unknown\n2\n6\n8\n  \n  \n  \n    \n      1 n (%)"
+  },
+  {
+    "objectID": "slides.html#data-continued",
+    "href": "slides.html#data-continued",
+    "title": "Predicting Survival of Intensive Care Unit Patients with Support Vector Machines",
+    "section": "Data Continued",
+    "text": "Data Continued\n\n\n\n\n\n\n  \n    \n    \n      Characteristic\n      Died, N = 741\n      Survived, N = 3,818\n      Overall, N = 4,559\n    \n  \n  \n    Respiration Rate\n\n\n\n        Median(IQR)\n21.5(18.4, 24.9)\n18.9(16.6, 21.9)\n19.3(16.8, 22.4)\n        Range\n11.3, 40.6\n9.5, 40.4\n9.5, 40.6\n        Unknown\n0\n1\n1\n    Body Temperature (c)\n\n\n\n        Median(IQR)\n36.62(36.11, 37.19)\n36.87(36.47, 37.32)\n36.82(36.41, 37.31)\n        Range\n31.60, 39.71\n32.61, 40.10\n31.60, 40.10\n        Unknown\n20\n83\n103\n    White Blood Cell Count\n\n\n\n        Median(IQR)\n13(9, 18)\n12(8, 15)\n12(8, 16)\n        Range\n0, 404\n0, 207\n0, 404"
+  },
+  {
+    "objectID": "slides.html#data-continued-again",
+    "href": "slides.html#data-continued-again",
+    "title": "Predicting Survival of Intensive Care Unit Patients with Support Vector Machines",
+    "section": "Data Continued again",
+    "text": "Data Continued again\n\n\n\n\n\n\n  \n    \n    \n      Characteristic\n      Died, N = 741\n      Survived, N = 3,818\n      Overall, N = 4,559\n    \n  \n  \n    Platelet Count\n\n\n\n        Median(IQR)\n166(95, 253)\n180(126, 245)\n178(122, 246)\n        Range\n8, 951\n5, 1,297\n5, 1,297\n        Unknown\n1\n5\n6\n    Creatinine Level\n\n\n\n        Median(IQR)\n1.60(1.00, 2.60)\n1.10(0.80, 1.70)\n1.20(0.90, 1.90)\n        Range\n0.20, 14.40\n0.10, 27.80\n0.10, 27.80\n        Unknown\n1\n1\n2\n    Lactate Level\n\n\n\n        Median(IQR)\n2.55(1.70, 4.50)\n1.80(1.30, 2.55)\n1.90(1.35, 2.75)\n        Range\n0.40, 20.85\n0.30, 16.80\n0.30, 20.85"
   },
   {
     "objectID": "slides.html#results",
