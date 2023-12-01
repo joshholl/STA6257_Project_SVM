@@ -21,48 +21,6 @@
     "text": "Initial Model Analysis\n\nROC Cuve with AUCConfusion Matrix\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nOn our ROC Curve we can see that our model has roughly a 74% accuracy as that is the area under the ROC Curve. Ideally that number would be higher but it was acceptable as anything above the 50% diagonal line means that our model is more accurate than flipping a coin\n\nOur confusion matrix however was a disaster. As you can see, despite having an acceptable accuracy, our model was very optimistic and predicted that everyone who entered ICU would survive. While we would love for this to match reality, we know its not true. Additionally a model that assumes everyone survives is of little value given"
   },
   {
-    "objectID": "slides.html#fixing-the-model",
-    "href": "slides.html#fixing-the-model",
-    "title": "Predicting Survival of Intensive Care Unit Patients with Support Vector Machines",
-    "section": "Fixing the model",
-    "text": "Fixing the model\nWe attempted 2 strategies to fix the\n\nOversampling of minority case\n\nEnsure that minority case was a larger percentage of the training set via selection with replacement\n\nDownsampling majority case\n\nTake a large percentage of the minority cases, select and EQUIVALENT number of majority cases for a 50/50 split\n\n\n\nFirst we attempted to oversample our minority case by selecting ensuring that they met a certain precentage of the train data set and allowed random sampling to occur with replacement (meaning we could select the same observation multiple times) This improved the model but not significantly Secondly we downsampled the majority case by selecting 95% of the minority case, then randomly selecting and EQUIVALENT number of the majority cases for a 50/50 split This proved better than oversampling, but still wasnt optimal"
-  },
-  {
-    "objectID": "slides.html#tuning-the-new-model",
-    "href": "slides.html#tuning-the-new-model",
-    "title": "Predicting Survival of Intensive Care Unit Patients with Support Vector Machines",
-    "section": "Tuning the new model",
-    "text": "Tuning the new model\n\ntested using a rbf (radial bias kernel)\nswitched to nu-classification\ntuned for nu and gamma\n\nusing grid search strategy and a bunch of packages\n\n\n\nwhen we tuned we decided to try a few other options of the e1071 package. First we switched to a radial basis kernel. R secondly we switched to nu classification. Which according the documentation is the same as C classification but it constrains the nu value between 0 and 1, nu its self is related to the ratio of support vectors and the ratio of the training error we now had to tune for nu and gamma hyperparemeters we had no clue in how to do this and since our model took a large hit in accuracy by downsampling we wanted to try a bunch of things and select the best to do this we leveraged a grid search strategy which is effectively a brute force attemp at finding hyperparameters"
-  },
-  {
-    "objectID": "slides.html#tuning-the-new-modelmore-problems",
-    "href": "slides.html#tuning-the-new-modelmore-problems",
-    "title": "Predicting Survival of Intensive Care Unit Patients with Support Vector Machines",
-    "section": "Tuning the new model…more problems",
-    "text": "Tuning the new model…more problems\n\nTune SVM is VERY VERY SLOW\n\ndoes not leverage mulitiple cpu cores\noperates sequentially\n\ndoParallel and foreach to the rescue\nstill slow but much quicker at the same time\n\n\ngiven we had two hyperparameters to tune and wanted the best accuracy we attempted to use grid search with tune svm. I set this up on my machine, walked away, came back a few hours later and nothing had completed. eventually my machine crashed Discovered do parallel and foreach to allow me to pass the variables in and build and validate models, aggregate results and pick the best parameters"
-  },
-  {
-    "objectID": "slides.html#tuning-the-new-model-and-paying-more-for-it",
-    "href": "slides.html#tuning-the-new-model-and-paying-more-for-it",
-    "title": "Predicting Survival of Intensive Care Unit Patients with Support Vector Machines",
-    "section": "Tuning the new model and paying more for it",
-    "text": "Tuning the new model and paying more for it\n\n\nThis is a fun graph to show the out comes, this is on a an 8 core 10th gen intel cpu. Training took around 45 minutes for the nu classification and 20 minutes c-classification\nMy CPU ran near 96 degrees celsius @ 4.8 ghz for the duration of the test"
-  },
-  {
-    "objectID": "slides.html#tuning-results",
-    "href": "slides.html#tuning-results",
-    "title": "Predicting Survival of Intensive Care Unit Patients with Support Vector Machines",
-    "section": "Tuning Results",
-    "text": "Tuning Results\n\nnu-classification won out\nPrimary Model\n\nGamma = 0.02\nNu = 0.75\n\nChallenger model\n\nGamma = 0.17\nNu = 0.87"
-  },
-  {
-    "objectID": "slides.html#model-results-primary",
-    "href": "slides.html#model-results-primary",
-    "title": "Predicting Survival of Intensive Care Unit Patients with Support Vector Machines",
-    "section": "Model results (Primary)",
-    "text": "Model results (Primary)\n\nROC Curve with AUCConfusion Matrix"
-  },
-  {
     "objectID": "slides.html#model-results-challenger",
     "href": "slides.html#model-results-challenger",
     "title": "Predicting Survival of Intensive Care Unit Patients with Support Vector Machines",

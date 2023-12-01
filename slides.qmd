@@ -26,105 +26,12 @@ params:
   final_rand_seed: 1923904
 ---
 
-# SVM's and Our Data Source
-
-With Eric Miller
-
-# History and Background
-
--   Developed by Vapnik and Chervonenkis in 1964 then revised in 1992 to incorporate Non-linear classifiers
--   Support Vector Machines (SVM) employs supervised learning using past data to train models for new cases
--   SVM models are used to form clusters of two distinct data groups
--   SVM establishes a hyperplane to maximize the margin between data groups
--   The hyperplane acts as a line separating the clusters
--   The goal is to ensure the greatest separation between neighboring members of each cluster
-
-# Data Source
-
--   Our team is utilizing data from the Medical Information Mart for Intensive Care (MIMIC)
--   We are focusing on the MIMIC III dataset.
--   The dataset was pre-processed to isolate the most statistically significant features
-
-::: notes
-Additional information about the MIMIC III dataset can be found online at the Massachusetts Institute of Technologies website linked in the paper. https://mimic.mit.edu/docs/iii/.
-:::
-
-# Methods - Kernal Function
-
--   Support Vector Machines operate on both linear and non-linear data by using a kernel function or "kernel trick" to manipulate non-linear data into a linear space for classification. The general formula for a kernel function is as follows, where $X_i, X_j$ is a tuple.
-
-$$
-K(X_i, X_j) = \Phi(X_i)\Phi(X_j)  
-$$
-
-# Methods - Hyperplane
-
-Once the data is linearly separable, we can define our maximally marginal hyperplane. A general formula for the hyperplane is as follows $$
-W \times X + b = 0
-$$ This formula has 2 components of import. The first is a $W$, a weight vector and $b$ a scalar bias.
-
-Since $W$ is a simple weighting vector it would be in the form of the below
-
-$$
-W = \{w_1, w_2, \dots, w_n \}
-$$---
-
-# Methods - Support Vectors
-
-The tuples that lie the closest to the margins of the maximal marginal hyperplane are the actual support vectors.
-
-Using the formulas on the previous slide, if our support vectors where at $y_i = 1$ and $y_i = -1$ our hyperplane margins would be defined as
-
-$$
-H_1: W_0 + W_{1}X_{1} + W_{2}X_{2} + \dots + W_{n}X_{n} \ge 1
-$$
-
-and
-
-$$
-H_2: W_0 + W_{1}X_{1} + W_{2}X_{2} + \dots + W_{n}X_{n} \le -1
-$$
-
-# SVM Vizualization
-
-![](svm.jpeg)
-
-::: footer
-Source https://towardsdatascience.com/support-vector-machines-svm-clearly-explained-a-python-tutorial-for-classification-problems-29c539f3ad8
-:::
-
-::: notes
-Speaker notes go here.
-:::
-
-# Modelling ICU Patient survival from the MIMIC dataset
-
-With Josh Hollandsworth
-
-::: notes
-Hello all, I'm Josh and im going to walk you through the our journey developing a model to predict ICU Patient Survival
-
-We started with 12 features that we thought would play an important role in predicting patient survival We also wanted to see if the our full feature set was necessary or if we could build a reduced model that trained quicker while supplying siimilar out comes. To facilitate this we built a challenger model
-
-Of course the most important part of modelling was kernel selection and tuning which we will jump into next.
-:::
-
-## Important Concepts
-
--   used the e1071 r package
--   leveraged the `tune(svm, ...)` function for tuning our model hyperparameters
-
-::: notes
-However before we go much further lets get some basic terminology out of the way and outline some technological decisions we made.
-
-First we selected the e1071 r package to build, train, and test our model. There are alternatives out there however e1071 appears to be the most popular
-
-Secondly we didn't really know what the best hyperparameters or even kernel where so we leveraged the tune method to try a bunch of tunings to see what produced the best accuracy
-:::
-
 ```{r}
 #| label: package-install
 #| echo: false
+
+
+# Load all the packages and our base data set
 library(easypackages)
 dep_packages = c("tidyverse",
     "ggthemes",
@@ -153,20 +60,7 @@ dep_packages = c("tidyverse",
 easypackages::libraries(dep_packages)
 
 mimic_data <- fread("./MIMIC_ICU_Data/mimic_icu_data.csv")
-```
 
-## Our intial primary model
-
--   was of type "C-Classification"
--   leveraged a linear kernel
--   only tuned the cost hyperparameter
-
-::: notes
-we selected C-classification which is the default because it selects the response variable as a binary classifier we also tested a linear kernel because nothing jumped out at us when doing data exploration that our data would not be easily linearly seperable we tuned cost which is the penalty for an incorrect prediction. we did this by passing a list of cost values from 0.001 to 100 with each step being a factor of 10
-:::
-
-```{r}
-#| label: data-prep-for-intial-model
 # Create a subset of the entire data set to just include the rows we have determined are of interest
 # convert the gender field to an `is_male` flag. Also discretize the heart rate and age
 model_data <- mimic_data %>%
@@ -208,6 +102,115 @@ model_data <- mimic_data %>%
   ) %>%
   select(-gender,-heartrate_mean,-age,-hospital_expire_flag) %>%
   drop_na()
+```
+
+# SVM's and Our Data Source
+
+With Eric Miller
+
+# History and Background
+
+-   Developed by Vapnik and Chervonenkis in 1964 then revised in 1992 to incorporate Non-linear classifiers
+-   Support Vector Machines (SVM) employs supervised learning using past data to train models for new cases
+-   SVM models are used to form clusters of two distinct data groups
+-   SVM establishes a hyperplane to maximize the margin between data groups
+-   The hyperplane acts as a line separating the clusters
+-   The goal is to ensure the greatest separation between neighboring members of each cluster
+
+# Data Source
+
+-   Our team is utilizing data from the Medical Information Mart for Intensive Care (MIMIC)
+-   We are focusing on the MIMIC III dataset.
+-   The dataset was pre-processed to isolate the most statistically significant features
+
+::: notes
+Additional information about the MIMIC III dataset can be found online at the Massachusetts Institute of Technologies website linked in the paper. https://mimic.mit.edu/docs/iii/.
+:::
+
+# Methods - Kernal Function
+
+-   Support Vector Machines operate on both linear and non-linear data by using a kernel function or "kernel trick" to manipulate non-linear data into a linear space for classification. The general formula for a kernel function is as follows, where $X_i, X_j$ is a tuple.
+
+$$
+K(X_i, X_j) = \Phi(X_i)\Phi(X_j)  
+$$
+
+# Methods - Hyperplane
+
+Once the data is linearly separable, we can define our maximally marginal hyperplane. A general formula for the hyperplane is as follows 
+$$
+W \times X + b = 0
+$$ 
+
+This formula has 2 components of import. The first is a $W$, a weight vector and $b$ a scalar bias.
+
+Since $W$ is a simple weighting vector it would be in the form of the below
+
+$$
+W = \{w_1, w_2, \dots, w_n \}
+$$
+
+# Methods - Support Vectors
+
+The tuples that lie the closest to the margins of the maximal marginal hyperplane are the actual support vectors.
+
+Using the formulas on the previous slide, if our support vectors where at $y_i = 1$ and $y_i = -1$ our hyperplane margins would be defined as
+
+$$
+H_1: W_0 + W_{1}X_{1} + W_{2}X_{2} + \dots + W_{n}X_{n} \ge 1
+$$
+
+and
+
+$$
+H_2: W_0 + W_{1}X_{1} + W_{2}X_{2} + \dots + W_{n}X_{n} \le -1
+$$
+
+# SVM Vizualization
+
+![](presentation_images/svm.jpeg)
+
+::: footer
+Source https://towardsdatascience.com/support-vector-machines-svm-clearly-explained-a-python-tutorial-for-classification-problems-29c539f3ad8
+:::
+
+# Modelling ICU Patient survival from the MIMIC dataset
+
+With Josh Hollandsworth
+
+::: notes
+Hello all, I'm Josh and im going to walk you through the our journey developing a model to predict ICU Patient Survival
+
+We started with 12 features that we thought would play an important role in predicting patient survival We also wanted to see if the our full feature set was necessary or if we could build a reduced model that trained quicker while supplying siimilar out comes. To facilitate this we built a challenger model
+
+Of course the most important part of modelling was kernel selection and tuning which we will jump into next.
+:::
+
+## Important Concepts
+
+-   used the e1071 r package
+-   leveraged the `tune(svm, ...)` function for tuning our model hyperparameters
+
+::: notes
+However before we go much further lets get some basic terminology out of the way and outline some technological decisions we made.
+
+First we selected the e1071 r package to build, train, and test our model. There are alternatives out there however e1071 appears to be the most popular
+
+Secondly we didn't really know what the best hyperparameters or even kernel where so we leveraged the tune method to try a bunch of tunings to see what produced the best accuracy
+:::
+
+## Our intial primary model
+
+-   was of type "C-Classification"
+-   leveraged a linear kernel
+-   only tuned the cost hyperparameter
+
+::: notes
+we selected C-classification which is the default because it selects the response variable as a binary classifier we also tested a linear kernel because nothing jumped out at us when doing data exploration that our data would not be easily linearly seperable we tuned cost which is the penalty for an incorrect prediction. we did this by passing a list of cost values from 0.001 to 100 with each step being a factor of 10
+:::
+
+```{r}
+#| label: execute-initial-model
 
 
 #create survival factor of levels for graphing
@@ -216,14 +219,20 @@ survivalLevels <- attributes(model_data$survival)$levels
 # set a random seed so that this is repeatable.
 set.seed(params$rand_seed)
 
+# do a basic 80/20 split of the data
 train <- model_data %>% dplyr::sample_frac(0.8)
 test  <- dplyr::anti_join(model_data, train, by = 'icustay_id')
 
-# modelTuning.out <- tune(svm, survival ~ . -icustay_id, data = train, kernel = "linear", ranges = list(cost = c(0.001, 0.01, 0.1, 1, 10, 100)), scale = TRUE)
+# bulid our model
 model <- svm(survival ~ . -icustay_id, data = train, kernel = "linear", cost = 0.01, scale = TRUE, probability=TRUE)
 
+# perform the predictions on the test set, and include probabilities
 iPredictions <- predict(model, test, probability=TRUE)
+
+# exteact probabilities from the predictions
 iProbabilities <- attr(iPredictions, "probabilities")[,1]
+
+# build a confusion matrix
 iConfusionMatrix <- confusionMatrix(iPredictions, test$survival, mode = "everything", positive="SURVIVED")
 ```
 
@@ -235,28 +244,21 @@ iConfusionMatrix <- confusionMatrix(iPredictions, test$survival, mode = "everyth
 ```{r}
 #| label: initial-model-roc-auc
 
-# #to appropriately build the roc graph, buid a label order based on survivalLevels and the positive case from the confusion matrix
-
+# calculate a ROC and create a performance object with tpr (true positive rate) over fpr (false positive rate)
 iROC <- pROC::roc(as.factor(test$survival), iProbabilities)
 iROCRPredictions <- ROCR::prediction(iProbabilities, test$survival)
 iPerformance <- ROCR::performance(iROCRPredictions, "tpr", "fpr")
 
+# plot peformance, with a diagonal 50 percent line and the AUC and F1 Score in the header
 plot(iPerformance, colorize = FALSE, main="ROC Curve for C-Classification")
 abline(a=0,b=1)
 mtext(paste("AUC =",round(as.numeric(iROC$auc), 4), " F1 Score = ", round(as.numeric( iConfusionMatrix$byClass["F1"]),4)))
-
 ```
 
 ### Confusion Matrix
 
 ```{r}
 #| label: initial-model-confustion-matrix
-set.seed(params$rand_seed)
-
-
-
-
-
 fourfoldplot(as.table(iConfusionMatrix), color=c("navy", "lightblue"), main="C-classification Confusion Matrix")
 ```
 :::
@@ -282,7 +284,7 @@ Our problem was that we had class imbalance. It seems to follow reason that a lo
 This problem could be exacerbated by random sampling which could chose an even smaller percentage of the minority case(patient death)
 :::
 
-## Fixing the model
+# Fixing the model
 
 We attempted 2 strategies to fix the
 
@@ -295,7 +297,7 @@ We attempted 2 strategies to fix the
 First we attempted to oversample our minority case by selecting ensuring that they met a certain precentage of the train data set and allowed random sampling to occur with replacement (meaning we could select the same observation multiple times) This improved the model but not significantly Secondly we downsampled the majority case by selecting 95% of the minority case, then randomly selecting and EQUIVALENT number of the majority cases for a 50/50 split This proved better than oversampling, but still wasnt optimal
 :::
 
-## Tuning the new model
+# Tuning the new model
 
 -   tested using a rbf (radial bias kernel)
 -   switched to nu-classification
@@ -306,7 +308,7 @@ First we attempted to oversample our minority case by selecting ensuring that th
 when we tuned we decided to try a few other options of the e1071 package. First we switched to a radial basis kernel. R secondly we switched to nu classification. Which according the documentation is the same as C classification but it constrains the nu value between 0 and 1, nu its self is related to the ratio of support vectors and the ratio of the training error we now had to tune for nu and gamma hyperparemeters we had no clue in how to do this and since our model took a large hit in accuracy by downsampling we wanted to try a bunch of things and select the best to do this we leveraged a grid search strategy which is effectively a brute force attemp at finding hyperparameters
 :::
 
-## Tuning the new model...more problems
+# Tuning the new model...more problems
 
 -   Tune SVM is VERY VERY SLOW
     -   does not leverage mulitiple cpu cores
@@ -318,9 +320,9 @@ when we tuned we decided to try a few other options of the e1071 package. First 
 given we had two hyperparameters to tune and wanted the best accuracy we attempted to use grid search with tune svm. I set this up on my machine, walked away, came back a few hours later and nothing had completed. eventually my machine crashed Discovered do parallel and foreach to allow me to pass the variables in and build and validate models, aggregate results and pick the best parameters
 :::
 
-## Tuning the new model and paying more for it
+# Tuning the new model and paying more for it
 
-![](tuning-cpu-usage.jpeg)
+![](presentation_images/tuning-cpu-usage.jpeg)
 
 ::: notes
 This is a fun graph to show the out comes, this is on a an 8 core 10th gen intel cpu. Training took around 45 minutes for the nu classification and 20 minutes c-classification
@@ -328,7 +330,7 @@ This is a fun graph to show the out comes, this is on a an 8 core 10th gen intel
 My CPU ran near 96 degrees celsius \@ 4.8 ghz for the duration of the test
 :::
 
-## Tuning Results
+# Tuning Results
 
 -   nu-classification won out
 -   Primary Model
@@ -338,11 +340,13 @@ My CPU ran near 96 degrees celsius \@ 4.8 ghz for the duration of the test
     -   Gamma = `r params$nu_challenger_gamma`
     -   Nu = `r params$nu_challenger_nu`
 
-## Model results (Primary)
+# Model results (Primary)
 
 ```{r}
 #| label: primary-model-results
 #| echo: false
+
+# perform zscore normalization 
 scaled_model_data <- model_data %>%
   select(-icustay_id) %>%
   mutate_if(is.numeric, scale) %>%
@@ -379,11 +383,8 @@ nuConfusionMatrix <- confusionMatrix(nuPredictions, test$survival, mode="everyth
 
 #to appropriately build the roc graph, buid a label order based on survivalLevels and the positive case from the confusion matrix
 nuInverse <- c( nuConfusionMatrix$positive, survivalLevels[which(survivalLevels != nuConfusionMatrix$positive)])
-
 nuROCRPredictions <- ROCR::prediction(nuProbabilities, test$survival, label.ordering = nuInverse)
 nuPerformance <- ROCR::performance(nuROCRPredictions, "tpr", "fpr")
-
-
 ```
 
 ::: panel-tabset
@@ -391,7 +392,7 @@ nuPerformance <- ROCR::performance(nuROCRPredictions, "tpr", "fpr")
 
 ```{r}
 #| label: primary-model-roc-auc
-#| echo: false
+#| echo: false 
 plot(nuPerformance, colorize = FALSE, main="ROC Curve for nu-classification")
 abline(a=0,b=1)
 mtext(paste("AUC =",round(as.numeric(nuROC$auc), 4), " F1 Score = ", round(as.numeric( nuConfusionMatrix$byClass["F1"]),4)))
@@ -435,8 +436,6 @@ nuChallengerOrdering <- c( nuConfusionMatrix$positive, survivalLevels[which(surv
 
 nuChallengerROCRPredictions <- ROCR::prediction(nuChallengerProbabilities, challnger_test$survival, label.ordering = nuChallengerOrdering)
 nuChallengerPerformance <- ROCR::performance(nuChallengerROCRPredictions, "tpr", "fpr")
-
-
 
 
 ```
