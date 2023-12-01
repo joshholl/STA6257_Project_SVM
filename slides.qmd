@@ -137,10 +137,9 @@ $$
 
 # Methods - Hyperplane
 
-Once the data is linearly separable, we can define our maximally marginal hyperplane. A general formula for the hyperplane is as follows 
-$$
+Once the data is linearly separable, we can define our maximally marginal hyperplane. A general formula for the hyperplane is as follows $$
 W \times X + b = 0
-$$ 
+$$
 
 This formula has 2 components of import. The first is a $W$, a weight vector and $b$ a scalar bias.
 
