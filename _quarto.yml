@@ -25,7 +25,7 @@ website:
       - text: "About"
         file: about.qmd
       - text: "Data Reports"
-        file: MIMIC_ICU_Data/dataMaid_data.Rmd
+        file: MIMIC_ICU_Data/dataMaid_data.qmd
 format:
   html:
     theme: solar
