@@ -152,100 +152,19 @@ $$
 
 ## Model 
 
-
 In order to forecast the possibility of patient death during their hospital stay, a support vector machine (SVM) model had to be developed and evaluated. A particular subset of the MIMIC dataset, a vast collection of ICU electronic health records, was used to train the algorithm. Age, gender, hospital expiration flag, mean heart rate, mean systolic blood pressure, mean respiration rate, mean temperature, mean white blood cell count, minimum platelet count, maximum creatinine, and mean lactate were among the variables included in the dataset.
 
 The dataset included 4,591 ICU patients from a single center. The outcome was binary - died or survived during hospitalization. 741 patients (16%) died while 3,850 (84%) survived. The model aimed to predict this binary mortality outcome using demographics, vital signs, and lab results as predictors. An SVM with radial kernel was chosen due to its ability to handle binary classification problems.
 
 Several assumptions were made in the modeling approach. The dataset was assumed to be representative of the broader ICU population at the institution. It was also assumed that the selected predictors sufficiently captured factors associated with mortality risk.
 
-::: {.panel-tabset}
-
-### New
-
 Initial attempts at developing a model leveraged a linear kernel and optimized for the cost hyperparameter. Our data were partitioned into two sets; a training and a test set. The training set included 80% of all records selected randomly. The test set was comprised of the remaining records accounting for 20% of the total data set. Predictors selected included age, gender, heart rate, blood pressure, respiratory rate, temperature, white blood cell count, platelet count, creatinine, and lactate levels.
 
-Initial attempts produced models that had high F1 Scores as well as good ROC-AUC values however it was flawed and predicted that everyone would survive. Upon further investigation this was found to be due to a class imbalance problem. One could have predicted that everyone survived and been more accurate than this initial model
+These models had high F1 Scores as well as good ROC-AUC values however they were flawed and predicted that everyone would survive. Upon further investigation this was found to be due to a class imbalance problem. Given the imbalance in the dataset, one could have predicted that everyone survived and been more accurate than this initial model.
 
 To resolve this problems and still build a significant model the training test set were down-sampled by selecting 95% of the minority cases(in witch patients die) and an equivalent number of the majority case (in which the patient survives). The effects of down-sampling resulted in a training set that was comprised of 50% minority cases and 50% majority cases. Consequently the test set was much larger and constructed from the observations that were not included in the training set.
-
-Multiple models were built, tuned, and evaluated for the greatest possible accuracy, ROC AUC, and F1 Score values. The final model leveraged Nu-Classification with a nu value of `r params$nu_nu` and a gamma value of `r params$nu_gamma`
-
-
-
-It can be inferred that our support vector machine (SVM) model demonstrated moderate accuracy in predicting hospital mortality. The predictive accuracy of the model was higher for patients who survived compared to those who did not. According to the Area Under the Curve (AUC) of the Receiver Operating Characteristic (ROC) curve, the model can tell the difference between patients who will die and those who will not. The area under the receiver operating characteristic (ROC) curve was determined to be 0.7711 and an F1 Score of 0.85
-
-
-
-Our investigation has a number of limitations. In the beginning, the model was trained and assessed using a relatively small dataset. Additionally, it should be mentioned that the dataset used in this research was only sourced from one hospital. As a result, there is a chance that patients from various institutions will not benefit from the model's performance. Moreover, it's critical to remember that not all attributes that might be involved in mortality prediction were included in our analysis. 
-
-
-Despite these limitations, our study provides evidence that Support Vector Machine (SVM) models can be used to accurately predict survival in hospitalized patients with a high degree of precision. Further research is needed to validate the model's performance on a larger and more diverse dataset and investigate the practical implications of using the model to predict patient survival.
-
-
-The goal of applying the support vector machine (SVM) model is to improve patient care by applying it to various therapeutic settings. The following are some possible uses for the model, including to identify those who are more likely to die, allowing for the administration of more intensive medical measures. Also, we can create a mechanism to decide which patients are admitted to intensive care units and in what order. The goal of this research is to offer a thorough framework that will direct treatment decisions for patients who present with complicated medical issues. 
-
- 
-
-This support vector machine (SVM) model shows a great deal of promise as a useful tool for improving patient care and predicting mortality. Further research is necessary to validate the model's performance on a larger and more diverse dataset and investigate the practical implications of using the model to predict survival.
-
-### Take out
-
-
-The SVM model was optimized using a 10-fold cross-validation method, and its performance on the training dataset was evaluated. A thorough evaluation was carried out on a range of values for the cost parameter, which controls the ratio of overfitting to underfitting. For testing on the test set, the model with the best performance on the training set was selected. The dataset was split into training (80%) and test (20%) sets for model development and evaluation. 
-
-
-
-On the test dataset, the model showed an accuracy rate of 85.47% and a specificity rate of 86.13%. This shows that the model successfully identified patients who would survive their hospital stay in 86.13% of the cases, and it also obtained an accuracy rate of 85.47% in predicting patient mortality during their hospitalization.
-
-Furthermore, we calculated the following metrics for the model using the test dataset. It is found that the measurement's sensitivity is 0.8187 and that the positive predictive value (PPV) is 0.8187 with a negative predictive value of 0.8345.
-
- 
-
-Hyperparameter tuning was performed on the training set over a range of cost values from 0.001 to 100. The optimal cost of 0.1 was selected based on maximizing accuracy.
-
-
-The model aimed to predict this binary mortality outcome using demographics, vital signs, and lab results as predictors. An SVM with radial kernel was chosen due to its ability to handle binary classification problems.
-
- 
-
-Several assumptions were made in the modeling approach. The dataset was assumed to be representative of the broader ICU population at the institution. It was also assumed that the selected predictors sufficiently captured factors associated with mortality risk.
-
- 
-
-The data was split 80/20 into training and test sets. The training set was used for tuning model hyperparameters and fitting the final model. The test set provided an unbiased evaluation of model performance.
-
- 
-
-Tuning was performed over a range of cost parameter values from 0.001 to 100 on the training data only. Optimization sought to maximize accuracy. The best cost of 0.1 was selected.
-
-The measurements suggest that the model is capable of correctly identifying patients who do not have a probability of dying and reliably forecasting survival in the ICU.
-The study's conclusions suggest that the support vector machine (SVM) model has a great deal of promise as a predictive tool for estimating the risk of patient death while they are in the hospital. When run on the test set, the model demonstrates a favorable degree of accuracy and specificity, demonstrating its ability to generalize to new data with effectiveness.
-
- 
-
-It can be inferred that our support vector machine (SVM) model demonstrated moderate accuracy in predicting hospital mortality. The predictive accuracy of the model was higher for patients who survived compared to those who did not. According to the Area Under the Curve (AUC) of the Receiver Operating Characteristic (ROC) curve, the model can tell the difference between patients who will die and those who will not. The area under the receiver operating characteristic (ROC) curve was determined to be 0.764.
-
-
-
-Our investigation has a number of limitations. In the beginning, the model was trained and assessed using a relatively small dataset. Additionally, it should be mentioned that the dataset used in this research was only sourced from one hospital. As a result, there is a chance that patients from various institutions will not benefit from the model's performance. Moreover, it's critical to remember that not all attributes that might be involved in mortality prediction were included in our analysis. 
-
-
-Despite these limitations, our study provides evidence that Support Vector Machine (SVM) models can be used to accurately predict survival in hospitalized patients with a high degree of precision. Further research is needed to validate the model's performance on a larger and more diverse dataset and investigate the practical implications of using the model to predict patient survival.
-
-
-The goal of applying the support vector machine (SVM) model is to improve patient care by applying it to various therapeutic settings. The following are some possible uses for the model, including to identify those who are more likely to die, allowing for the administration of more intensive medical measures. Also, we can create a mechanism to decide which patients are admitted to intensive care units and in what order. The goal of this research is to offer a thorough framework that will direct treatment decisions for patients who present with complicated medical issues. 
-
- 
-
-This support vector machine (SVM) model shows a great deal of promise as a useful tool for improving patient care and predicting mortality. Further research is necessary to validate the model's performance on a larger and more diverse dataset and investigate the practical implications of using the model to predict survival.
-
-:::
-
-### Data preparation
 ```{r}
 #| label: data-prep-for-model
-
 
 # Create a subset of the entire data set to just include the rows we have determined are of interest
 # convert the gender field to an `is_male` flag. Also discretize the heart rate and age
@@ -376,6 +295,20 @@ abline(a=0,b=1)
 mtext(paste("AUC =", round(as.numeric(cROC$auc), 4)))
 ```
 
+### Analysis and results (Primary Model)
+
+Multiple models were built, tuned, and evaluated for the greatest possible accuracy, ROC AUC, and F1 Score values. The final model leveraged Nu-Classification with a nu value of `r params$nu_nu` and a gamma value of `r params$nu_gamma`
+
+It can be inferred that our support vector machine (SVM) model demonstrated moderate accuracy in predicting hospital mortality. The predictive accuracy of the model was higher for patients who survived compared to those who did not. According to the Area Under the Curve (AUC) of the Receiver Operating Characteristic (ROC) curve, the model can tell the difference between patients who will die and those who will not. The area under the receiver operating characteristic (ROC) curve was determined to be 0.7711 and an F1 Score of 0.85
+
+Our investigation has a number of limitations. In the beginning, the model was trained and assessed using a relatively small dataset. Additionally, it should be mentioned that the dataset used in this research was only sourced from one hospital. As a result, there is a chance that patients from various institutions will not benefit from the model's performance. Moreover, it's critical to remember that not all attributes that might be involved in mortality prediction were included in our analysis. 
+
+Despite these limitations, our study provides evidence that Support Vector Machine (SVM) models can be used to accurately predict survival in hospitalized patients with a high degree of precision. Further research is needed to validate the model's performance on a larger and more diverse dataset and investigate the practical implications of using the model to predict patient survival.
+
+The goal of applying the support vector machine (SVM) model is to improve patient care by applying it to various therapeutic settings. The following are some possible uses for the model, including to identify those who are more likely to die, allowing for the administration of more intensive medical measures. Also, we can create a mechanism to decide which patients are admitted to intensive care units and in what order. The goal of this research is to offer a thorough framework that will direct treatment decisions for patients who present with complicated medical issues. 
+
+This support vector machine (SVM) model shows a great deal of promise as a useful tool for improving patient care and predicting mortality. Further research is necessary to validate the model's performance on a larger and more diverse dataset and investigate the practical implications of using the model to predict survival.
+
 ### Challenger Modeling
 
 A challenger variant was constructed by reducing the number of features. The objective was to assess whether a more modest model could attain comparable performance.
@@ -455,14 +388,6 @@ plot(cChallengerPerformance, colorize = FALSE, main="ROC Curve for C-Classificat
 abline(a=0,b=1)
 mtext(paste("AUC =", round(as.numeric(cChallengerROC$auc), 4)))
 ```
-
-
-
-# Analysis and Results
-
-The findings indicate that our support vector machine (SVM) model had a test set accuracy of 85.47%. The model exhibited a sensitivity rate of 66.67% and a specificity rate of 86.13%. The study yielded a positive predictive value of 14.39% and a negative predictive value of 98.67%. The area under the receiver operating characteristic (ROC) curve was determined to be 0.764.
-
-
 
 ## Data and Visualization
 ```{r, dev = "png", dev.args=list(bg="transparent")}
